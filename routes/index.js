@@ -32,9 +32,11 @@ var con = mysql.createConnection({
 router.get('/', function(req, res, next) {
   var name = "";
   var role = "";
-  if(req.cookies.info.name){
-    name = req.cookies.info.name;
+  if(req.cookies.info.username){
+    name = req.cookies.info.username;
     role = req.cookies.info.role;
+    console.log("here");
+    
   }
   res.render('index', { title: 'Express', name : name, role :role });
 });
