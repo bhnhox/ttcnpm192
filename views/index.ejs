@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <%- include("function/header.ejs") %>
+
   </head>
   <body>
-    <h1><%= title %></h1>
+      <!-- A grey horizontal navbar that becomes vertical on small screens -->
+      <%- include("function/navbar.ejs") %>
     <p>Welcome to <%= title %></p>
   </body>
 </html>
