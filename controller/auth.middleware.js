@@ -43,7 +43,7 @@ con.query(sql, function (err, result, kq) {
     
 }
 
-//Function xac thuc dang nhap
+//kiem tra dang nhap
 module.exports.authen = function (req, res, next) {
     var info = req.cookies.info;
 
@@ -57,17 +57,19 @@ module.exports.authen = function (req, res, next) {
         var password = info.password;
         console.log("USR la "+username + " pas la "+ password);
         
-        var sql= `SELECT * FROM user where username = '${usr}' `;
-
-
-        if (username == find.username && password == find.password) {
-            next();
-
-        }
-        else {
-
-            res.redirect("/dangnhap")
-        }
-    } 
+        var sql = `select * from user where username = '${username}'`;
+        con.query(sql, function (err, result, kq) {
+            if(err){console.log(err);} else {
+                if (username == result[0].username && password == result[0].password) {
+                    next();
+        
+                }
+                else {
+        
+                    res.redirect("/dangnhap")
+                }
+            }
+        
+    } )}
     else { res.redirect("/dangnhap") }
 }

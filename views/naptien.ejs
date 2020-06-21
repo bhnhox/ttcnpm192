@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <%- include("function/header.ejs") %>
+
+  </head>
+  <body>
+      <!-- A grey horizontal navbar that becomes vertical on small screens -->
+      <%- include("function/navbar.ejs") %>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <h1> <%= status %> </h1>
+    <form method="POST" action="/naptien">
+      <div class="form-group">
+        <label for="">Số tiền</label>
+        <input type="text" name="amount" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter pass">
+        <label for="">Mật khẩu</label>
+        <input type="password" name="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter pass">
+        <label for="">Tên ngân hàng</label>
+        <select class="form-control" name="idbankcard" id="sel1">
+
+       <%  card.forEach(element => { %>
+        <option value=" <%- element.idbankcard %> "> <%- element.bankname %> - <%- element.namecard %> - <%- element.idbankcard %> </option>
+          
+          
+        <% }); %>
+      </select>
+
+      </div>
+     
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <script>
+
+    </script>
+  </body>
+</html>
