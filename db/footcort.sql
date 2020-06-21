@@ -16,6 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `card`
+--
+
+DROP TABLE IF EXISTS `card`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `card` (
+  `idcart` int NOT NULL AUTO_INCREMENT,
+  `namecard` varchar(45) DEFAULT NULL,
+  `bankname` varchar(45) DEFAULT NULL,
+  `usernameowner` varchar(45) DEFAULT NULL,
+  `timecreate` varchar(100) DEFAULT NULL,
+  `idbankcard` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idcart`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `card`
+--
+
+LOCK TABLES `card` WRITE;
+/*!40000 ALTER TABLE `card` DISABLE KEYS */;
+INSERT INTO `card` VALUES (1,'Thien','Vietcombank','undefined','Sun Jun 21 2020 15:33:26 GMT+0700 (Indochina Time)','undefined'),(2,'Thien','Vietcombank','test456','Sun Jun 21 2020 15:34:27 GMT+0700 (Indochina Time)','undefined'),(3,'Thien','Vietcombank','test456','Sun Jun 21 2020 15:46:29 GMT+0700 (Indochina Time)','undefined'),(4,'Thien','Vietcombank','test456','Sun Jun 21 2020 15:47:26 GMT+0700 (Indochina Time)','undefined'),(5,'Thien','Vietcombank','test456','Sun Jun 21 2020 15:51:55 GMT+0700 (Indochina Time)','undefined'),(6,'41421','Vietcombank','test456','Sun Jun 21 2020 15:56:56 GMT+0700 (Indochina Time)','undefined'),(7,'41421','Vietcombank','test456','Sun Jun 21 2020 15:56:56 GMT+0700 (Indochina Time)','undefined'),(8,'41421','Vietcombank','test456','Sun Jun 21 2020 15:57:44 GMT+0700 (Indochina Time)','123123');
+/*!40000 ALTER TABLE `card` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `chief`
 --
 
@@ -40,6 +68,32 @@ CREATE TABLE `chief` (
 LOCK TABLES `chief` WRITE;
 /*!40000 ALTER TABLE `chief` DISABLE KEYS */;
 /*!40000 ALTER TABLE `chief` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Deposit`
+--
+
+DROP TABLE IF EXISTS `Deposit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Deposit` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `amount` varchar(45) DEFAULT NULL,
+  `time` varchar(45) DEFAULT NULL,
+  `status` varchar(45) DEFAULT NULL,
+  `idcard` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Deposit`
+--
+
+LOCK TABLES `Deposit` WRITE;
+/*!40000 ALTER TABLE `Deposit` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Deposit` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -144,4 +198,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-21 11:32:41
+-- Dump completed on 2020-06-21 23:49:36
