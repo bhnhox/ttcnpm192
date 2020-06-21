@@ -40,7 +40,7 @@ module.exports.xacthucdangki = function (req, res) {
     var pass = md5(req.body.pass);
     var phone = req.body.phone;
     var role = req.body.role;
-  var ngaydk = d;
+    var ngaydk = d;
     var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','${role}','${ngaydk}')`;
     con.query(sql, function (err, result, kq) {
         if(err){

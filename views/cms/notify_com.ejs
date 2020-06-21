@@ -1,0 +1,65 @@
+<style>
+    .my_dropdown-header {
+        background-color: #4e73df;
+        border: 1px solid #fff;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+        color: #fff;
+    }
+
+    .notify {
+        position: fixed;
+        animation: notify 5s ease;
+        background-color: #fff;
+        border-radius: 5px;
+        right: 10px;
+        top:10px;
+    }
+
+    @keyframes notify {
+        0% {
+            /* top: 0px; */
+            opacity: 0;
+        }
+
+        20% {
+            /* top: 10px; */
+            opacity: 0;
+        }
+        30%{
+            /* top: 10px; */
+            opacity: 1;
+        }
+        40%{
+            /* top: 10px; */
+            opacity: 0.8;
+        }
+        50%{
+            /* top: 10px; */
+            opacity: 0.5;
+        }
+        80%{
+            /* top: 10px; */
+            opacity: 0.3;
+        }
+        100%{
+            /* top: 5px; */
+            opacity: 0;
+        }
+    }
+</style>
+<div class="notify" aria-labelledby="messagesDropdown">
+    <h6 class="my_dropdown-header">
+        Notify Center
+    </h6>
+
+
+
+    <div class="dropdown-item d-flex align-items-center">
+        <div class="font-weight-bold">
+            <div class="text-truncate"><%= notify %> </div>
+
+        </div>
+    </div>
+
+</div>

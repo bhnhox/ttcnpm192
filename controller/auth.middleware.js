@@ -10,37 +10,37 @@ var con = mysql.createConnection({
     database: "food_court"
 });
 //Get date
-var d  = new Date();
+var d = new Date();
 
 
 //Post xacthucdangnhap
 module.exports.xacthucdangnhap = function (req, res, next) {
     var usr = req.body.usr;
     var pass = md5(req.body.pass);
- var sql= `SELECT * FROM user where username = '${usr}' `;
- 
-con.query(sql, function (err, result, kq) {
-    if (err) {
-        console.log(err);
-        return res.render('dangnhap', { title: 'Express', status: 'Co loi khi dang nhap' });
-    }  else {
-            if(result[0].password == pass){
+    var sql = `SELECT * FROM user where username = '${usr}' `;
+
+    con.query(sql, function (err, result, kq) {
+        if (err) {
+            console.log(err);
+            return res.render('dangnhap', { title: 'Express', status: 'Co loi khi dang nhap' });
+        } else {
+            if (result[0].password == pass) {
                 res.cookie('info', { 'username': usr, 'password': pass, 'role': result[0].role });
 
-             //   return res.render('dangnhap', { title: 'Express', status: 'ok' });
+                //   return res.render('dangnhap', { title: 'Express', status: 'ok' });
                 res.redirect('/');
-            } else{
+            } else {
                 return res.render('dangnhap', { title: 'Express', status: 'Sai username hoac password' });
 
             }
-        
 
-    }
-    
 
-})
+        }
 
-    
+
+    })
+
+
 }
 
 //Function xac thuc dang nhap
@@ -50,14 +50,14 @@ module.exports.authen = function (req, res, next) {
 
     if (!info) {
         //res.render('dangnhap', { title: 'Express', status: '' });
-        
+
         res.redirect("/dangnhap");
     } else if (info.username) {
         var username = info.username
         var password = info.password;
-        console.log("USR la "+username + " pas la "+ password);
-        
-        var sql= `SELECT * FROM user where username = '${usr}' `;
+        console.log("USR la " + username + " pas la " + password);
+
+        var sql = `SELECT * FROM user where username = '${usr}' `;
 
 
         if (username == find.username && password == find.password) {
@@ -68,6 +68,6 @@ module.exports.authen = function (req, res, next) {
 
             res.redirect("/dangnhap")
         }
-    } 
+    }
     else { res.redirect("/dangnhap") }
 }
