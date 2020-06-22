@@ -14,6 +14,7 @@
         rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -79,9 +80,11 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
-    <script src="js/ejs.min.js"></script>
+    <% if (locals.datatb) { %>
+    <script id = "datatb" datatb = "<%= datatb %>"> </script>  
+    <% } %>
     <% if (locals.footer) { %>
-    ejs.render('<%- include(locals.footer, datatb) %>')
+    <%- include(locals.footer) %>')
     <% } %>
 </body>
 
