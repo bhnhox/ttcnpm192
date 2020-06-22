@@ -1,10 +1,15 @@
 var express = require('express');
 var router = express.Router();
+
+var FoodRouter = require('./foods');
+
+
 var LoginController = require('../../controller/cms/login.controller')
+
 
 router.get('/', function (req, res, next) {
     if (req.session.user) {
-        res.render('cms/main_layout');
+        res.render('cms/main_layout',{content:"dashboard/home",data:null});
     }
     else {
         res.redirect('/cms/login')
@@ -20,4 +25,6 @@ router.route('/login')
     })
     .post(LoginController.checkLogin);
 router.get('/logout', LoginController.logout)
+
+router.use('/foods', FoodRouter);
 module.exports = router;

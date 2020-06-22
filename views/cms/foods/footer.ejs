@@ -1,0 +1,13 @@
+
+
+<script>
+    
+    $(document).ready(function () {
+        var data = JSON.parse("<%= datatb %>");
+        console.log(data);
+        $('#dataTable').DataTable({
+            data: data
+        });
+    });
+
+</script>
