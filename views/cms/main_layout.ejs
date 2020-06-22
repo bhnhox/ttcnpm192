@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,6 +15,7 @@
         rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
@@ -23,7 +25,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <% include sidebar %> 
+        <% include sidebar %>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -33,18 +35,18 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <% include header %> 
+                <% include header %>
                 <!-- End of Topbar -->
-                <%- include(content)%> 
+                <%- include(content, data)%>
                 <!-- Begin Page Content -->
-                
+
                 <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <% include footer %> 
+            <% include footer %>
             <!-- End of Footer -->
 
         </div>
@@ -57,12 +59,11 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
     <% if (locals.notify) { %>
-    <%- include('notify_com',{notify:notify}) %> 
+    <%- include('notify_com',{notify:notify}) %>
     <% } %>
-    
+
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -81,11 +82,14 @@
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
     <% if (locals.datatb) { %>
-    <script id = "datatb" datatb = "<%= datatb %>"> </script>  
+    <script id="datatb" datatb="<%= datatb %>"> </script>
     <% } %>
     <% if (locals.footer) { %>
-    <%- include(locals.footer) %>')
+    <!-- <%- include(locals.footer) %>') -->
     <% } %>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="js/demo/datatables-demo.js"></script>
 </body>
 
 </html>
