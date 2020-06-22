@@ -29,7 +29,7 @@ var con = mysql.createConnection({
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', auth.checkMaintainmode,function(req, res, next) {
   var name = "";
   var role = "";
   if(req.cookies.info.username){
@@ -42,25 +42,25 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET Dang ki page. */
-router.get('/dangki', controller.dangki);
+router.get('/dangki',auth.checkMaintainmode, controller.dangki);
 /* POST home page. */
-router.post('/dangki', controller.xacthucdangki);
+router.post('/dangki',auth.checkMaintainmode, controller.xacthucdangki);
 //Login
-router.get('/dangnhap', controller.dangnhap);
+router.get('/dangnhap', auth.checkMaintainmode,controller.dangnhap);
 //Xac thuc dang nhap
-router.post('/xacthucdangnhap', auth.xacthucdangnhap);
+router.post('/xacthucdangnhap',auth.checkMaintainmode,auth.xacthucdangnhap);
 //Thêm thẻ
-router.get('/themthe', auth.authen,controller.themthe);
+router.get('/themthe',auth.checkMaintainmode, auth.authen,controller.themthe);
 
-router.post('/themthe',auth.authen, controller.postthemthe);
+router.post('/themthe',auth.authen,auth.checkMaintainmode, controller.postthemthe);
 
 //Nạp tiền
-router.get('/naptien',auth.authen, controller.naptien);
+router.get('/naptien',auth.authen,auth.checkMaintainmode, controller.naptien);
 //Post nap tien
-router.post('/naptien',auth.authen, controller.postnaptien )
+router.post('/naptien',auth.authen, auth.checkMaintainmode,controller.postnaptien )
 
 //dang xuat
-router.get('/dangxuat', controller.logout)
+router.get('/dangxuat',auth.checkMaintainmode, controller.logout)
 
 
 module.exports = router;

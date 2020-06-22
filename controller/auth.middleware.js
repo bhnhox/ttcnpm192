@@ -73,3 +73,77 @@ module.exports.authen = function (req, res, next) {
     } )}
     else { res.redirect("/dangnhap") }
 }
+
+//Kiem tra bao tri
+module.exports.checkMaintainmode = function (req, res, next) {
+    var username = "";
+    var role = "";
+    if(req.cookies.info.username){
+    username = req.cookies.info.username; 
+    role = req.cookies.info.role; 
+}
+    var sql = `SELECT * FROM food_court.baotri where idbaotri  =  (select max( idbaotri) from food_court.baotri   )`;
+    con.query(sql, function (err, result, kq) {
+        if(err){console.log(err);} else {
+            console.log(result);
+            
+            if(result[0].trangthai == 'off'){
+                next()
+                
+            } else if(result[0].trangthai == 'on'){
+                // if(role = 'admin'){
+                //     next()
+                // } else  {
+
+                // }
+                res.render('baotri', {title :'Đang bảo trì'})
+
+                
+            } else  {
+                    console.log("co loi");
+                    
+            }
+            
+        }})
+
+}
+//Post bật bao tri
+module.exports.postbatbaotri = function (req, res, next) {
+    username = req.cookie.info.username;
+    role = req.cookie.info.role;
+    if(role == 'admin'){
+
+    
+  
+            var sql = `insert into baotri (username, trangthai, thoi gian) values( '${username}', 'on','${d}')`;
+            con.query(sql, function (err, result, kq) {
+                if(err){console.log(err);} else {
+                    console.log('sucess');
+                    
+                }})
+
+      
+    } else {
+        res.redirect('/');
+    }
+}
+//Post tắt bao tri
+module.exports.postbatbaotri = function (req, res, next) {
+    username = req.cookie.info.username;
+    role = req.cookie.info.role;
+    if(role == 'admin'){
+
+    
+ 
+            var sql = `insert into baotri (username, trangthai, thoi gian) values( '${username}', 'off','${d}')`;
+            con.query(sql, function (err, result, kq) {
+                if(err){console.log(err);} else {
+                    console.log('sucess');
+                    
+                }})
+
+        
+    } else {
+        res.redirect('/');
+    }
+}
