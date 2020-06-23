@@ -57,7 +57,7 @@ module.exports = {
             if (fs.existsSync('public/uploads/foods/'+results[0].image)){
                 fs.unlinkSync('public/uploads/foods/'+results[0].image)
             }
-            DB.query(`DELETE FROM foods WHERE id=${req.params.id}`);
+            DB.query(`UPDATE foods SET trash=1 WHERE id=${req.params.id}`);
         });
         
         res.redirect('/cms/foods');
