@@ -12,7 +12,7 @@ router.get('/', function (req, res, next) {
         res.render('cms/main_layout',{content:"dashboard/home",data:null});
     }
     else {
-        res.redirect('/cms/login')
+        res.redirect('/cms/login');
     }
 });
 
@@ -26,5 +26,5 @@ router.route('/login')
     .post(LoginController.checkLogin);
 router.get('/logout', LoginController.logout)
 router.use('/foods', FoodRouter);
-router.use('/menu', MenuRouter)
+router.use('/menu', MenuRouter);
 module.exports = router;
