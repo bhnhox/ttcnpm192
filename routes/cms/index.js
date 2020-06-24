@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var FoodRouter = require('./foods');
-
+var MenuRouter = require('./menu')
 
 var LoginController = require('../../controller/cms/login.controller')
 
@@ -25,6 +25,6 @@ router.route('/login')
     })
     .post(LoginController.checkLogin);
 router.get('/logout', LoginController.logout)
-
 router.use('/foods', FoodRouter);
+router.use('/menu', MenuRouter)
 module.exports = router;
