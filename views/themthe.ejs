@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <%- include("function/header.ejs") %>
+
+  </head>
+  <body>
+      <!-- A grey horizontal navbar that becomes vertical on small screens -->
+      <%- include("function/navbar.ejs") %>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <h1> <%= status %> </h1>
+    <form method="POST" action="/themthe">
+      <div class="form-group">
+        <label for="">Tên chủ thẻ</label>
+        <input type="text" name="namecard" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter pass">
+        <label for="">Số thẻ</label>
+        <input type="number" name="idbankcard" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter pass">
+        <label for="">Tên ngân hàng</label>
+          <select class="form-control" name="bankname" id="sel1">
+            <option value="Vietcombank">Vietcombank</option>
+            <option value="OCB">OCB</option>
+            <option value="Techcombank">Techcombank</option>
+            <option value="Namabank">Nam á Bank</option>
+            
+          </select>
+      </div>
+     
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </body>
+</html>

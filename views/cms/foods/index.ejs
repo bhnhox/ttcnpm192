@@ -1,0 +1,290 @@
+<style>
+    .wrap-detail {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(128, 128, 128, 0.418);
+        z-index: 100;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .wrap-detail>div.card {
+        margin: 0px;
+        padding: 0px;
+        width: 460px;
+        /* height: 500px; */
+        min-width: 300px;
+    }
+
+    .wrap-detail>.card p {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .wrap-detail>.card p>.field {
+        width: 200px;
+        display: inline-block;
+        font-weight: 700;
+    }
+
+    .wrap-detail>.card li>.field {
+        width: 200px;
+        display: inline-block;
+    }
+
+    .wrap-detail>.card li .value {
+        width: 160px;
+        display: inline-block;
+        text-align: end;
+    }
+
+    .wrap-detail>.card .value {
+        width: 200px;
+        display: inline-block;
+        text-align: end;
+    }
+
+    td {
+        text-align: center;
+        /* center checkbox horizontally */
+        vertical-align: middle;
+        /* center checkbox vertically */
+    }
+
+    table {
+        border: 1px solid;
+        width: 200px;
+    }
+
+    tr {
+        height: 80px;
+    }
+
+    td>input {
+        transform: translate(100%, 100%);
+    }
+</style>
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h4 class="m-0 font-weight-bold text-primary">Món ăn
+                <a id="btn-add" href="#" class="btn btn-primary btn-icon-split" style="float: right;">
+                    <span class="icon text-white-20">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                    <span class="text">New</span>
+                </a>
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; width: 20px;">STT</th>
+                            <th style="text-align: center; width: 160px;">Hình ảnh</th>
+                            <th style="text-align: center;">Món ăn</th>
+                            <th style="text-align: center;">Giá</th>
+                            <th style="text-align: center; width: 20px;">Menu</th>
+                            <th style="text-align: center; width: 50px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% data.forEach((element, index) => { %>
+                        <tr>
+                            <td><%= index+1 %> </td>
+                            <td><img src="/uploads/foods/<%= element.image %>" alt=""
+                                    style="width:150px; height:120px; object-fit:cover; border-radius: 5px;"></td>
+                            <td style="text-align: left;"><%= element.title %> </td>
+                            <td style="text-align: right;"><%= element.price %> </td>
+                            <td>
+                                <input type="checkbox" class="form-check-input in_menu" name="in_menu"
+                                    item_id=<%= element.id %> <% if (element.in_menu) { %> checked <% } %>>
+                            </td>
+                            <td>
+                                <!--Dropdown primary-->
+                                <div class="dropdown">
+
+                                    <!--Trigger-->
+                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1"
+                                        data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">Action</button>
+
+
+                                    <!--Menu-->
+                                    <div class="dropdown-menu dropdown-primary">
+                                        <a class="dropdown-item edit" href="#" item_id=<%= element.id %>>Chỉnh
+                                            sửa</a>
+                                        <a class="dropdown-item delect" href="/cms/foods/delete/<%= element.id %>"
+                                            item_id=<%= element.id %>>Xóa</a>
+                                    </div>
+                                </div>
+                                <!--/Dropdown primary-->
+                            </td>
+                        </tr>
+
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Heading -->
+    <!-- <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
+
+</div>
+
+<template id="tem-add">
+    <div class="wrap-detail">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary" id="title_form">Thêm món ăn mới</h6>
+            </div>
+            <div class="card-body px-lg-5 pt-0">
+
+                <!-- Form -->
+                <form style="color: #757575;" action="" method="POST" id="form" enctype="multipart/form-data">
+
+                    <!-- First name -->
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="md-form">
+                                <label for="title" class="">Tên món ăn</label>
+                                <input type="text" id="title" name="title" class="form-control">
+
+                            </div>
+                            <div class="md-form">
+                                <label for="price" class="">Giá</label>
+                                <input type="number" id="price" name="price" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <img src="/uploads/foods/default.png" alt="" id="image"
+                                style="width: 100%; height: 110px; object-fit: fill; margin-top: 30px; border-radius: 5px;">
+                        </div>
+                    </div>
+                    <section class="section-preview">
+
+                        <div class="input-group my-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                            </div>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="input_image" name="image">
+                                <label class="custom-file-label" for="input_image">Ảnh món ăn</label>
+                            </div>
+                        </div>
+
+                    </section>
+                    <!-- Last name -->
+                    <div class="form-group">
+                        <label for="description" class="">Mô tả</label>
+                        <textarea class="form-control rounded-0" id="description" name="description" rows="3"
+                            placeholder="Mô tả"></textarea>
+                    </div>
+                    <!-- Newsletter -->
+                    <div class="md-form">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="in_menu" name="in_menu">
+                            <label class="form-check-label" for="in_menu">Thêm vào menu</label>
+                        </div>
+                    </div>
+
+                    <!-- Sign up button -->
+                    <button type="submit" class="btn btn-facebook btn-block" style="margin-top: 20px;">OK</button>
+
+
+                </form>
+                <!-- Form -->
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<script src="vendor/jquery/jquery.min.js"></script>
+<script>
+    $("#btn-add").click(function (e) {
+        e.preventDefault();
+        var temp = document.getElementById("tem-add");
+        var clon = temp.content.cloneNode(true);
+        clon.getElementById("form").setAttribute("action", "");
+        $(clon.getElementById("input_image")).change(function (e) {
+            e.preventDefault();
+            console.log(e.currentTarget.files);
+            $("#image").attr("src", URL.createObjectURL(e.currentTarget.files[0]));
+        });
+        document.body.appendChild(clon);
+        $(".wrap-detail").click(function (e) {
+            if (e.currentTarget == e.target) {
+                $(e.currentTarget).remove();
+            }
+        });
+    });
+</script>
+
+<script>
+
+    $(document).ready(function () {
+        $(".in_menu").each(function (index, element) {
+            // element == this
+            $(element).change(function (e) {
+                e.preventDefault();
+                var data = {
+                    id: $(e.currentTarget).attr("item_id"),
+                    in_menu: $(e.currentTarget).is(':checked')
+                }
+                $.ajax({
+                    type: "post",
+                    url: "foods/changeStateMenu",
+                    data: data,
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+        });
+        $(".edit").each(function (index, element) {
+            // element == this
+            $(element).click(function (e) {
+                e.preventDefault();
+                console.log("edit")
+                var temp = document.getElementById("tem-add");
+                var clon = temp.content.cloneNode(true);
+                $.ajax({
+                    type: "get",
+                    url: "foods/" + $(e.currentTarget).attr("item_id"),
+                    success: function (response) {
+                        console.log(response);
+                        console.log(temp);
+                        clon.getElementById("title_form").innerText = "Chỉnh sửa";
+                        clon.getElementById("title").value = response.title;
+                        clon.getElementById("price").value = response.price;
+                        clon.getElementById("image").src = "/uploads/foods/" + response.image;
+                        clon.getElementById("in_menu").checked = response.in_menu ? true : false;
+                        clon.getElementById("description").value = response.description;
+                        clon.getElementById("form").setAttribute("action", "foods/update/" + response.id);
+                        $(clon.getElementById("input_image")).change(function (e) {
+                            e.preventDefault();
+                            console.log(e.currentTarget.files);
+                            $("#image").attr("src", URL.createObjectURL(e.currentTarget.files[0]));
+                        });
+                        document.body.appendChild(clon);
+                        $(".wrap-detail").click(function (e) {
+                            if (e.currentTarget == e.target) {
+                                $(e.currentTarget).remove();
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    });
+
+</script>
