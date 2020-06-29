@@ -10,17 +10,12 @@
     <!-- menu foods start -->
     <div class="container-fluid">
       <div class="card shadow mb-4">
-          <div class="card-header py-3">
+          <div class="card-header py-3 row">
               <h4 class="m-0 font-weight-bold text-primary">Menu
-                  <a id="btn-add" href="#" class="btn btn-primary btn-icon-split" style="float: right;">
-                      <span class="icon text-white-20">
-                          <i class="fas fa-vote-yea"></i>
-                      </span>
-                      <span class="noti"></span>
-                      
-                      <span class="text">Save</span>
-                  </a>
-              </h4>
+              </h4> 
+              <form action="/thanhtoan" method="post" class="col-4" >
+                <button class="btn btn-primary" type="submit" style="float: left;">Thanh toán</button>
+              </form>    
           </div>
           <div class="card-body">
               <div class="border border-light p-md-2" id="menu" method="POST" action="/cms/menu" enctype="application/x-www-form-urlencoded">
@@ -45,9 +40,9 @@
                                     <form id="themvaogiohang" method="post" action="/">
                                       <label>Số lượng</label>
                                       <input class="amount" type="number" class="form-control" name='amount'
-                                          style="width: 100px;"  min='1' max=<%= element.amount %>>
+                                          style="width: 100px;"  min='1' ; value="<%= element.soluong %>">
                                           <input type="hidden" name="idfood" value="<%= element.foodID %> ">
-                                          <button type="submit" class="btn-primary btn">Thêm vào giỏ hàng</button>
+                                          <button type="submit" class="btn-primary btn">Cap nhat</button>
                                         </form>
                                   </div>
                               </div>
