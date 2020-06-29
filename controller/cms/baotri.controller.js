@@ -1,5 +1,6 @@
 var DB = require("../db");
 const { log } = require("debug");
+var d = new Date();
 
 module.exports = {
     index: async (req, res) => {
@@ -20,22 +21,23 @@ module.exports = {
         // });
         DB.query(`SELECT * FROM food_court.baotri where idbaotri = (select max(idbaotri) from food_court.baotri);`,
         function(err, results, fields){
-            if (err) throw err;
+            if (err) throw err; 
+            
             res.render('cms/main_layout',{content: "baotri/index",data:results[0]});
         })
 
     },
-    setAmount: (req, res)=>{
-        for (var key in req.body){
-            DB.query(`UPDATE menu_foods SET amount=${req.body[key]} WHERE id=${key}`);
-            
-        }
-        res.redirect('/cms/menu');
-    },
+    
     batBaotri: (req,res)=>{
-    //    var hanhdong = req.body.hanhdong);
-        
-    //     if()
+     var hanhdong = req.body.hanhdong;    
+     var username = req.cookies.info.username;
+   
+        DB.query(`insert into baotri(username, thoigian, trangthai) values('${username}','${d}','${hanhdong}')`,
+        function(err, results, fields){
+            if (err) throw err;
+            res.redirect('baotri');
+        })
+       
         
     }
 }
