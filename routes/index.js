@@ -35,7 +35,6 @@ router.get('/', auth.checkMaintainmode,function(req, res, next) {
   if(req.cookies.info){
     name = req.cookies.info.username;
     role = req.cookies.info.role;
-    console.log("here");
     
   }
   res.render('index', { title: 'Express', name : name, role :role });
@@ -46,9 +45,9 @@ router.get('/dangki',auth.checkMaintainmode, controller.dangki);
 /* POST home page. */
 router.post('/dangki',auth.checkMaintainmode, controller.xacthucdangki);
 //Login
-router.get('/dangnhap', auth.checkMaintainmode,controller.dangnhap);
+router.get('/dangnhap',controller.dangnhap);
 //Xac thuc dang nhap
-router.post('/xacthucdangnhap',auth.checkMaintainmode,auth.xacthucdangnhap);
+router.post('/xacthucdangnhap',auth.xacthucdangnhap);
 //Thêm thẻ
 router.get('/themthe',auth.checkMaintainmode, auth.authen,controller.themthe);
 
@@ -59,6 +58,8 @@ router.get('/naptien',auth.authen,auth.checkMaintainmode, controller.naptien);
 //Post nap tien
 router.post('/naptien',auth.authen, auth.checkMaintainmode,controller.postnaptien )
 
+//Xem so du
+router.get('/xemsodu',auth.authen,auth.checkMaintainmode, controller.xemsodu);
 //dang xuat
 router.get('/dangxuat',auth.checkMaintainmode, controller.logout)
 
