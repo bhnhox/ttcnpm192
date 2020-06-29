@@ -3,7 +3,7 @@
     <head>
         <title>Smart Food Court</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-        <link rel="stylesheet" href="stylesheets/w3.css">
+        <link rel="stylesheet" href="w3.css">
         <style>
             @media screen and (min-width: 601px) {
                 #full-header {
@@ -30,42 +30,41 @@
     </head>
     <body>
         <!--Header-->
-        <div class="w3-row">
+        <div class="w3-row w3-margin-bottom">
             <div class="w3-container w3-blue w3-center">
                 <h1 id="full-header" style="font-size: 3em;">Welcome to BK Food Court</h1>
                 <h1 id="short-header" style="font-size: 2em;">BK Food Court</h1>
             </div>
         </div>
 
+        <div class="w3-bar w3-light-gray">
+            <a href="#" class="w3-bar-item w3-button w3-large w3-hover-green w3-black">
+                Trang chủ
+            </a>
+            <a href="#" class="w3-bar-item w3-button w3-hide-small w3-large w3-hover-yellow w3-right">
+                Đăng ký
+            </a>
+            <a href="#" class="w3-bar-item w3-button w3-hide-small w3-large w3-hover-red w3-right">
+                Đăng nhập
+            </a>
+            <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="myFunction()">
+                &#9776;
+            </a>
+        </div>
+          
+        <div id="demo" class="w3-bar-block w3-hide w3-hide-large w3-hide-medium">
+            <a href="#" class="w3-bar-item w3-button w3-large w3-hover-red w3-border w3-light-gray">
+                Đăng nhập
+            </a>
+            <a href="#" class="w3-bar-item w3-button w3-large w3-hover-yellow w3-border w3-light-gray">
+                Đăng ký
+            </a>
+        </div>
+
         <!--Body-->
-        <div class="w3-row">
-
-            <div class="w3-bar w3-gray">
-                <a href="/" class="w3-bar-item w3-button w3-large w3-border w3-hover-green w3-black">
-                    Trang chủ
-                </a>
-                <a href="/dangnhap" class="w3-bar-item w3-button w3-hide-small w3-large w3-hover-red w3-border">
-                    Đăng nhập
-                </a>
-                <a href="/dangki" class="w3-bar-item w3-button w3-hide-small w3-large w3-hover-yellow w3-border">
-                    Đăng ký
-                </a>
-                <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="myFunction()">
-                    &#9776;
-                </a>
-            </div>
-              
-            <div id="demo" class="w3-bar-block w3-hide w3-hide-large w3-hide-medium">
-                <a href="/dangnhap" class="w3-bar-item w3-button w3-large w3-hover-red w3-border w3-light-gray">
-                    Đăng nhập
-                </a>
-                <a href="/dangki" class="w3-bar-item w3-button w3-large w3-hover-yellow w3-border w3-light-gray">
-                    Đăng ký
-                </a>
-            </div>
-
+        <div class="w3-row w3-section">
             <div class="w3-display-container w3-text-white">
-                <img src="images/pic-1.jpg" alt="Lights" style="width:100%">
+                <img src="pic-1.jpg" alt="Lights" style="width:100%">
                 </div>
             </div>
         </div>
