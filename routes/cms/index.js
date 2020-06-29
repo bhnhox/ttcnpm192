@@ -7,9 +7,9 @@ var MenuRouter = require('./menu')
 var LoginController = require('../../controller/cms/login.controller')
 //Thiện
 var BaotriRouter = require('./baotri')
+var Auth = require('../../controller/auth.middleware');
 
-
-router.get('/', function (req, res, next) {
+router.get('/',Auth.checkRole, function (req, res, next) {
     res.render('cms/main_layout',{content:"dashboard/home",data:null});
 
     // if (req.session.user) {
@@ -20,17 +20,17 @@ router.get('/', function (req, res, next) {
     // }
 });
 
-router.route('/login')
-    .get(function (req, res, next) {
-        if (req.session.user) {
-            res.redirect('/cms')
-        }
-        else res.render('cms/login/index');
-    })
-    .post(LoginController.checkLogin);
-router.get('/logout', LoginController.logout)
-router.use('/foods', FoodRouter);
-router.use('/menu', MenuRouter);
+// router.route('/login')
+//     .get(function (req, res, next) {
+//         if (req.session.user) {
+//             res.redirect('/cms')
+//         }
+//         else res.render('cms/login/index');
+//     })
+//     .post(LoginController.checkLogin);
+router.get('/logout',Auth.checkRole, LoginController.logout)
+router.use('/foods',Auth.checkRole, FoodRouter);
+router.use('/menu',Auth.checkRole, MenuRouter);
 
 
 
@@ -38,6 +38,6 @@ router.use('/menu', MenuRouter);
 
 //Thiện
 //Bảo trì
-router.use('/baotri',BaotriRouter );
+router.use('/baotri',Auth.checkRole,BaotriRouter );
 
 module.exports = router;
