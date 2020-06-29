@@ -2,13 +2,7 @@
 var md5 = require('md5');
 var mysql = require('mysql');
 const { log } = require('debug');
-var con = mysql.createConnection({
-    host: "127.0.0.1",
-    user: "root",
-    password: "admin123",
-    port: "3306",
-    database: "food_court"
-});
+var con = require('./db')
 //Get date
 var d  = new Date();
 
@@ -112,9 +106,9 @@ module.exports.checkMaintainmode = function (req, res, next) {
 
 //Check role
 module.exports.checkRole = function (req, res, next) {
-
-    var role = req.cookies.info.role;
-  //var role = "";
+    var role = "";
+    role = req.cookies.info.role;
+  
     if(role == "admin"){
         next()
     } else {

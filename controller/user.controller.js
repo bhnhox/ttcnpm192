@@ -7,13 +7,7 @@ const { log } = require('debug');
 var d = new Date();
 var mysql = require('mysql');
 const { connect } = require('../routes');
-var con = mysql.createConnection({
-    host: "127.0.0.1",
-    user: "root",
-    password: "admin123",
-    port: "3306",
-    database: "food_court"
-});
+var con = require('./db')
 
 //Get date
 var d = new Date();
