@@ -47,14 +47,14 @@ module.exports.xacthucdangki = function (req, res) {
     con.query(sql, function (err, result, kq) {
         if(err){
             if (err.errno != 1062 ) {
-                console.log(err.errno);
-                return res.render('dangki', { title: 'Express', status: 'Co loi khi dang ki' });
+                console.log(err);
+                return res.render('dangki', { title: 'Express', status: 'Co loi khi dang ki' ,name:"",role:""});
     
     
             } else if(err.errno == 1062){
                 console.log(err);
                 
-                return res.render('dangnhap', { title: 'Express', status: 'Tai khoan da duoc dang ki' });
+                return res.render('dangnhap', { title: 'Express', status: 'Tai khoan da duoc dang ki',name:"",role:""} );
     
             }  else {
                 console.log(err);
@@ -63,7 +63,7 @@ module.exports.xacthucdangki = function (req, res) {
         }
         
         else {
-            return res.render('dangnhap', { title: 'Express', status: 'Dang ki thanh cong' });
+            return res.render('dangnhap', { title: 'Express', status: 'Dang ki thanh cong' ,name:"",role:""});
 
         }
 
@@ -145,6 +145,7 @@ module.exports.postthemthe = function(req,res){
         })
   
   }
+
 //Get nap tien
 module.exports.naptien = function(req,res){
 
@@ -179,20 +180,27 @@ module.exports.postnaptien = function(req,res){
            if(result[0].password == password){
                console.log(result);
                
-             var sql = `insert into deposit(amount, time, status, idcard,username ) values ('${amount}','${d}','success','${idcard}','${name}' )`;
+             var sql = `insert into deposit(amount, time, status, idcard,username ) values ('${amount}','${d}','success','${idcard}','${name}' ); `;
              con.query(sql, function (err, result, kq) {
                 if(err){console.log(err);
                   res.render('naptien',{ title: 'Express', status: 'Có lỗi trong quá trình xử lý', name: name, role: role , card :result});
         
-                } else {
-                    var sql = `Select * from card where usernameowner = '${name}'`;
+                } else { 
+                    var sql = ` update user set balance = balance + ${amount} where username = '${name}';`;
                     con.query(sql, function (err, result, kq) {
-                        if(err){console.log(err);} else {
+                        if(err){console.log(err);} else { 
+                            var sql = `Select * from card where usernameowner = '${name}'`;
+                            con.query(sql, function (err, result, kq) {
+                                if(err){console.log(err);} else {
+                                    
+        
+                                    res.render('naptien',{ title: 'Express', status: 'Nap tien thanh cong', name: name, role: role , card :result});
                           
-                            res.render('naptien',{ title: 'Express', status: 'Nap tien thanh cong', name: name, role: role , card :result});
-                  
+                                }
+                              }) 
                         }
-                      }) 
+                    }) 
+                   
                 }})
   
            } else if(result.password[0] != password) {
@@ -209,3 +217,18 @@ module.exports.postnaptien = function(req,res){
         })
   
   };
+//Get xem so du
+module.exports.xemsodu = function(req,res){
+
+    var name = req.cookies.info.username;
+    var role = req.cookies.info.role;
+  
+    var sql = `Select * from user where username = '${name}'`;
+    con.query(sql, function (err, result, kq) {
+        if(err){console.log(err);} else {
+          
+            res.render('xemsodu',{ title: 'Express', status: '', name: name, role: role , sodu :result[0].balance});
+  
+        }
+      })
+  }
