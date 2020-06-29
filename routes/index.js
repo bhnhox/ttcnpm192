@@ -29,16 +29,17 @@ var con = mysql.createConnection({
 
 
 /* GET home page. */
-router.get('/', auth.checkMaintainmode,function(req, res, next) {
-  var name = "";
-  var role = "";
-  if(req.cookies.info){
-    name = req.cookies.info.username;
-    role = req.cookies.info.role;
-    
-  }
-  res.render('index', { title: 'Express', name : name, role :role });
-});
+router.get('/', auth.checkMaintainmode,controller.index);
+
+/* POST Them gio hang. */
+router.post('/', auth.checkMaintainmode,controller.themvaogiohang);
+
+/* GET Xem gio hang */
+router.get('/xemgiohang', auth.checkMaintainmode,controller.xemgiohang);
+
+/* POST Thanh toan gio hang. */
+ router.post('/thanhtoan', auth.checkMaintainmode,controller.thanhtoangiohang);
+
 
 /* GET Dang ki page. */
 router.get('/dangki',auth.checkMaintainmode, controller.dangki);
