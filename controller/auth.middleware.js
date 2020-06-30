@@ -4,9 +4,8 @@ var mysql = require('mysql');
 const { log } = require('debug');
 var con = mysql.createConnection({
     host: "127.0.0.1",
-    user: "root",
-    password: "admin123",
-    port: "3306",
+    user: "ngoctrong102",
+    password: "v.n.t.12345",
     database: "food_court"
 });
 //Get date

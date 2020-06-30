@@ -1,0 +1,75 @@
+<div class="container-fluid">
+    <% data.forEach(element => { %>
+    <div class="container-fluid d-flex justify-content-center" donhang_item="<%= element.id %>">
+
+
+        <div class="card shadow mb-2" style="width: 60%; min-width: 600px;">
+            <!-- Card Header - Accordion -->
+            <a href="#collapse<%= element.id %>" class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                role="button" aria-expanded="false" aria-controls="collapse<%= element.id %>">
+                <h6 class="m-0 font-weight-bold text-primary">Đơn hàng #<%= element.id %> </h6>
+            </a>
+            <!-- Card Content - Collapse -->
+            <div class="collapse" id="collapse<%= element.id %>">
+                <div class="card-body">
+                    <% element.foods.forEach(food => { %>
+                    <div class="mb-2">
+                        <div class="card border-left-primary shadow h-100 py-2 d-flex flex-row">
+                            <img src="/uploads/foods/<%= food.image %>"
+                                style="width: 25%; height: 140px; border-radius: 5px; margin-left: 8px;" alt="">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
+                                            <%= food.title %> </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">$<%= food.price %> </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                                <div class="row d-flex align-items-end justify-content-end mt-4 pr-3">
+                                    <p class="mb-0"><strong>Số lượng: </strong><%= food.soluong %></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+
+
+                    <div class="action" style="float:right; padding:20px 0px 10px 10px;">
+                        <a href="#" class="btn btn-success btn-circle btn-xacnhan" xacnhan_id="<%= element.id %>" >
+                            <i class="fas fa-check"></i>
+                        </a>
+                        <!-- <a href="#" class="btn btn-danger btn-circle">
+                            <i class="fas fa-trash"></i>
+                        </a> -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <% }) %>
+</div>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".btn-xacnhan").click(function (e) { 
+            e.preventDefault();
+            var data = {
+                id : $(e.currentTarget).attr("xacnhan_id")
+            }
+            $.ajax({
+                type: "post",
+                url: "order/",
+                data: data,
+                success: function (response) {
+                    if (response.status == "success"){
+                        $(`div[donhang_item=${response.id}]`).remove();
+                    }
+                }
+            });
+        });
+    });
+</script>
