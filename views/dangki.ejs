@@ -1,31 +1,85 @@
-<!DOCTYPE html>
-<html>
-  <%- include("function/header.ejs") %>
+<!doctype html>
+<html lang="en">
 
-  </head>
-  <body>
-      <!-- A grey horizontal navbar that becomes vertical on small screens -->
-      <%- include("function/navbar.ejs") %>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <h1> <%= status %> </h1>
-    <form method="POST" action="/dangki">
-      <div class="form-group">
-        <label for="">User name</label>
-        <input type="text" name="usr" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter usr">
-        <label for="">Password</label>
-        <input type="password" name="pass" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter pass">
-        <label for="">Phone</label>
-        <input type="number" name="phone" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter pass">
-        <label for="">Role</label>
-          <select class="form-control" name="role" id="sel1">
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
-            
-          </select>
-      </div>
+<head>
+  <title>Meal &mdash; Website Template by Colorlib</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:300,400,700,800|Open+Sans:300,400,700"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/animate.css">
+  <link rel="stylesheet" href="css/owl.carousel.min.css">
+
+  <link rel="stylesheet" href="css/magnific-popup.css">
+  <link rel="stylesheet" href="css/aos.css">
+
+  <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+  <link rel="stylesheet" href="css/jquery.timepicker.css">
+
+  <link rel="stylesheet" href="fonts/ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="fonts/fontawesome/css/font-awesome.min.css">
+
+  <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
+
+  <!-- Theme Style -->
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body class="bg-light">
+
+  <body data-spy="scroll" data-target="#ftco-navbar-spy" data-offset="0">
+
+    <div class="site-wrap">
+<!-- nav bar -->
+<%- include("function/navbar.ejs") %>
+
+
      
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+
+
+       <!-- .section Nạp tiền -->
+
+        <div class="section pb-3 bg-white" id="section-naptien" data-aos="fade-up">
+          <div class="container">
+            <div class="row align-items-center justify-content-center">
+              <div class="col-md-12 col-lg-8 section-heading">
+                <h2 style="text-align: center;"> <%= status %> </h2>
+                <form method="POST" action="/dangki">
+                  <div class="form-group">
+                    <label for="">User name</label>
+                    <input type="text" name="usr" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter usr">
+                    <label for="">Password</label>
+                    <input type="password" name="pass" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter pass">
+                    <label for="">Phone</label>
+                    <input type="number" name="phone" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter pass">
+                    <label for="">Role</label>
+                      <select class="form-control" name="role" id="sel1">
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                        
+                      </select>
+                  </div>
+                 
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            
+            
+              </div>
+            </div>
+          </div>
+        </div> <!-- .section -->
+      </div> <!-- .section -->
+
+
+    <div class="map-wrap" id="map" data-aos="fade" style="background-color: white;"></div>
+
+
+    <%- include("function/footer.ejs") %>
+
   </body>
+
 </html>
