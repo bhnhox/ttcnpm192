@@ -18,37 +18,31 @@ var status="";
 var d = new Date();
 
 //DB info
-var con = mysql.createConnection({
-  host: "127.0.0.1",
-  user: "root",
-  password: "admin123",
-  port: "3306",
-  database: "food_court"
-});
+var con = require('../controller/db');
 
 
 
 /* GET home page. */
-router.get('/', auth.checkMaintainmode,function(req, res, next) {
-  var name = "";
-  var role = "";
-  if(req.cookies.info){
-    name = req.cookies.info.username;
-    role = req.cookies.info.role;
-    console.log("here");
-    
-  }
-  res.render('index', { title: 'Express', name : name, role :role });
-});
+router.get('/', auth.checkMaintainmode,controller.index);
+
+/* POST Them gio hang. */
+router.post('/', auth.checkMaintainmode,controller.themvaogiohang);
+
+/* GET Xem gio hang */
+router.get('/xemgiohang', auth.checkMaintainmode,controller.xemgiohang);
+
+/* POST Thanh toan gio hang. */
+ router.post('/thanhtoan', auth.checkMaintainmode,controller.thanhtoangiohang);
+
 
 /* GET Dang ki page. */
 router.get('/dangki',auth.checkMaintainmode, controller.dangki);
 /* POST home page. */
 router.post('/dangki',auth.checkMaintainmode, controller.xacthucdangki);
 //Login
-router.get('/dangnhap', auth.checkMaintainmode,controller.dangnhap);
+router.get('/dangnhap',controller.dangnhap);
 //Xac thuc dang nhap
-router.post('/xacthucdangnhap',auth.checkMaintainmode,auth.xacthucdangnhap);
+router.post('/xacthucdangnhap',auth.xacthucdangnhap);
 //Thêm thẻ
 router.get('/themthe',auth.checkMaintainmode, auth.authen,controller.themthe);
 
@@ -59,6 +53,8 @@ router.get('/naptien',auth.authen,auth.checkMaintainmode, controller.naptien);
 //Post nap tien
 router.post('/naptien',auth.authen, auth.checkMaintainmode,controller.postnaptien )
 
+//Xem so du
+router.get('/xemsodu',auth.authen,auth.checkMaintainmode, controller.xemsodu);
 //dang xuat
 router.get('/dangxuat',auth.checkMaintainmode, controller.logout)
 
