@@ -32,7 +32,7 @@ var con = mysql.createConnection({
 router.get('/', auth.checkMaintainmode,function(req, res, next) {
   var name = "";
   var role = "";
-  if(req.cookies.info.username){
+  if(req.cookies.info){
     name = req.cookies.info.username;
     role = req.cookies.info.role;
     console.log("here");

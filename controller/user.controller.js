@@ -168,17 +168,31 @@ module.exports.postnaptien = function(req,res){
     var idcard = req.body.idbankcard;
     var password = md5(req.body.password);
   
-  
-    var sql = `select * from user where username = '${name}'`;
+      var sql = `select * from user where username = '${name}'`;
+
       con.query(sql, function (err, result, kq) {
           if(err){console.log(err);
             res.render('naptien',{ title: 'Express', status: 'Có lỗi trong quá trình xử lý', name: name, role: role , card :result});
   
           } else {
            if(result[0].password == password){
-             console.log(amount+ "   " + idcard);
-             
-            res.render('naptien',{ title: 'Express', status: 'Nạp tiền thành công', name: name, role: role , card :result});
+               console.log(result);
+               
+             var sql = `insert into deposit(amount, time, status, idcard,username ) values ('${amount}','${d}','success','${idcard}','${name}' )`;
+             con.query(sql, function (err, result, kq) {
+                if(err){console.log(err);
+                  res.render('naptien',{ title: 'Express', status: 'Có lỗi trong quá trình xử lý', name: name, role: role , card :result});
+        
+                } else {
+                    var sql = `Select * from card where usernameowner = '${name}'`;
+                    con.query(sql, function (err, result, kq) {
+                        if(err){console.log(err);} else {
+                          
+                            res.render('naptien',{ title: 'Express', status: 'Nap tien thanh cong', name: name, role: role , card :result});
+                  
+                        }
+                      }) 
+                }})
   
            } else if(result.password[0] != password) {
             

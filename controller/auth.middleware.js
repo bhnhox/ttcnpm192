@@ -78,25 +78,27 @@ module.exports.authen = function (req, res, next) {
 module.exports.checkMaintainmode = function (req, res, next) {
     var username = "";
     var role = "";
-    if(req.cookies.info.username){
+    if(req.cookies.info){
     username = req.cookies.info.username; 
     role = req.cookies.info.role; 
-}
+    
+} 
     var sql = `SELECT * FROM food_court.baotri where idbaotri  =  (select max( idbaotri) from food_court.baotri   )`;
     con.query(sql, function (err, result, kq) {
         if(err){console.log(err);} else {
-            console.log(result);
             
             if(result[0].trangthai == 'off'){
                 next()
                 
             } else if(result[0].trangthai == 'on'){
-                // if(role = 'admin'){
-                //     next()
-                // } else  {
+                if(role == 'admin'){
+                    console.log("role hien tai la " + role);
+                    
+                    next()
+                } else  {
+                    res.render('baotri', {title :'Đang bảo trì'})
 
-                // }
-                res.render('baotri', {title :'Đang bảo trì'})
+                }
 
                 
             } else  {
