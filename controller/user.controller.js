@@ -52,7 +52,8 @@ module.exports.themvaogiohang = function (req, res, next) {
 
 
             //case san phan chua duoc them truoc do
-            var sql = `insert into chonhang(idmon, soluong, time, idgiohang)values( '${foodID}', '${amount}',DATE(NOW()),'${result[0].id}')`;
+            var sql =` call themspvaogiohang(${foodID},${amount},${result[0].id});`;
+           // var sql = `insert into chonhang(idmon, soluong, time, idgiohang)values( '${foodID}', '${amount}',DATE(NOW()),'${result[0].id}')`;
             con.query(sql, function (err, result) {
                 if (err) {
                     console.log(err);
@@ -60,7 +61,7 @@ module.exports.themvaogiohang = function (req, res, next) {
                 } else {
 
 
-                    res.redirect('/');
+                    res.send("Thêm vào giỏ hàng thành công");
 
                 }
             })
