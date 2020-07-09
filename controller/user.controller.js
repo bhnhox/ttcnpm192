@@ -387,3 +387,110 @@ module.exports.thanhtoangiohang = function (req, res, next) {
                 }
             })
         }
+//vao trang quan ly user của admin
+module.exports.adminquanlynguoidung = function (req, res) {
+
+    var name = req.cookies.info.username;
+    var role = req.cookies.info.role;
+
+    var sql = `Select * from vendor `;
+    con.query(sql, function (err, result, kq) {
+        if (err) { console.log(err); } else {
+            
+            res.render('cms/main_layout',{content: '../adminquanlynguoidung',data:result});
+
+
+        }
+    })
+}
+//vao trang quan ly user của admin
+module.exports.themvendor = function (req, res) {
+
+    var usr = req.body.username;
+    var pass = md5(req.body.password);
+    var phone = req.body.phone;
+    var name = req.body.vendorname;
+    var admin = req.cookies.info.username;
+    var role = 'vendor';
+    var ngaydk = d;
+    var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','${role}',NOW())`;
+    con.query(sql, function (err, result, kq) {
+        if (err) {
+            if (err.errno != 1062) {
+                console.log(err);
+                return res.render('dangki', { title: 'Express', status: 'Co loi khi dang ki', name: "", role: "" });
+
+
+            } else if (err.errno == 1062) {
+                console.log(err);
+
+                return res.render('dangnhap', { title: 'Express', status: 'Tai khoan da duoc dang ki', name: "", role: "" });
+
+            } else {
+                console.log(err);
+
+            }
+        }
+
+        else {
+            var sql = `INSERT INTO giohang (username) VALUES ('${usr}')`;
+            con.query(sql, function (err, result, kq) {
+                if (err) { console.log(err); } else {
+                   // return res.render('dangnhap', { title: 'Express', status: 'Dang ki thanh cong', name: "", role: "" });
+                   var sql = `INSERT INTO vendor (username, tenquay, ngaytao, adminthuchien) VALUES ('${usr}','${name}',NOW(), '${admin}' )`;
+                   con.query(sql, function (err, result, kq) {
+                       if (err) { console.log(err); } else {
+                        res.redirect('/cms/adminquanlynguoidung');
+                       }
+                   })
+                }
+            })
+
+
+        }
+
+    })
+}
+//Get vendor form input
+module.exports.editformvendor = function (req, res) {
+
+    var name = req.cookies.info.username;
+    var role = req.cookies.info.role;
+    var username = req.body.username;
+
+    var sql = `Select * from vendor where username = '${username}' `;
+    con.query(sql, function (err, result, kq) {
+        if (err) { console.log(err); } else {
+            
+res.send( result[0]);
+
+        }
+    })
+}
+//Post edit vendor 
+module.exports.editvendor = function (req, res) {
+
+    var name = req.cookies.info.username;
+    var usernamevendor = req.body.usernamevendor;
+    var tenquay = req.body.tenquay;
+    var trangthai = req.body.trangthai;
+    var id = req.body.id;
+
+    var sql;
+    if(trangthai == 'inactive'){
+        sql = `UPDATE vendor SET username = '${usernamevendor}',tenquay = '${tenquay}',adminthuchien = '${name}',trangthai = 'inactive',ngaydong = NOW()  WHERE id = '${id}'; `;
+
+    } else {
+        sql = `UPDATE vendor SET username = '${usernamevendor}',tenquay = '${tenquay}',adminthuchien = '${name}' WHERE id = '${id}'; `;
+
+    }
+    con.query(sql, function (err, result, kq) {
+        if (err) { console.log(err); } else {
+            
+            res.redirect('/cms/adminquanlynguoidung');
+
+        }
+    })
+    
+
+}
