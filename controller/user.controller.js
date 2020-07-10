@@ -396,10 +396,10 @@ module.exports.adminquanlynguoidung = function (req, res) {
 
     var result = "";
     if (role == "admin") {
-        res.render('adminquanlynguoidung');
+        res.render('adminquanlynguoidung', {role:role});
 
     } else if (role == "vendor") {
-        res.render('vendorquanly');
+        res.render('vendorquanly', {role:role});
 
     }
 
@@ -782,6 +782,7 @@ module.exports.editvendor = function (req, res) {
 module.exports.vendortable = function (req, res) {
     var name = req.cookies.info.username;
     var role = req.cookies.info.role;
+    
     if (role == 'admin') {
 
 
@@ -813,7 +814,7 @@ module.exports.vendortable = function (req, res) {
         console.log(action);
 
         if (action == "daubep") {
-            var sql = `Select * from daubep `;
+            var sql = `Select * from daubep where vendorowner = '${name}' `;
             con.query(sql, function (err, result) {
                 if (err) { console.log(err); } else {
 
@@ -823,7 +824,7 @@ module.exports.vendortable = function (req, res) {
             })
         } else if (action == 'nhanvien') {
 
-            var sql = `Select * from nhanvien `;
+            var sql = `Select * from nhanvien where vendorowner = '${name}' `;
             con.query(sql, function (err, result) {
                 if (err) { console.log(err); } else {
 
