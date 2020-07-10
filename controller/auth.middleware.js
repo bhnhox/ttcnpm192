@@ -151,7 +151,7 @@ module.exports.checkRole = function (req, res, next) {
     var role = "";
     role = req.cookies.info.role;
   
-    if(role == "admin"){
+    if(role == "admin" || role == "vendor"){
         next()
     } else {
         res.redirect('/');

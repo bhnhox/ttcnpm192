@@ -33,7 +33,7 @@ router.get('/logout',Auth.authen,Auth.checkRole, LoginController.logout)
 router.use('/foods',Auth.authen,Auth.checkRole, FoodRouter);
 router.use('/menu',Auth.authen,Auth.checkRole, MenuRouter);
 //Trang quan ly nguoidung cua admin
-router.use('/adminquanlynguoidung',Auth.authen,Auth.checkRole, Controller.adminquanlynguoidung);
+router.use('/quanlynguoidung',Auth.authen,Auth.checkRole, Controller.adminquanlynguoidung);
 //Trang them vendor
 router.use('/themvendor',Auth.authen,Auth.checkRole, Controller.themvendor);
 
