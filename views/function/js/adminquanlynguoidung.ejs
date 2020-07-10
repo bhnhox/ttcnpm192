@@ -1,0 +1,536 @@
+<script>
+    $(document).ready(function () {
+
+        //Render vendor
+        $("#vendor").click(function (event) {
+            $("#vendor").css("background-color", "lightblue");
+            $("#thungan").css("background-color", "#F8F9FC");
+            $('.btn3').hide();
+            $('.btn1').show();
+
+            $('thead').html("");
+            $('tbody').html("");
+            //Ẩn form thêm thu ngan start
+            $("#adduser").hide(500);
+            $(".btn1").show();
+            $(".btn2").hide();
+
+            $('#editForm').hide();
+            $('#submitForm').hide();
+            //Ẩn form thêm thu ngan end
+            var obj = { action: "vendor" };
+
+            $('#update').click();
+            console.log(24);
+
+            event.preventDefault();
+        })
+        //Render thungan
+        $("#thungan").click(function (event) {
+            console.log(30);
+
+            $("#thungan").css("background-color", "lightblue");
+            $("#vendor").css("background-color", "#F8F9FC");
+            $('.btn3').hide();
+            $('.btn1').show();
+
+            $('thead').html("");
+            $('tbody').html("");
+            //Ẩn form thêm thu ngan start
+            $("#adduser").hide(500);
+            $(".btn1").show();
+            $(".btn2").hide();
+
+            $('#editForm').hide();
+            $('#submitForm').hide();
+            //Ẩn form thêm thu ngan end
+            var obj = { action: "vendor" };
+
+            $('#updatethungan').click();
+            console.log(24);
+
+            event.preventDefault();
+        })
+        //Render table vendor
+        var renderVendorTable = (function () {
+
+
+            var obj = { action: "vendor" };
+            $.ajax({
+                type: 'post',
+                url: 'vendortable',
+                data: obj,
+                success: function (result) {
+
+                    var i = 1;
+                    var thead = ` <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Tên quầy</th>
+                <th scope="col">Ngày tạo</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+
+              </tr>`;
+                    $("table thead").append(thead);
+
+                    result.forEach(element => {
+
+                        var markup = ` <tr>
+                    <th scope="row">${i}</th>
+                    <td>${ element.username}</td>
+                    <td>${ element.tenquay}</td>
+                    <td>${ element.ngaytao}</td>
+                    <td>${ element.trangthai}</td>
+                    <td>
+                        <form class="ajaxedit"  >
+                            <input type="hidden" name="username" value="${ element.username}">
+                            <input type="hidden" name="action" value="vendor">
+
+                            <button " class="btn btn-warning test123" >Sửa</button>
+
+                        </form>
+
+                    </td>
+                   
+                  </tr>`;
+                        i++;
+                        $("table tbody").append(markup);
+                    });
+                    //Hiển thị form sửa vendor
+                    $(".ajaxedit").submit(function () {
+                        console.log("here269");
+
+                        var that = $(this);
+                        $.ajax({
+                            type: 'post',
+                            url: 'editformvendor',
+                            data: that.serialize(),
+                            success: function (result) {
+                                $("#form-title").html('Sửa thông tin Vendor');
+                                $("#adduser").show(500);
+                                $("#divsodienthoai").hide();
+                                $("#divpassword").hide();
+                                $("#divtrangthai").show();
+                                $(".btn1").hide();
+                                $('#username').val(result.username);
+                                $('#vendorname').val(result.tenquay);
+                                $('#trangthai').val(result.trangthai);
+                                $('#id').val(result.id);
+
+                                $('#submitForm').hide();
+                                $('#editForm').show();
+                                $(".btn2").show();
+
+                            }
+
+                        });
+                        return false;
+
+                    });
+
+                }
+            });
+        }
+            ());
+        //Cap nhat lai table vendor
+        $('#update').click(function () {
+            var obj = { action: "vendor" };
+            $.ajax({
+                type: 'post',
+                url: 'vendortable',
+                data: obj,
+                success: function (result) {
+                    $("table thead").html("");
+                    $("table tbody").html("");
+
+                    var i = 1;
+                    var thead = ` <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Tên quầy</th>
+                <th scope="col">Ngày tạo</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+
+              </tr>`;
+                    $("table thead").append(thead);
+
+                    result.forEach(element => {
+
+                        var markup = ` <tr>
+                    <th scope="row">${i}</th>
+                    <td>${ element.username}</td>
+                    <td>${ element.tenquay}</td>
+                    <td>${ element.ngaytao}</td>
+                    <td>${ element.trangthai}</td>
+                    <td>
+                        <form class="ajaxedit"  >
+                            <input type="hidden" name="username" value="${ element.username}">
+                            <input type="hidden" name="action" value="vendor">
+
+                            <button " class="btn btn-warning test123" >Sửa</button>
+
+                        </form>
+
+                    </td>
+                   
+                  </tr>`;
+                        i++;
+                        $("table tbody").append(markup);
+
+                    });
+
+
+                }, complete: function () {
+                    $('#suavendor').click()
+                }
+            });
+        })
+        //Sua vendor
+        $('#suavendor').click(function () {
+            //Hiển thị form sửa vendor
+            $(".ajaxedit").submit(function () {
+                console.log("here269");
+                console.log( $('#action').val());
+                
+                var that = $(this);
+                $.ajax({
+                    type: 'post',
+                    url: 'editformvendor',
+                    data: that.serialize(),
+                    success: function (result) {
+                        $("#form-title").html('Sửa thông tin Vendor');
+                        $("#adduser").show(500);
+                        $("#divsodienthoai").hide();
+                        $("#divpassword").hide();
+                        $("#divtrangthai").show();
+                        $(".btn1").hide();
+                        $('#username').val(result.username);
+                        $('#vendorname').val(result.tenquay);
+                        $('#trangthai').val(result.trangthai);
+                        $('#id').val(result.id);
+
+                        $('#submitForm').hide();
+                        $('#editForm').show();
+                        $(".btn2").show();
+
+                    }
+
+                });
+                return false;
+
+            });
+        })
+        //Sua thungan
+        $('#suathungan').click(function () {
+            //Sua thungan
+            $('.thungan').click(function () {
+                //Hiển thị form sửa vendor
+                $(".ajaxedit").submit(function () {
+                    console.log("here233");
+
+                    var that = $(this);
+                    $.ajax({
+                        type: 'post',
+                        url: 'editformvendor',
+                        data: that.serialize(),
+                        success: function (result) {
+                            console.log(result);
+                            
+                            $("#form-title").html('Sửa thông tin Thu ngân ' + result.username);
+                            $("#adduser").show(500);
+                            $("#divsodienthoai").hide();
+                            $("#divpassword").hide();
+                            $("#divtrangthai").show();
+                            $(".btn1").hide();
+                            $('#username').val(result.username);
+                            $('#vendorname').val("");
+                            $('#trangthai').val(result.trangthai);
+                            $('#id').val(result.id);
+                            $("#divusername").hide();
+                            $("#divtenquay").hide();
+                            $(".btn3").hide();
+                            $('#submitForm').hide();
+                            $('#editForm').show();
+                            $(".btn2").show();
+
+                        }
+
+                    });
+                    return false;
+
+                });
+            })
+        })
+        //Cap nhat lai table thu ngan
+        $('#updatethungan').click(function () {
+            var obj = { action: "thungan" };
+            $(".btn1").hide()
+            $(".btn3").show()
+
+            $('tbody').html("");
+            $('thead').html("");
+            $.ajax({
+                type: 'post',
+                url: 'vendortable',
+                data: obj,
+                success: function (result) {
+                    var i = 1;
+                    var thead = ` <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Ngày vào làm</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">Ngày nghỉ việc</th>
+                <th scope="col"></th>
+
+              </tr>`;
+                    $("table thead").append(thead);
+
+                    result.forEach(element => {
+                        if (element.ngaynghiviec == null) {
+                            element.ngaynghiviec = "";
+                        }
+                        var markup = ` <tr>
+                    <th scope="row">${i}</th>
+                    <td>${ element.username}</td>
+                    <td>${ element.ngayvaolam}</td>
+                    <td>${ element.trangthai}</td>
+                    <td>${ element.ngaynghiviec}</td>
+
+                    <td>
+                        <form class="ajaxedit"  >
+                            <input type="hidden" id="username" name="username" value="${ element.username}">
+                            <input type="hidden"  name="action" value="thungan">
+
+                            <button " class="btn btn-warning thungan" >Sửa</button>
+
+                        </form>
+
+                    </td>
+                   
+                  </tr>`;
+                        i++;
+                        $("table tbody").append(markup);
+                    });
+                }, complete: function () {
+                    $('#suathungan').click();
+                }
+            })
+            event.preventDefault();
+        })
+        //Form them nguoi dung
+        $('#submitForm').click(function () {
+            console.log("306");
+
+            var flag = $("#vendorname").val();
+            //Thêm thu ngân
+            if (!flag) {
+                var obj = {
+                    username: $("#username").val(),
+                    phone: $("#phone").val(),
+                    password: $("#password").val(),
+
+                };
+                $.ajax({
+                    type: 'post',
+                    url: "themvendor",
+                    data: obj,
+                    success: function (result) {
+                        $("#status").html(result);
+                        document.getElementsByName('amount').value = '';
+                        myVar = setTimeout(function name(params) {
+
+                            $("#status").html("");
+
+                        }, 3000);
+
+
+                    }, complete: function () {
+                        $('#updatethungan').click();
+                        $('.btn3').hide();
+                        $("#username").val("");
+                        $("#phone").val("");
+                        $("#password").val("");
+
+                    }
+                });
+            } else {
+                //Thêm vendor
+
+                var obj = {
+                    username: $("#username").val(),
+                    vendorname: $("#vendorname").val(),
+                    phone: $("#phone").val(),
+                    password: $("#password").val()
+                };
+                $.ajax({
+                    type: 'post',
+                    url: "themvendor",
+                    data: obj,
+                    success: function (result) {
+                        $("#status").html(result);
+                        document.getElementsByName('amount').value = '';
+                        myVar = setTimeout(function name(params) {
+
+                            $("#status").html("");
+
+                        }, 3000);
+
+
+                    }, complete: function () {
+                        $('#update').click();
+                    }
+                });
+            }
+        });
+
+
+
+        //Hien thi form them nguoidung
+        $(".btn1").click(function () {
+            console.log(524);
+
+            $("#adduser").show(500);
+            $(".btn1").hide();
+            $(".btn2").show();
+            $("#form-title").html('Thêm Vendor mới');
+            $('#username').val("");
+            $('#vendorname').val("");
+            $('#divtrangthai').hide();
+            $("#divsodienthoai").show();
+            $("#divusername").show();
+            $("#divpassword").show();
+            $("#submitForm").show();
+            $("#divtenquay").show();
+            $('#trangthai').val("");
+
+        });
+        //Hủy thêm ngưởi dùng
+
+        $(".btn2").click(function () {
+            console.log(540);
+
+            $("#adduser").hide(500);
+            $(".btn1").show();
+            $(".btn2").hide();
+
+            $('#editForm').hide();
+            $('#submitForm').hide();
+
+
+        });
+
+        //Gửi form edit vendor, thu ngan
+        $('#editForm').click(function () {
+            console.log(555);
+
+            var flag = $("#vendorname").val();
+            if (!flag) {
+
+                var obj = {
+                    username: $("#username").val(),
+
+                    trangthai: $("#trangthai").val(),
+
+
+                }
+
+                $.ajax({
+                    type: 'post',
+                    url: 'editvendor',
+                    data: obj,
+                    success: function (result) {
+                        $("#status").html(result);
+                        document.getElementsByName('amount').value = '';
+                        myVar = setTimeout(function name(params) {
+
+                            $("#status").html("");
+
+                        }, 3000);
+
+                        $('#thungan').click();
+
+                        event.preventDefault();
+                    }
+                })
+            } else {
+
+
+                var obj = {
+                    usernamevendor: $("#username").val(),
+                    tenquay: $("#vendorname").val(),
+                    trangthai: $("#trangthai").val(),
+                    id: $("#id").val(),
+
+                }
+                var that = $(this);
+
+                $.ajax({
+                    type: 'post',
+                    url: 'editvendor',
+                    data: obj,
+                    success: function (result) {
+                        $("#status").html(result);
+                        document.getElementsByName('amount').value = '';
+                        myVar = setTimeout(function name(params) {
+
+                            $("#status").html("");
+
+                        }, 3000);
+
+                    }, complete: function () {
+                        $('#update').click();
+                    }
+                })
+            }
+            return false;
+        })
+        //Hien thi form them thu ngan
+        $(".btn3").click(function () {
+            console.log(777);
+            
+            $("#adduser").show(500);
+            $(".btn1").hide();
+            $(".btn3").hide();
+            $(".btn4").show();
+            $(".btn2").hide();
+
+            $("#form-title").html('Thêm Thu ngân mới');
+            $('#username').val("");
+            $('#vendorname').val("");
+            $('#divtrangthai').hide();
+            $('#divtenquay').hide();
+
+            $("#divsodienthoai").show();
+            $("#divusername").show();
+            $("#divpassword").show();
+            $("#submitForm").show();
+
+            $('#trangthai').val("");
+
+        });
+        //Hủy form thêm thu ngan
+        $(".btn4").click(function () {
+            console.log(795);
+
+            $("#adduser").hide(500);
+            $(".btn1").hide();
+            $(".btn2").hide();
+            $(".btn3").show();
+            $(".btn4").hide();
+
+            $('#editForm').hide();
+            $('#submitForm').hide();
+
+
+        });
+
+    });
+
+
+
+</script>

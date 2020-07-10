@@ -393,38 +393,73 @@ module.exports.adminquanlynguoidung = function (req, res) {
     var name = req.cookies.info.username;
     var role = req.cookies.info.role;
 
-    var sql = `Select * from vendor `;
+  var  result = "";
+            res.render('adminquanlynguoidung');
+
+
+    
+}
+//Thêm vendor/thungan
+module.exports.themvendor = function (req, res) {
+    var name = req.body.vendorname;
+if(!name){
+    var usr = req.body.username;
+    var pass = md5(req.body.password);
+    var role = 'thungan';
+    var phone = req.body.phone;
+    var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','${role}',NOW())`;
     con.query(sql, function (err, result, kq) {
-        if (err) { console.log(err); } else {
-            
-            res.render('cms/main_layout',{content: '../adminquanlynguoidung',data:result});
+        if (err) {
+            if (err.errno != 1062) {
+                console.log(err);
+        res.send('Có lỗi khi đăng kí')
+
+            } else if (err.errno == 1062) {
+
+                res.send('Tài khoản đã được đăng kí')
+
+            } else {
+                console.log(err);
+
+            }
+        }
+
+        else {
+            var sql = `INSERT INTO giohang (username) VALUES ('${usr}')`;
+            con.query(sql, function (err, result, kq) {
+                if (err) { console.log(err); } else {
+                   // return res.render('dangnhap', { title: 'Express', status: 'Dang ki thanh cong', name: "", role: "" });
+                   var sql = `INSERT INTO thungan (username, ngayvaolam, trangthai) VALUES ('${usr}',NOW(), 'active' )`;
+                   con.query(sql, function (err, result, kq) {
+                       if (err) { console.log(err); } else {
+                        res.send('Thêm thành công')
+
+                        }
+                   })
+                }
+            })
 
 
         }
-    })
-}
-//vao trang quan ly user của admin
-module.exports.themvendor = function (req, res) {
 
+    })
+}else {
     var usr = req.body.username;
     var pass = md5(req.body.password);
     var phone = req.body.phone;
     var name = req.body.vendorname;
     var admin = req.cookies.info.username;
     var role = 'vendor';
-    var ngaydk = d;
     var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','${role}',NOW())`;
     con.query(sql, function (err, result, kq) {
         if (err) {
             if (err.errno != 1062) {
                 console.log(err);
-                return res.render('dangki', { title: 'Express', status: 'Co loi khi dang ki', name: "", role: "" });
-
+        res.send('Có lỗi khi đăng kí')
 
             } else if (err.errno == 1062) {
-                console.log(err);
 
-                return res.render('dangnhap', { title: 'Express', status: 'Tai khoan da duoc dang ki', name: "", role: "" });
+                res.send('Tài khoản đã được đăng kí')
 
             } else {
                 console.log(err);
@@ -440,8 +475,9 @@ module.exports.themvendor = function (req, res) {
                    var sql = `INSERT INTO vendor (username, tenquay, ngaytao, adminthuchien) VALUES ('${usr}','${name}',NOW(), '${admin}' )`;
                    con.query(sql, function (err, result, kq) {
                        if (err) { console.log(err); } else {
-                        res.redirect('/cms/adminquanlynguoidung');
-                       }
+                        res.send('Thêm thành công')
+
+                        }
                    })
                 }
             })
@@ -451,13 +487,18 @@ module.exports.themvendor = function (req, res) {
 
     })
 }
-//Get vendor form input
+    
+}
+//Get vendor/thungan form input
 module.exports.editformvendor = function (req, res) {
 
     var name = req.cookies.info.username;
     var role = req.cookies.info.role;
     var username = req.body.username;
+var action = req.body.action;
+console.log(req.body);
 
+if(action=='vendor'){
     var sql = `Select * from vendor where username = '${username}' `;
     con.query(sql, function (err, result, kq) {
         if (err) { console.log(err); } else {
@@ -466,31 +507,103 @@ res.send( result[0]);
 
         }
     })
+} else {
+    var sql = `Select * from thungan where username = '${username}' `;
+    con.query(sql, function (err, result, kq) {
+        if (err) { console.log(err); } else {
+            
+res.send( result[0]);
+
+        }
+    })
 }
-//Post edit vendor 
+   
+}
+//Post edit vendor /thu ngan
 module.exports.editvendor = function (req, res) {
+var action = req.body.tenquay;
+
+if(!action){
+    
+    var trangthai = req.body.trangthai;
+    var username = req.body.username;
+    console.log(req.body);
+    
+    console.log("usr la " +username);
+
+    if(trangthai =='active'){
+        console.log("submit thu ngan active");
+
+        sql = `UPDATE thungan SET trangthai = 'active',ngaynghiviec = NULL  WHERE username = '${username}'; `;
+
+    } else {
+        console.log("submit thu ngan inactive co usr la " + username);
+
+        sql = `UPDATE thungan SET trangthai = 'inactive',ngaynghiviec = NOW()  WHERE username = '${username}'; `;
+
+    }
+    con.query(sql, function (err, result, kq) {
+        if (err) { console.log(err); } else {
+            
+            res.send('Cập nhật thành công')
+
+        }
+    })
+
+
+} else {
+
+console.log("submit vendor");
 
     var name = req.cookies.info.username;
     var usernamevendor = req.body.usernamevendor;
     var tenquay = req.body.tenquay;
     var trangthai = req.body.trangthai;
     var id = req.body.id;
+console.log(trangthai);
 
     var sql;
     if(trangthai == 'inactive'){
         sql = `UPDATE vendor SET username = '${usernamevendor}',tenquay = '${tenquay}',adminthuchien = '${name}',trangthai = 'inactive',ngaydong = NOW()  WHERE id = '${id}'; `;
 
     } else {
-        sql = `UPDATE vendor SET username = '${usernamevendor}',tenquay = '${tenquay}',adminthuchien = '${name}' WHERE id = '${id}'; `;
+        sql = `UPDATE vendor SET username = '${usernamevendor}',tenquay = '${tenquay}',adminthuchien = '${name}',trangthai = 'active',ngaydong = NULL  WHERE id = '${id}'; `;
 
     }
     con.query(sql, function (err, result, kq) {
         if (err) { console.log(err); } else {
             
-            res.redirect('/cms/adminquanlynguoidung');
+            res.send('Cập nhật thành công')
 
         }
     })
     
+}
+}
+//Get vendor table
+module.exports.vendortable = function (req, res) {
+var action = req.body.action;
+console.log(action);
 
+if(action == "vendor"){
+    var sql = `Select * from vendor `;
+    con.query(sql, function (err, result) {
+        if (err) { console.log(err); } else {
+            
+            res.send(result);
+
+        }
+    })
+} else if(action == 'thungan'){
+    
+    var sql = `Select * from thungan `;
+    con.query(sql, function (err, result) {
+        if (err) { console.log(err); } else {
+            
+            res.send(result);
+
+        }
+    })
+}
+    
 }
