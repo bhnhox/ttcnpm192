@@ -18,16 +18,22 @@ con.query(sql, function (err, result, kq) {
         console.log(err);
         return res.render('dangnhap', { title: 'Express', status: 'Co loi khi dang nhap' });
     }  else {
+        if(result[0]){
+
+        
             if(result[0].password == pass){
                 res.cookie('info', { 'username': usr, 'password': pass, 'role': result[0].role });
 
-             //   return res.render('dangnhap', { title: 'Express', status: 'ok' });
                 res.redirect('/');
             } else{
-                return res.render('dangnhap', { title: 'Express', status: 'Sai username hoac password' });
+                console.log("here");
+                return res.render('dangnhap', { title: 'Express', status: 'Sai username hoặc password',  name: "", role: "" });
 
-            }
-        
+            } 
+        } else {
+            return res.render('dangnhap', { title: 'Express', status: 'Sai username hoặc password',  name: "", role: "" });
+
+        }
 
     }
     
