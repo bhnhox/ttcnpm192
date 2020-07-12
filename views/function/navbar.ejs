@@ -1,11 +1,11 @@
-<nav class="navbar navbar-expand-sm bg-light">
-
-    <ul class="navbar-nav">
+<nav class="site-menu" id="ftco-navbar-spy">
+  <div class="site-menu-inner" id="ftco-navbar">
+    <ul class="list-unstyled">
       <li class="nav-item">
         <a class="nav-link" href="/">Trang chủ</a>
       </li>
-     <% if(!name){ %>
-     
+      <% if(!name){ %>
+
       <li class="nav-item">
         <a class="nav-link" href="/dangki">Đăng kí</a>
       </li>
@@ -32,12 +32,28 @@
       <li class="nav-item">
         <a class="nav-link" href="/">Xin chào <%- name %></a>
       </li>
-    <% } %>
-    <% if (role == 'admin'){ %>
+      <% } %>
+      <% if (role == 'admin'){ %>
       <li class="nav-item">
         <a class="nav-link" href="/cms/">Trang cms</a>
       </li>
-    <% } %>
+      <% } %>
     </ul>
-  
-  </nav>
+  </div>
+</nav>
+<header class="site-header">
+  <div class="row align-items-center">
+    <div class="col-5 col-md-3">
+
+    </div>
+    <div class="col-2 col-md-6 text-center site-logo-wrap">
+      <a href="/" class="site-logo">BK Food Court</a>
+    </div>
+    <div class="col-5 col-md-3 text-right menu-burger-wrap">
+      <a href="#" class="site-nav-toggle js-site-nav-toggle"><i></i></a>
+
+    </div>
+  </div>
+
+</header>
+<!-- site-header -->

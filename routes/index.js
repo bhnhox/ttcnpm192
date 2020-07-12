@@ -18,13 +18,7 @@ var status="";
 var d = new Date();
 
 //DB info
-var con = mysql.createConnection({
-  host: "127.0.0.1",
-  user: "root",
-  password: "admin123",
-  port: "3306",
-  database: "food_court"
-});
+var con = require('../controller/db');
 
 
 

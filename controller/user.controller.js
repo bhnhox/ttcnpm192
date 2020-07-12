@@ -7,12 +7,7 @@ const { log } = require('debug');
 var d = new Date();
 var mysql = require('mysql');
 const { connect } = require('../routes');
-var con = mysql.createConnection({
-    host: "127.0.0.1",
-    user: "ngoctrong102",
-    password: "v.n.t.12345",
-    database: "food_court"
-});
+var con = require('./db')
 
 //Get date
 var d = new Date();
@@ -137,6 +132,10 @@ module.exports.thanhtoangiohang = function (req, res, next) {
                     console.log(err);
 
                 } else {
+
+
+
+
                     var sql = `insert into giohang(username) values('${name}')`;
                     con.query(sql, function (err, result) {
                         if (err) {
@@ -224,13 +223,8 @@ module.exports.thanhtoangiohang = function (req, res, next) {
                 }
 
             })
-            //Thêm thẻ
-            module.exports.themthe = function (req, res) {
-
-
-
-
-            }
+            
+           
 
 
 
@@ -263,7 +257,7 @@ module.exports.thanhtoangiohang = function (req, res, next) {
                 role = "";
             }
 
-            res.render('dangnhap', { title: 'Express', status: '', name: name, role: role });
+            res.render('dangnhap', { title: 'Thêm thẻ', status: '', name: name, role: role });
         }
 
         //Dang xuat
@@ -280,7 +274,7 @@ module.exports.thanhtoangiohang = function (req, res, next) {
             var name = req.cookies.info.username;
             var role = req.cookies.info.role;
 
-            res.render('themthe', { title: 'Express', status: '', name: name, role: role });
+            res.render('themthe', { title: 'Express', status: 'Thêm thẻ', name: name, role: role });
         }
         //Post them the
         module.exports.postthemthe = function (req, res) {
@@ -294,8 +288,8 @@ module.exports.thanhtoangiohang = function (req, res, next) {
             var sql = `INSERT INTO card (namecard, bankname,usernameowner,timecreate,idbankcard) VALUES ('${namecard}','${bankname}','${name}','${d}','${idcard}')`;
             con.query(sql, function (err, result, kq) {
                 if (err) { console.log(err); } else {
-                    status = "success"
-                    res.render('themthe', { title: 'Express', status: status, name: name, role: role });
+                    status = "Thêm thẻ thành công"
+                    res.render('themthe', { title: 'Thêm thẻ', status: status, name: name, role: role });
 
                 }
             })
@@ -312,7 +306,7 @@ module.exports.thanhtoangiohang = function (req, res, next) {
             con.query(sql, function (err, result, kq) {
                 if (err) { console.log(err); } else {
 
-                    res.render('naptien', { title: 'Express', status: '', name: name, role: role, card: result });
+                    res.render('naptien', { title: 'Nạp tiền vào tài khoản', status: 'Nạp tiền vào tài khoản', name: name, role: role, card: result });
 
                 }
             })

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Khu Ẩm Thực Thông Minh &mdash; BK Food Court</title>
+  <title>Meal &mdash; Website Template by Colorlib</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -26,3 +26,41 @@
 
   <!-- Theme Style -->
   <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body class="bg-light">
+
+  <body data-spy="scroll" data-target="#ftco-navbar-spy" data-offset="0">
+
+    <div class="site-wrap">
+<!-- nav bar -->
+<%- include("function/navbar.ejs") %>
+
+
+     
+
+
+       <!-- .section Nạp tiền -->
+
+        <div class="section pb-3 bg-white" id="section-naptien" data-aos="fade-up">
+          <div class="container">
+            <div class="row align-items-center justify-content-center">
+            
+
+              
+                
+                  <button type="submit" class="btn btn-primary"> <%= status %></button>
+                
+             
+            </div>
+          </div>
+        </div> <!-- .section -->
+      </div> <!-- .section -->
+      <div class="map-wrap" id="map" data-aos="fade" style="background-color: white;"></div>
+
+      <%- include("function/footer.ejs") %>
+
+  </body>
+
+</html>
