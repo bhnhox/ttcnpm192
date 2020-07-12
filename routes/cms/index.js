@@ -9,9 +9,9 @@ var LoginController = require('../../controller/cms/login.controller')
 //Thiện
 var BaotriRouter = require('./baotri')
 var Auth = require('../../controller/auth.middleware');
-const { route } = require('..');
+var Controller = require('../../controller/user.controller');
 
-router.get('/',Auth.checkRole, function (req, res, next) {
+router.get('/',Auth.authen,Auth.checkRole, function (req, res, next) {
     res.render('cms/main_layout',{content:"dashboard/home",data:null});
 
     // if (req.session.user) {
@@ -30,11 +30,18 @@ router.get('/',Auth.checkRole, function (req, res, next) {
 //         else res.render('cms/login/index');
 //     })
 //     .post(LoginController.checkLogin);
-router.get('/logout',Auth.checkRole, LoginController.logout)
-router.use('/foods',Auth.checkRole, FoodRouter);
-router.use('/menu',Auth.checkRole, MenuRouter);
-router.use('/order',Auth.checkRole, OrderRouter)
+router.get('/logout',Auth.authen,Auth.checkRole, LoginController.logout)
+router.use('/foods',Auth.authen,Auth.checkRole, FoodRouter);
+router.use('/menu',Auth.authen,Auth.checkRole, MenuRouter);
+//Trang quan ly nguoidung cua admin
+router.use('/quanlynguoidung',Auth.authen,Auth.checkRole, Controller.adminquanlynguoidung);
+//Trang them vendor
+router.use('/themvendor',Auth.authen,Auth.checkRole, Controller.themvendor);
 
+router.use('/editformvendor',Auth.authen,Auth.checkRole, Controller.editformvendor);
+
+router.use('/editvendor',Auth.authen,Auth.checkRole, Controller.editvendor);
+router.use('/vendortable',Auth.authen,Auth.checkRole, Controller.vendortable);
 
 
 

@@ -106,12 +106,54 @@ module.exports.checkMaintainmode = function (req, res, next) {
 
 }
 
+//Post bật bao tri
+module.exports.postbatbaotri = function (req, res, next) {
+    username = req.cookie.info.username;
+    role = req.cookie.info.role;
+    if(role == 'admin'){
+
+    
+  
+            var sql = `insert into baotri (username, trangthai, thoi gian) values( '${username}', 'on','${d}')`;
+            con.query(sql, function (err, result, kq) {
+                if(err){console.log(err);} else {
+                    console.log('sucess');
+                    
+                }})
+
+      
+    } else {
+        res.redirect('/');
+    }
+}
+//Post tắt bao tri
+module.exports.postbatbaotri = function (req, res, next) {
+    username = req.cookie.info.username;
+    role = req.cookie.info.role;
+    if(role == 'admin'){
+
+    
+ 
+            var sql = `insert into baotri (username, trangthai, thoi gian) values( '${username}', 'off','${d}')`;
+            con.query(sql, function (err, result, kq) {
+                if(err){console.log(err);} else {
+                    console.log('sucess');
+                    
+                }})
+
+        
+    } else {
+        res.redirect('/');
+    }
+}
+
+
 //Check role
 module.exports.checkRole = function (req, res, next) {
     var role = "";
-    role = req.cookies.info?req.cookies.info.role:"";
-
-    if (role == "admin") {
+    role = req.cookies.info.role;
+  
+    if(role == "admin" || role == "vendor"){
         next()
     } else {
         res.redirect('/');

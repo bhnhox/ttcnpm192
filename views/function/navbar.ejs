@@ -1,3 +1,4 @@
+
 <nav class="site-menu" id="ftco-navbar-spy">
   <div class="site-menu-inner" id="ftco-navbar">
     <ul class="list-unstyled">
@@ -37,9 +38,14 @@
       <li class="nav-item">
         <a class="nav-link" href="/cms/">Trang cms</a>
       </li>
-      <% } %>
-    </ul>
-  </div>
+    <% } %>
+    <% if (role == 'vendor'){ %>
+      <li class="nav-item">
+        <a class="nav-link" href="/cms/quanlynguoidung">Trang quản lý nhân viên</a>
+      </li>
+    <% } %>
+  </ul>
+</div>
 </nav>
 <header class="site-header">
   <div class="row align-items-center">
@@ -48,6 +54,8 @@
     </div>
     <div class="col-2 col-md-6 text-center site-logo-wrap">
       <a href="/" class="site-logo">BK Food Court</a>
+      <p style="font-weight: bold; color: orange;" id="status"></p>
+
     </div>
     <div class="col-5 col-md-3 text-right menu-burger-wrap">
       <a href="#" class="site-nav-toggle js-site-nav-toggle"><i></i></a>

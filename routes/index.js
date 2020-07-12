@@ -57,6 +57,20 @@ router.post('/naptien',auth.authen, auth.checkMaintainmode,controller.postnaptie
 router.get('/xemsodu',auth.authen,auth.checkMaintainmode, controller.xemsodu);
 //dang xuat
 router.get('/dangxuat',auth.checkMaintainmode, controller.logout)
+router.get('/test', function ( req,res) {
+  var idgiohang = req.body;
+  console.log(idgiohang);
+var usr = req.cookiesinfo;
+console.log(usr);
 
+  res.send("Update success!");
+})
 
+router.post('/test', function ( req,res) {
+  var idgiohang = req.body;
+console.log(idgiohang);
+var usr = req.cookies.info;
+console.log(usr);
+  res.send("Update success!");
+})
 module.exports = router;

@@ -1,0 +1,569 @@
+<script>
+    $(document).ready(function () {
+
+        //Render nhanvien
+        $("#vendor").click(function (event) {
+            $("#vendor").css("background-color", "lightblue");
+            $("#thungan").css("background-color", "#F8F9FC");
+            $('.btn3').hide();
+            $('.btn1').show();
+            $("#vendorname").val('nhanvien')
+            $('thead').html("");
+            $('tbody').html("");
+            //Ẩn form thêm thu ngan start
+            $("#adduser").hide(500);
+            $(".btn1").show();
+            $(".btn2").hide();
+            $("#flag").val('nhanvien')
+
+            $('#editForm').hide();
+            $('#submitForm').hide();
+            //Ẩn form thêm thu ngan end
+
+            $('#update').click();
+            console.log(24);
+
+            event.preventDefault();
+        })
+        //Render daubep
+        $("#thungan").click(function (event) {
+            console.log(30);
+            $("#vendorname").val('daubep')
+            $("#thungan").css("background-color", "lightblue");
+            $("#vendor").css("background-color", "#F8F9FC");
+            $('.btn1').hide();
+            $('.btn4').hide();
+            $("#flag").val('daubep')
+
+            $('thead').html("");
+            $('tbody').html("");
+            //Ẩn form thêm thu ngan start
+            $("#adduser").hide(500);
+            $(".btn2").hide();
+
+            $('#editForm').hide();
+            $('#submitForm').hide();
+            //Ẩn form thêm thu ngan end
+
+            $('#updatethungan').click();
+            $('.btn3').show();
+
+            event.preventDefault();
+        })
+        //Render table nhanvien
+        var renderVendorTable = (function () {
+
+
+            var obj = { action: "nhanvien" };
+            $.ajax({
+                type: 'post',
+                url: 'vendortable',
+                data: obj,
+                success: function (result) {
+
+                    var i = 1;
+                    var thead = ` <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Ngày vào làm</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">Ngày nghỉ việc</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+
+              </tr>`;
+                    $("table thead").append(thead);
+
+                    result.forEach(element => {
+                        if (element.ngaynghiviec == null) {
+                            element.ngaynghiviec = "";
+                        }
+                        var markup = ` <tr>
+                    <th scope="row">${i}</th>
+                    <td>${ element.username}</td>
+                    <td>${ element.ngayvaolam}</td>
+                    <td>${ element.trangthai}</td>
+                    <td>${ element.ngaynghiviec}</td>
+
+
+                    <td>
+                        <form class="ajaxedit"  >
+                            <input type="hidden" name="username" value="${ element.username}">
+                            <input type="hidden" name="action" value="nhanvien">
+
+                            <button " class="btn btn-warning test123" >Sửa</button>
+
+                        </form>
+
+                    </td>
+                   
+                  </tr>`;
+                        i++;
+                        $("table tbody").append(markup);
+                    });
+                    //Hiển thị form sửa nhanvien
+                    $(".ajaxedit").submit(function () {
+                        console.log("here269");
+
+                        var that = $(this);
+                        $.ajax({
+                            type: 'post',
+                            url: 'editformvendor',
+                            data: that.serialize(),
+                            success: function (result) {
+                                $("#form-title").html('Sửa thông tin nhân viên ' + result.username);
+                                $("#adduser").show(500);
+                                $("#divsodienthoai").hide();
+                                $("#divpassword").hide();
+                                $("#divtenquay").hide();
+
+                                $("#divtrangthai").show();
+                                $(".btn1").hide();
+                                $('#username').val(result.username);
+                                $('#vendorname').val(result.tenquay);
+                                $('#trangthai').val(result.trangthai);
+                                $('#id').val(result.id);
+                                $("#divusername").hide();
+                                $('#flag').val("nhanvien");
+
+                                $('#submitForm').hide();
+                                $('#editForm').show();
+                                $(".btn2").show();
+
+                            }
+
+                        });
+                        return false;
+
+                    });
+
+                }
+            });
+        }
+            ());
+        //Cap nhat lai table nhanvien
+        $('#update').click(function () {
+            var obj = { action: "nhanvien" };
+            $.ajax({
+                type: 'post',
+                url: 'vendortable',
+                data: obj,
+                success: function (result) {
+                    $("table thead").html("");
+                    $("table tbody").html("");
+
+                    var i = 1;
+                    var thead = ` <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Ngày vào làm</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">Ngày nghỉ việc</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+
+              </tr>`;
+                    $("table thead").append(thead);
+
+                    result.forEach(element => {
+                        if (element.ngaynghiviec == null) {
+                            element.ngaynghiviec = "";
+                        }
+                        var markup = ` <tr>
+                    <th scope="row">${i}</th>
+                    <td>${ element.username}</td>
+                    <td>${ element.ngayvaolam}</td>
+                    <td>${ element.trangthai}</td>
+                    <td>${ element.ngaynghiviec}</td>
+
+                    <td>
+                        <form class="ajaxedit"  >
+                            <input type="hidden" name="username" value="${ element.username}">
+                            <input type="hidden" name="action" value="nhanvien">
+
+                            <button " class="btn btn-warning test123" >Sửa</button>
+
+                        </form>
+
+                    </td>
+                   
+                  </tr>`;
+                        i++;
+                        $("table tbody").append(markup);
+
+                    });
+
+
+                }, complete: function () {
+                    $('#suavendor').click()
+                }
+            });
+        })
+        //Sua vendor
+        $('#suavendor').click(function () {
+            //Hiển thị form sửa nhanvien
+            $(".ajaxedit").submit(function () {
+                console.log("here202");
+                console.log($('#action').val());
+
+                var that = $(this);
+                $.ajax({
+                    type: 'post',
+                    url: 'editformvendor',
+                    data: that.serialize(),
+                    success: function (result) {
+                        $("#form-title").html('Sửa thông tin nhân viên ' + result.username);
+                        $("#adduser").show(500);
+                        $("#divsodienthoai").hide();
+                        $("#divpassword").hide();
+                        $("#divtrangthai").show();
+                        $(".btn1").hide();
+                        $('#username').val(result.username);
+                        $('#vendorname').val(result.tenquay);
+                        $('#trangthai').val(result.trangthai);
+                        $('#id').val(result.id);
+                        $("#divusername").hide();
+                        $('#flag').val("nhanvien");
+
+                        $('#divtenquay').hide();
+                        $('#submitForm').hide();
+                        $('#editForm').show();
+                        $(".btn2").show();
+
+                    }
+
+                });
+                return false;
+
+            });
+        })
+        //Sua thungan
+        $('#suathungan').click(function () {
+            //Sua thungan
+            $('.thungan').click(function () {
+                //Hiển thị form sửa daubep
+                $(".ajaxedit").submit(function () {
+                    console.log("here233");
+
+                    var that = $(this);
+                    $.ajax({
+                        type: 'post',
+                        url: 'editformvendor',
+                        data: that.serialize(),
+                        success: function (result) {
+                            console.log(result);
+
+                            $("#form-title").html('Sửa thông tin đầu bếp ' + result.username);
+                            $("#adduser").show(500);
+                            $("#divsodienthoai").hide();
+                            $("#divpassword").hide();
+                            $("#divtrangthai").show();
+                            $(".btn1").hide();
+                            $('#username').val(result.username);
+                            $('#vendorname').val("");
+                            $('#trangthai').val(result.trangthai);
+                            $('#id').val(result.id);
+                            $("#divusername").hide();
+                            $("#divtenquay").hide();
+                            $(".btn3").hide();
+                            $('#submitForm').hide();
+                            $('#editForm').show();
+                            $(".btn2").show();
+                            $('#flag').val("daubep");
+
+                        }
+
+                    });
+                    return false;
+
+                });
+            })
+        })
+        //Cap nhat lai table daubep
+        $('#updatethungan').click(function () {
+            $("#phone").val("");
+
+            var obj = { action: "daubep" };
+            // $(".btn1").hide()
+            // $(".btn3").show()
+
+            $('tbody').html("");
+            $('thead').html("");
+            $.ajax({
+                type: 'post',
+                url: 'vendortable',
+                data: obj,
+                success: function (result) {
+                    var i = 1;
+                    var thead = ` <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Ngày vào làm</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">Ngày nghỉ việc</th>
+                <th scope="col"></th>
+
+              </tr>`;
+                    $("table thead").append(thead);
+
+                    result.forEach(element => {
+                        if (element.ngaynghiviec == null) {
+                            element.ngaynghiviec = "";
+                        }
+                        var markup = ` <tr>
+                    <th scope="row">${i}</th>
+                    <td>${ element.username}</td>
+                    <td>${ element.ngayvaolam}</td>
+                    <td>${ element.trangthai}</td>
+                    <td>${ element.ngaynghiviec}</td>
+
+                    <td>
+                        <form class="ajaxedit"  >
+                            <input type="hidden" id="username" name="username" value="${ element.username}">
+                            <input type="hidden"  name="action" value="daubep">
+
+                            <button " class="btn btn-warning thungan" >Sửa</button>
+
+                        </form>
+
+                    </td>
+                   
+                  </tr>`;
+                        i++;
+                        $("table tbody").append(markup);
+                    });
+                }, complete: function () {
+                    $('#suathungan').click();
+                    //    $('.btn3').hide();
+
+
+                }
+            })
+            event.preventDefault();
+        })
+        //Form them nguoi dung
+        $('#submitForm').click(function () {
+            console.log("306");
+
+            var flag = $("#vendorname").val();
+            console.log(flag);
+
+            //Thêm đầu bếp
+            if (flag == 'daubep') {
+                console.log("hello dau bep");
+
+                var obj = {
+                    username: $("#username").val(),
+                    phone: $("#phone").val(),
+                    password: $("#password").val(),
+                    flag: $("#flag").val(),
+
+                };
+                console.log(obj);
+
+                $.ajax({
+                    type: 'post',
+                    url: "themvendor",
+                    data: obj,
+                    success: function (result) {
+                        $("#status").html(result);
+                        document.getElementsByName('amount').value = '';
+                        myVar = setTimeout(function name(params) {
+
+                            $("#status").html("");
+
+                        }, 3000);
+
+
+                    }, complete: function () {
+
+                        $('.btn3').hide();
+                        $("#username").val("");
+                        $("#phone").val("");
+                        $("#password").val("");
+                        $('.btn4').show();
+                        $('#updatethungan').click();
+
+                    }
+                });
+            } else if (flag == 'nhanvien') {
+                //Thêm nhân viên
+
+                var obj = {
+                    username: $("#username").val(),
+                    vendorname: $("#vendorname").val(),
+                    phone: $("#phone").val(),
+                    password: $("#password").val(),
+                    flag: $("#flag").val(),
+
+                };
+                $.ajax({
+                    type: 'post',
+                    url: "themvendor",
+                    data: obj,
+                    success: function (result) {
+                        $("#status").html(result);
+                        document.getElementsByName('amount').value = '';
+                        myVar = setTimeout(function name(params) {
+
+                            $("#status").html("");
+
+                        }, 3000);
+
+
+                    }, complete: function () {
+                        $('#update').click();
+                    }
+                });
+            }
+        });
+
+
+
+        //Hien thi form them nguoidung
+        $(".btn1").click(function () {
+            console.log(524);
+
+            $("#adduser").show(500);
+            $(".btn1").hide();
+            $(".btn2").show();
+            $(".btn4").hide();
+
+            $("#form-title").html('Thêm nhân viên mới');
+            $('#username').val("");
+            $('#vendorname').val("nhanvien");
+            $('#divtrangthai').hide();
+            $('#divtenquay').hide();
+
+            $("#divsodienthoai").show();
+            $("#divusername").show();
+            $("#divpassword").show();
+            $("#submitForm").show();
+
+            $('#trangthai').val("");
+
+        });
+        //Hủy thêm ngưởi dùng
+
+        $(".btn2").click(function () {
+            console.log(540);
+
+            $("#adduser").hide(500);
+            $(".btn1").show();
+            $(".btn2").hide();
+
+            $('#editForm').hide();
+            $('#submitForm').hide();
+
+
+        });
+
+        //Gửi form edit vendor, thu ngan
+        $('#editForm').click(function () {
+            console.log(555);
+
+            var flag = $("#flag").val();
+            
+            if (flag == 'nhanvien') {
+
+                var obj = {
+                    username: $("#username").val(),
+                    trangthai: $("#trangthai").val(),
+                    flag: $("#flag").val(),
+
+                }
+                var that = $(this);
+
+                $.ajax({
+                    type: 'post',
+                    url: 'editvendor',
+                    data: obj,
+                    success: function (result) {
+                        $("#status").html(result);
+                        document.getElementsByName('amount').value = '';
+                        myVar = setTimeout(function name(params) {
+
+                            $("#status").html("");
+
+                        }, 3000);
+
+                        $('#vendor').click();
+
+                        event.preventDefault();
+                    }
+                })
+            } else if (flag == 'daubep') {
+
+                var obj = {
+                    username: $("#username").val(),
+                    trangthai: $("#trangthai").val(),
+                    flag: $("#flag").val(),
+                }
+
+                $.ajax({
+                    type: 'post',
+                    url: 'editvendor',
+                    data: obj,
+                    success: function (result) {
+                        $("#status").html(result);
+                        document.getElementsByName('amount').value = '';
+                        myVar = setTimeout(function name(params) {
+
+                            $("#status").html("");
+
+                        }, 3000);
+
+                        $('#thungan').click();
+
+                        event.preventDefault();
+                    }
+                })
+            }
+            return false;
+        })
+        //Hien thi form them đầu bếp
+        $(".btn3").click(function () {
+            console.log(777);
+
+            $("#adduser").show(500);
+            $(".btn1").hide();
+            $(".btn2").hide();
+
+            $("#form-title").html('Thêm đầu bếp mới');
+            $('#username').val("");
+            $('#vendorname').val("daubep");
+            $('#divtrangthai').hide();
+            $('#divtenquay').hide();
+
+            $("#divsodienthoai").show();
+            $("#divusername").show();
+            $("#divpassword").show();
+            $("#submitForm").show();
+            $(".btn3").hide();
+
+            $(".btn4").show();
+
+            $('#trangthai').val("");
+
+        });
+        //Hủy form thêm thu ngan
+        $(".btn4").click(function () {
+            console.log(795);
+
+            $("#adduser").hide(500);
+            $(".btn1").hide();
+            $(".btn2").hide();
+            $(".btn3").show();
+            $(".btn4").hide();
+
+            $('#editForm').hide();
+            $('#submitForm').hide();
+
+
+        });
+
+    });
+
+
+
+</script>

@@ -1,0 +1,161 @@
+<% include function/cmsheader %>
+
+<% include function/js/adminquanlynguoidung %>
+
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <% include cms/sidebar %>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <% include cms/header %>
+                <!-- End of Topbar -->
+                <div class="container-fluid">
+                  <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                      <div class="row">
+                      <a id="vendor" href="" class="m-0 font-weight-bold text-primary" style="padding: 10px; background-color:lightblue  ;">Vendor</a>
+                      <a id="thungan" href="" class="m-0 font-weight-bold text-primary" style="padding: 10px;">Thu ngân</a>
+                      <button id="update" style="display: none;" class="btn btn-success">Update</button>
+                      <button id="updatethungan" style="display: none;" class="btn btn-success">Update thu ngan</button>
+                      <button id="suavendor" style="display: none;" class="btn btn-success">sua vendor</button>
+                      <button id="suathungan" style="display: none;" class="btn btn-success">sua thungan</button>
+
+                    </div>
+                      <h4 class="m-0 font-weight-bold text-primary" id="status">
+                      </h4>
+                    </div>
+                    <div class="card-body">
+                      <button class="btn1 btn btn-primary">Thêm vendor mới</button>
+                      <button class="btn3 btn btn-primary" style="display:none">Thêm thu ngân</button>
+                
+                      <button style="display:none" class="btn2 btn btn-danger">Huỷ</button>
+                      <button style="display:none" id="nuthuycuathungan" class="btn4 btn btn-danger">Huỷ</button>
+
+                      <div style="justify-content: center;">
+                        <form class="w-50" style="display: none; " id="adduser">
+                          <h2 id="form-title"></h2>
+                          
+                          <div class="form-group" id="divusername">
+                            <label for="exampleInputEmail1">UsernameOwner</label>
+                            <input type="text" class="form-control" id="username" placeholder="Enter username" name="username">
+                          </div>
+                          <div class="form-group" id="divpassword">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
+                          </div>
+                          <div class="form-group" id="divsodienthoai">
+                            <label>Số điện thoại</label>
+                            <input type="text" class="form-control" id="phone" placeholder="Enter phone number" name="phone">
+                          </div>
+                          <div class="form-group" id="divtenquay">
+                            <label for="exampleInputEmail1">Tên quầy</label>
+                            <input type="text" class="form-control" id="vendorname" placeholder="Enter Vendor name" name="vendorname">
+                          </div>
+                          
+                          <div class="form-group" id="divtrangthai" style="display: none;">
+                            <label for="exampleFormControlSelect1">Trạng thái</label>
+                            <select class="form-control" id="trangthai">
+                              <option value="active">active</option>
+                              <option value="inactive">inactive</option>
+                
+                            </select>
+                            <input type="hidden" class="form-control" id="id" value="" name="id">
+                
+                          </div>
+                
+                        </form>
+                        <button id="submitForm" style="display: none;" type="" class="btn btn-primary">Thêm</button>
+                
+                        <button id="editForm" style="display: none;" class="btn btn-success">Cập nhật</button>
+                
+                      </div>
+                      <table class="table">
+                        <thead>
+                
+                        </thead>
+                        <tbody>
+                
+                
+                        </tbody>
+                      </table>
+                
+                    </div>
+                  </div>
+                
+                </div>
+                
+                <script src="vendor/jquery/jquery.min.js"></script>
+                <script>
+                
+                </script>
+                
+                
+                <!-- Begin Page Content -->
+
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <% include cms/footer %>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <% if (locals.notify) { %>
+    <%- include('notify_com',{notify:notify}) %>
+    <% } %>
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
+    <% if (locals.datatb) { %>
+    <script id="datatb" datatb="<%= datatb %>"> </script>
+    <% } %>
+    <% if (locals.footer) { %>
+    <!-- <%- include(locals.footer) %>') -->
+    <% } %>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="js/demo/datatables-demo.js"></script>
+</body>
+
+</html>
