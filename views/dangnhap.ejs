@@ -34,45 +34,45 @@
   <body data-spy="scroll" data-target="#ftco-navbar-spy" data-offset="0">
 
     <div class="site-wrap">
-      <!-- nav bar -->
-      <%- include("function/navbar.ejs") %>
+<!-- nav bar -->
+<%- include("function/navbar.ejs") %>
 
 
+     
 
 
+       <!-- .section Nạp tiền -->
 
-      <!-- .section Nạp tiền -->
+        <div class="section pb-3 bg-white" id="section-naptien" data-aos="fade-up">
+          <div class="container">
+            <div class="row align-items-center justify-content-center">
+              <div class="col-md-12 col-lg-8 section-heading">
+                <h1 class="card-title text-center" style="color: red;"><%= status %></h1>
+               <br>
 
-      <div class="section pb-3 bg-white" id="section-naptien" data-aos="fade-up">
-        <div class="container">
-          <div class="row align-items-center justify-content-center">
-            <div class="col-md-12 col-lg-8 section-heading">
-              <h1 class="card-title text-center"><%= status %></h1>
-
-              <!-- Form start -->
-              <form class="form-signin" method="POST" action="/xacthucdangnhap">
-                <div class="form-label-group">
-                  <input type="text" name="usr" id="inputEmail" class="form-control" aria-describedby="emailHelp"
-                    placeholder="Enter usr">
-                  <label for="inputEmail">Username</label>
-                </div>
-
-                <div class="form-label-group">
-                  <input type="password" name="pass" class="form-control" id="inputPassword"
-                    aria-describedby="emailHelp" placeholder="Enter pass">
-                  <label for="inputPassword">Password</label>
-                </div>
-
-
-                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
-                <hr class="my-4">
-
-              </form>
-              <!-- Form end -->
+                <!-- Form start -->
+                <form class="form-signin" method="POST" action="/xacthucdangnhap">
+                  <div class="form-label-group">
+                    <input type="text" name="usr" id="inputEmail" class="form-control"  aria-describedby="emailHelp" placeholder="Enter usr">
+                    <label for="inputEmail">Username</label>
+                  </div>
+    
+                  <div class="form-label-group">
+                    <input type="password" name="pass" class="form-control" id="inputPassword" aria-describedby="emailHelp" placeholder="Enter pass">
+                    <label for="inputPassword">Password</label>
+                  </div>
+    
+                  
+                  <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+                  <hr class="my-4">
+                
+                </form>
+                <!-- Form end -->
 
 
-
-
+            
+            
+              </div>
             </div>
           </div>
         </div>

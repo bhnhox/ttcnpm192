@@ -11,22 +11,29 @@ var d = new Date();
 module.exports.xacthucdangnhap = function (req, res, next) {
     var usr = req.body.usr;
     var pass = md5(req.body.pass);
-    var sql = `SELECT * FROM user where username = '${usr}' `;
+ var sql= `SELECT * FROM user where username = '${usr}' `;
+ 
+con.query(sql, function (err, result, kq) {
+    if (err) {
+        console.log(err);
+        return res.render('dangnhap', { title: 'Express', status: 'Co loi khi dang nhap' });
+    }  else {
+        if(result[0]){
 
-    con.query(sql, function (err, result, kq) {
-        if (err) {
-            console.log(err);
-            return res.render('dangnhap', { title: 'Express', status: 'Co loi khi dang nhap' });
-        } else {
-            if (result[0].password == pass) {
+        
+            if(result[0].password == pass){
                 res.cookie('info', { 'username': usr, 'password': pass, 'role': result[0].role });
 
-                //   return res.render('dangnhap', { title: 'Express', status: 'ok' });
                 res.redirect('/');
-            } else {
-                return res.render('dangnhap', { title: 'Express', status: 'Sai username hoac password' });
+            } else{
+                console.log("here");
+                return res.render('dangnhap', { title: 'Express', status: 'Sai username hoặc password',  name: "", role: "" });
 
-            }
+            } 
+        } else {
+            return res.render('dangnhap', { title: 'Express', status: 'Sai username hoặc password',  name: "", role: "" });
+
+        }
 
 
         }
