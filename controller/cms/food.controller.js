@@ -1,6 +1,7 @@
 var DB = require("../db");
 var fs = require('fs');
 const { rejects } = require("assert");
+const { log } = require("console");
 module.exports = {
     index: (req, res) => {
         DB.query('SELECT * FROM foods WHERE trash = 0 ORDER BY created_date DESC',
@@ -11,6 +12,7 @@ module.exports = {
     },
     add: (req, res) => {
         console.log("req:", req.file);
+        console.log(req.cookies.info);
         var sql = `INSERT INTO foods (title, image, price, description, in_menu, created_date) VALUES ('${req.body.title}','${req.file.filename}',${req.body.price},'${req.body.description}',${req.body.in_menu == "on" ? 1 : 0},NOW())`;
         DB.query(sql,
             async function (err, results, fields) {
