@@ -11,29 +11,47 @@ var d = new Date();
 module.exports.xacthucdangnhap = function (req, res, next) {
     var usr = req.body.usr;
     var pass = md5(req.body.pass);
- var sql= `SELECT * FROM user where username = '${usr}' `;
- 
-con.query(sql, function (err, result, kq) {
-    if (err) {
-        console.log(err);
-        return res.render('dangnhap', { title: 'Express', status: 'Co loi khi dang nhap' });
-    }  else {
-        if(result[0]){
+    var sql = `SELECT * FROM user where username = '${usr}' `;
 
-        
-            if(result[0].password == pass){
-                res.cookie('info', { 'username': usr, 'password': pass, 'role': result[0].role});
-
-                res.redirect('/');
-            } else{
-                console.log("here");
-                return res.render('dangnhap', { title: 'Express', status: 'Sai username hoặc password',  name: "", role: "" });
-
-            } 
+    con.query(sql, async function (err, result, kq) {
+        if (err) {
+            console.log(err);
+            return res.render('dangnhap', { title: 'Express', status: 'Co loi khi dang nhap' });
         } else {
-            return res.render('dangnhap', { title: 'Express', status: 'Sai username hoặc password',  name: "", role: "" });
+            if (result[0]) {
 
-        }
+
+                if (result[0].password == pass) {
+                    var info = {
+                        'username': usr,
+                        'password': pass,
+                        'role': result[0].role
+                    };
+                    if (info.role == 'daubep' || info.role == 'nhanvien') {
+
+                        info.vendor = await new Promise((resolve, reject) => {
+                            con.query(`SELECT * FROM ${info.role} WHERE username = '${usr}'`, (err, results, fields) => {
+                                if (err) throw err;
+                                if (results) {
+                                    console.log(results[0]);
+                                    resolve(results[0].vendorowner);
+                                }
+                            })
+                        });
+                    }
+                    if (info.role == 'vendor') info.vendor = usr;
+                    res.cookie('info', info);
+
+                    res.redirect('/');
+                } else {
+                    console.log("here");
+                    return res.render('dangnhap', { title: 'Express', status: 'Sai username hoặc password', name: "", role: "" });
+
+                }
+            } else {
+                return res.render('dangnhap', { title: 'Express', status: 'Sai username hoặc password', name: "", role: "" });
+
+            }
 
 
         }
@@ -117,18 +135,19 @@ module.exports.checkMaintainmode = function (req, res, next) {
 module.exports.postbatbaotri = function (req, res, next) {
     username = req.cookie.info.username;
     role = req.cookie.info.role;
-    if(role == 'admin'){
+    if (role == 'admin') {
 
-    
-  
-            var sql = `insert into baotri (username, trangthai, thoi gian) values( '${username}', 'on','${d}')`;
-            con.query(sql, function (err, result, kq) {
-                if(err){console.log(err);} else {
-                    console.log('sucess');
-                    
-                }})
 
-      
+
+        var sql = `insert into baotri (username, trangthai, thoi gian) values( '${username}', 'on','${d}')`;
+        con.query(sql, function (err, result, kq) {
+            if (err) { console.log(err); } else {
+                console.log('sucess');
+
+            }
+        })
+
+
     } else {
         res.redirect('/');
     }
@@ -137,18 +156,19 @@ module.exports.postbatbaotri = function (req, res, next) {
 module.exports.postbatbaotri = function (req, res, next) {
     username = req.cookie.info.username;
     role = req.cookie.info.role;
-    if(role == 'admin'){
+    if (role == 'admin') {
 
-    
- 
-            var sql = `insert into baotri (username, trangthai, thoi gian) values( '${username}', 'off','${d}')`;
-            con.query(sql, function (err, result, kq) {
-                if(err){console.log(err);} else {
-                    console.log('sucess');
-                    
-                }})
 
-        
+
+        var sql = `insert into baotri (username, trangthai, thoi gian) values( '${username}', 'off','${d}')`;
+        con.query(sql, function (err, result, kq) {
+            if (err) { console.log(err); } else {
+                console.log('sucess');
+
+            }
+        })
+
+
     } else {
         res.redirect('/');
     }
@@ -159,8 +179,8 @@ module.exports.postbatbaotri = function (req, res, next) {
 module.exports.checkRole = function (req, res, next) {
     var role = "";
     role = req.cookies.info.role;
-  
-    if(role == "admin" || role == "vendor" || role == "daubep"){
+
+    if (role == "admin" || role == "vendor" || role == "daubep") {
         next()
     } else {
         res.redirect('/');

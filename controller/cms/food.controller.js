@@ -13,7 +13,7 @@ module.exports = {
     add: (req, res) => {
         console.log("req:", req.file);
         console.log(req.cookies.info);
-        var sql = `INSERT INTO foods (title, image, price, description, in_menu, created_date) VALUES ('${req.body.title}','${req.file.filename}',${req.body.price},'${req.body.description}',${req.body.in_menu == "on" ? 1 : 0},NOW())`;
+        var sql = `INSERT INTO foods (title, image, price, description, in_menu, created_date, vendorowner) VALUES ('${req.body.title}','${req.file.filename}',${req.body.price},'${req.body.description}',${req.body.in_menu == "on" ? 1 : 0},NOW(),'${req.cookies.info.vendor}')`;
         DB.query(sql,
             async function (err, results, fields) {
                 if (err) throw err;

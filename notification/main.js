@@ -8,6 +8,7 @@ module.exports = {
         io.on('connection', socket => {
             var cookies = cookie.parse(socket.handshake.headers.cookie);
             JSONCookieToObj(cookies);
+            console.log(cookies);
             var role = cookies.role;
             if (role == "thungan" || role == "vendor" || role == "daubep"){
                 socket.join(cookies.vender)
