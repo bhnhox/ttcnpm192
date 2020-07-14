@@ -10,7 +10,6 @@ module.exports = {
                 resolve(results);
             })
         });
-        console.log(donhangs);
         for (let i=0; i<donhangs.length; i++){
             donhangs[i].foods = await new Promise((resolve,reject)=>{
                 DB.query(`SELECT * from chonhang inner join  foods on foods.id = chonhang.idmon AND idgiohang = ${donhangs[i].idgiohang}`,

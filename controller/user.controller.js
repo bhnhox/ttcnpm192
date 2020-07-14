@@ -843,6 +843,36 @@ module.exports.vendortable = function (req, res) {
         }
     }
 }
-module.exports.xacnhan = function(res, req){
+module.exports.xacnhan = async (req, res) => {
+    name = req.cookies.info.username;
+    role = req.cookies.info.role;
+
+    var donhangs = await new Promise((resolve, reject)=>{
+        con.query(`select xacnhan.id, xacnhan.daubepxacnhan, xacnhan.userxacnhan, xacnhan.quayhangxacnhan, xacnhan.idgiohang  from xacnhan inner join nhanvien inner join daubep on daubep.username = xacnhan.daubepxacnhan and daubep.vendorowner = nhanvien.vendorowner and nhanvien.username = '${name}' and xacnhan.quayhangxacnhan is null;`, 
+        function(err,results,fields){
+            if (err) throw err;
+            resolve(results);
+        })
+    });
+    for (let i=0; i<donhangs.length; i++){
+        donhangs[i].foods = await new Promise((resolve,reject)=>{
+            con.query(`SELECT * from chonhang inner join  foods on foods.id = chonhang.idmon AND idgiohang = ${donhangs[i].idgiohang}`,
+            function(err, results, fields){
+                if (err) throw err;
+                resolve(results);
+            })
+        })
+    }
+    // res.send(donhangs);
+     res.render('Xacnhan/xacnhancuanhanvien',{title: 'Express', name: name, role: role, data:donhangs , status:""} )
 
 }
+module.exports.quayhangxacnhan= function (req, res){
+    var name = req.cookies.info.username;
+    con.query(`UPDATE xacnhan SET quayhangxacnhan='${name}' WHERE id=${req.body.id}`,
+    function(err, results, fields){
+        if (err) throw err;
+        res.send({status: "success", id:req.body.id});
+    })
+}
+
