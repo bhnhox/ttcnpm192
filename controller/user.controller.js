@@ -559,7 +559,7 @@ module.exports.themvendor = function (req, res) {
             
             var usr = req.body.username;
             var pass = md5(req.body.password);
-            var role = 'nhanvien';
+            var role = 'daubep';
             var phone = req.body.phone;
             var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','${role}',NOW())`;
             con.query(sql, function (err, result, kq) {
