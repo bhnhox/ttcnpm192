@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 var FoodRouter = require('./foods');
-var MenuRouter = require('./menu')
+var MenuRouter = require('./menu');
+var OrderRouter = require('./order');
 
 var LoginController = require('../../controller/cms/login.controller')
 //Thiện
@@ -42,7 +43,7 @@ router.use('/editformvendor',Auth.authen,Auth.checkRole, Controller.editformvend
 router.use('/editvendor',Auth.authen,Auth.checkRole, Controller.editvendor);
 router.use('/vendortable',Auth.authen,Auth.checkRole, Controller.vendortable);
 
-
+router.use('/order',Auth.authen,Auth.checkRole,OrderRouter)
 
 
 //Thiện

@@ -80,7 +80,10 @@ module.exports = router;
 router.get('/xacnhan', function ( req,res) {
   var name = req.cookies.info.username;
   var role = req.cookies.info.role;
+  var sql;
+
 if(role == 'daubep'){
+
 res.render('Xacnhan/xacnhancuadaubep',{title: 'Express', name: name, role: role, data: "", status:"" })
 } else if(role == 'thungan'){
 res.render('Xacnhan/xacnhancuathungan',{title: 'Express', name: name, role: role, data: "", status:""} )

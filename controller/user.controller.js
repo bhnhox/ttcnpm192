@@ -843,3 +843,6 @@ module.exports.vendortable = function (req, res) {
         }
     }
 }
+module.exports.xacnhan = function(res, req){
+
+}

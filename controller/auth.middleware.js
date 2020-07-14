@@ -4,7 +4,7 @@ var mysql = require('mysql');
 const { log } = require('debug');
 var con = require('./db')
 //Get date
-var d  = new Date();
+var d = new Date();
 
 
 //Post xacthucdangnhap
@@ -22,7 +22,7 @@ con.query(sql, function (err, result, kq) {
 
         
             if(result[0].password == pass){
-                res.cookie('info', { 'username': usr, 'password': pass, 'role': result[0].role });
+                res.cookie('info', { 'username': usr, 'password': pass, 'role': result[0].role});
 
                 res.redirect('/');
             } else{
@@ -35,12 +35,13 @@ con.query(sql, function (err, result, kq) {
 
         }
 
-    }
-    
 
-})
+        }
 
-    
+
+    })
+
+
 }
 
 //kiem tra dang nhap
@@ -50,27 +51,28 @@ module.exports.authen = function (req, res, next) {
 
     if (!info) {
         //res.render('dangnhap', { title: 'Express', status: '' });
-        
+
         res.redirect("/dangnhap");
     } else if (info.username) {
         var username = info.username
         var password = info.password;
-        console.log("USR la "+username + " pas la "+ password);
-        
+        console.log("USR la " + username + " pas la " + password);
+
         var sql = `select * from user where username = '${username}'`;
         con.query(sql, function (err, result, kq) {
-            if(err){console.log(err);} else {
+            if (err) { console.log(err); } else {
                 if (username == result[0].username && password == result[0].password) {
                     next();
-        
+
                 }
                 else {
-        
+
                     res.redirect("/dangnhap")
                 }
             }
-        
-    } )}
+
+        })
+    }
     else { res.redirect("/dangnhap") }
 }
 
@@ -78,35 +80,36 @@ module.exports.authen = function (req, res, next) {
 module.exports.checkMaintainmode = function (req, res, next) {
     var username = "";
     var role = "";
-    if(req.cookies.info){
-    username = req.cookies.info.username; 
-    role = req.cookies.info.role; 
-    
-} 
+    if (req.cookies.info) {
+        username = req.cookies.info.username;
+        role = req.cookies.info.role;
+
+    }
     var sql = `SELECT * FROM food_court.baotri where idbaotri  =  (select max( idbaotri) from food_court.baotri   )`;
     con.query(sql, function (err, result, kq) {
-        if(err){console.log(err);} else {
-            
-            if(result[0].trangthai == 'off'){
+        if (err) { console.log(err); } else {
+
+            if (result[0].trangthai == 'off') {
                 next()
-                
-            } else if(result[0].trangthai == 'on'){
-                if(role == 'admin'){
+
+            } else if (result[0].trangthai == 'on') {
+                if (role == 'admin') {
                     console.log("role hien tai la " + role);
-                    
+
                     next()
-                } else  {
-                    res.render('baotri', {title :'Đang bảo trì'})
+                } else {
+                    res.render('baotri', { title: 'Đang bảo trì' })
 
                 }
 
-                
-            } else  {
-                    console.log("co loi");
-                    
+
+            } else {
+                console.log("co loi");
+
             }
-            
-        }})
+
+        }
+    })
 
 }
 
@@ -157,7 +160,7 @@ module.exports.checkRole = function (req, res, next) {
     var role = "";
     role = req.cookies.info.role;
   
-    if(role == "admin" || role == "vendor" ){
+    if(role == "admin" || role == "vendor" || role == "daubep"){
         next()
     } else {
         res.redirect('/');
