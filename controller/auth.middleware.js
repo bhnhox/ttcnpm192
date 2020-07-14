@@ -156,7 +156,7 @@ module.exports.postbatbaotri = function (req, res, next) {
 module.exports.checkRole = function (req, res, next) {
     var role = "";
     role = req.cookies.info.role;
-  //|| role == "daubep" || role == 'thungan'
+  
     if(role == "admin" || role == "vendor" ){
         next()
     } else {
