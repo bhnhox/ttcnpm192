@@ -230,7 +230,6 @@ module.exports.xacthucdangki = function (req, res) {
                 }
             })
 
-
         }
 
     })
