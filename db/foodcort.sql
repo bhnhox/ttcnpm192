@@ -451,10 +451,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `thanhtoangiohang`(
 		 name VARCHAR(20) )
 BEGIN
 declare gh int;
+declare dh int;
 select max(idgiohang)  into gh from giohang where username = name;
 insert into donhang(idgiohang) values(gh);
 insert into giohang(username) values(name);
-insert into xacnhan(iddonhang) values(gh);
+select idgiohang in dh from donhang where idgiohang = gh
+insert into xacnhan(iddonhang) values(dh);
 
     
 END ;;

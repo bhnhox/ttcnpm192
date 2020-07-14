@@ -43,6 +43,7 @@ module.exports.themvaogiohang = function (req, res, next) {
     }
     var foodID = req.body.idfood;
     var amount = req.body.amount;
+    console.log(req.body);
     var sql = `select max(idgiohang) as id from giohang where username = '${name}'`;
     con.query(sql, function (err, result) {
         if (err) {
@@ -98,7 +99,7 @@ module.exports.xemgiohang = function (req, res, next) {
 
                 } else {
 
-
+                        console.log(result);
                     res.render('xemgiohang', { title: 'Express', name: name, role: role, data: result, status:"" });
 
                 }
