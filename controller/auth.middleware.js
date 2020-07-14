@@ -22,7 +22,7 @@ con.query(sql, function (err, result, kq) {
 
         
             if(result[0].password == pass){
-                res.cookie('info', { 'username': usr, 'password': pass, 'role': result[0].role });
+                res.cookie('info', { 'username': usr, 'password': pass, 'role': result[0].role});
 
                 res.redirect('/');
             } else{
@@ -160,7 +160,7 @@ module.exports.checkRole = function (req, res, next) {
     var role = "";
     role = req.cookies.info.role;
   
-    if(role == "admin" || role == "vendor"){
+    if(role == "admin" || role == "vendor" || role == "daubep"){
         next()
     } else {
         res.redirect('/');
