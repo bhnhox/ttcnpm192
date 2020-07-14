@@ -4,7 +4,12 @@ const { rejects } = require("assert");
 const { log } = require("console");
 module.exports = {
     index: (req, res) => {
-        DB.query('SELECT * FROM foods WHERE trash = 0 ORDER BY created_date DESC',
+        var sql = "";
+        if (req.cookies.info.vendor){
+            sql = `SELECT * FROM foods WHERE trash = 0 AND vendorowner = '${req.cookies.info.vendor}' ORDER BY created_date DESC`;
+        }
+        else sql = `SELECT * FROM foods WHERE trash = 0 ORDER BY created_date DESC`;
+        DB.query(sql,
             function (err, results, fields) {
                 if (err) throw err;
                 res.render('cms/main_layout', { content: "foods/index", footer: 'foods/footer', data: results });
