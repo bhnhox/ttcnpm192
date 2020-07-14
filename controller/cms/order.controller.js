@@ -24,7 +24,7 @@ module.exports = {
     },
     xacnhan: (req, res)=>{
         var name = req.cookies.info.username;
-        DB.query(`UPDATE xacnhan SET daubepxacnhan='${name}' WHERE id=${req.body.id}`,
+        DB.query(`UPDATE xacnhan SET daubepxacnhan='${name}' , timedaubepxacnhan= now() WHERE id=${req.body.id}`,
         function(err, results, fields){
             if (err) throw err;
             res.send({status: "success", id:req.body.id});

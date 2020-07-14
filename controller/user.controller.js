@@ -127,56 +127,7 @@ var sql = `call thanhtoangiohang('${name}')`;
    res.render('xemgiohang', { title: 'Express', name: name, role: role, data: [], status:"Đặt hàng thành công" }); 
 
         } })
-    // var sql = `select max(idgiohang) as id from giohang where username = '${name}'`;
-    // con.query(sql, function (err, result) {
-    //     if (err) {
-    //         console.log(err);
-
-    //     } else {
-
-
-    //         var sql = `insert into donhang(idgiohang) values('${result[0].id}')`;
-    //         con.query(sql, function (err, result) {
-    //             if (err) {
-
-    //                 console.log(err);
-
-    //             } else {
-
-
-
-
-    //                 var sql = `insert into giohang(username) values('${name}')`;
-    //                 con.query(sql, function (err, result) {
-    //                     if (err) {
-    //                         console.log(err);
-
-    //                     } else {
-
-    //                         res.redirect('/');
-    //                         //   res.render('xemgiohang', { title: 'Express', name: name, role: role, data: result });
-
-    //                     }
-    //                 })
-
-
-    //             }
-    //         })
-
-    //         var sql = `insert into xacnhan(iddonhang) values('${result[0].id}')`;
-    //         con.query(sql, function (err, result) {
-    //             if (err) {
-
-    //                 console.log(err);
-
-    //             } else {
-
-
-    //             }
-    //         })
-
-    //     }
-    // })
+    
 }
 //Dang ki
 module.exports.dangki = function (req, res) {
@@ -844,35 +795,68 @@ module.exports.vendortable = function (req, res) {
     }
 }
 module.exports.xacnhan = async (req, res) => {
+    
     name = req.cookies.info.username;
     role = req.cookies.info.role;
-
-    var donhangs = await new Promise((resolve, reject)=>{
-        con.query(`select xacnhan.id, xacnhan.daubepxacnhan, xacnhan.userxacnhan, xacnhan.quayhangxacnhan, xacnhan.idgiohang  from xacnhan inner join nhanvien inner join daubep on daubep.username = xacnhan.daubepxacnhan and daubep.vendorowner = nhanvien.vendorowner and nhanvien.username = '${name}' and xacnhan.quayhangxacnhan is null;`, 
-        function(err,results,fields){
-            if (err) throw err;
-            resolve(results);
-        })
-    });
-    for (let i=0; i<donhangs.length; i++){
-        donhangs[i].foods = await new Promise((resolve,reject)=>{
-            con.query(`SELECT * from chonhang inner join  foods on foods.id = chonhang.idmon AND idgiohang = ${donhangs[i].idgiohang}`,
-            function(err, results, fields){
+    if(role == "nhanvien"){
+        var donhangs = await new Promise((resolve, reject)=>{
+            con.query(`select xacnhan.id, xacnhan.daubepxacnhan, xacnhan.userxacnhan, xacnhan.quayhangxacnhan, xacnhan.idgiohang  from xacnhan inner join nhanvien inner join daubep on daubep.username = xacnhan.daubepxacnhan and daubep.vendorowner = nhanvien.vendorowner and nhanvien.username = '${name}' and xacnhan.quayhangxacnhan is null;`, 
+            function(err,results,fields){
                 if (err) throw err;
                 resolve(results);
             })
-        })
+        });
+        for (let i=0; i<donhangs.length; i++){
+            donhangs[i].foods = await new Promise((resolve,reject)=>{
+                con.query(`SELECT * from chonhang inner join  foods on foods.id = chonhang.idmon AND idgiohang = ${donhangs[i].idgiohang}`,
+                function(err, results, fields){
+                    if (err) throw err;
+                    resolve(results);
+                })
+            })
+        }
+        // res.send(donhangs);
+         res.render('Xacnhan/xacnhancuanhanvien',{title: 'Express', name: name, role: role, data:donhangs , status:""} )
+    } else if( role == 'user'){
+        var donhangs = await new Promise((resolve, reject)=>{
+            con.query(`select xacnhan.id, xacnhan.daubepxacnhan, xacnhan.userxacnhan, xacnhan.quayhangxacnhan, xacnhan.idgiohang  from xacnhan  inner join giohang on xacnhan.daubepxacnhan is not null and xacnhan.quayhangxacnhan is not null and giohang.idgiohang = xacnhan.idgiohang and  giohang.username = '${name}' and xacnhan.userxacnhan is null;`, 
+            function(err,results,fields){
+                if (err) throw err;
+                resolve(results);
+            })
+        });
+        for (let i=0; i<donhangs.length; i++){
+            donhangs[i].foods = await new Promise((resolve,reject)=>{
+                con.query(`SELECT * from chonhang inner join  foods on foods.id = chonhang.idmon AND idgiohang = ${donhangs[i].idgiohang}`,
+                function(err, results, fields){
+                    if (err) throw err;
+                    resolve(results);
+                })
+            })
+        }
+        // res.send(donhangs);
+         res.render('Xacnhan/xacnhancuanguoidung',{title: 'Express', name: name, role: role, data:donhangs , status:""} )
     }
-    // res.send(donhangs);
-     res.render('Xacnhan/xacnhancuanhanvien',{title: 'Express', name: name, role: role, data:donhangs , status:""} )
+   
 
 }
 module.exports.quayhangxacnhan= function (req, res){
+    role = req.cookies.info.role;
     var name = req.cookies.info.username;
-    con.query(`UPDATE xacnhan SET quayhangxacnhan='${name}' WHERE id=${req.body.id}`,
+    if(role == 'nhanvien'){
+
+  
+    con.query(`UPDATE xacnhan SET quayhangxacnhan='${name}' ,timequayhangxacnhan= now() WHERE id=${req.body.id}`,
     function(err, results, fields){
         if (err) throw err;
         res.send({status: "success", id:req.body.id});
     })
+} else if( role == 'user'){
+    con.query(`UPDATE xacnhan SET userxacnhan='${name}' , timeuserxacnhan= now() WHERE id=${req.body.id}`,
+    function(err, results, fields){
+        if (err) throw err;
+        res.send({status: "success", id:req.body.id});
+    })
+}
 }
 
