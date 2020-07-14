@@ -83,7 +83,7 @@ CREATE TABLE `chonhang` (
   `time` varchar(45) DEFAULT NULL,
   `idgiohang` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +92,7 @@ CREATE TABLE `chonhang` (
 
 LOCK TABLES `chonhang` WRITE;
 /*!40000 ALTER TABLE `chonhang` DISABLE KEYS */;
-INSERT INTO `chonhang` VALUES (63,16,13,'2020-07-07',21),(75,17,17,'2020-07-07',21),(77,17,4,'2020-07-07',22),(78,16,60,'2020-07-07',22),(79,16,1,'2020-07-14',15),(80,16,1,'2020-07-14',80),(81,17,4,'2020-07-14',84),(82,17,2,'2020-07-14',85),(83,16,2,'2020-07-14',85),(84,17,2,'2020-07-14',86),(85,17,2,'2020-07-14',87);
+INSERT INTO `chonhang` VALUES (63,16,13,'2020-07-07',21),(75,17,17,'2020-07-07',21),(77,17,4,'2020-07-07',22),(78,16,60,'2020-07-07',22),(79,16,1,'2020-07-14',15),(80,16,1,'2020-07-14',80),(81,17,4,'2020-07-14',84),(82,17,2,'2020-07-14',85),(83,16,2,'2020-07-14',85),(84,17,2,'2020-07-14',86),(85,17,2,'2020-07-14',87),(86,19,1,'2020-07-14',88),(87,19,1,'2020-07-14',90),(88,19,1,'2020-07-14',91),(89,19,1,'2020-07-14',92),(90,19,2,'2020-07-15',94),(91,19,2,'2020-07-15',93);
 /*!40000 ALTER TABLE `chonhang` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,7 +113,7 @@ CREATE TABLE `daubep` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +122,7 @@ CREATE TABLE `daubep` (
 
 LOCK TABLES `daubep` WRITE;
 /*!40000 ALTER TABLE `daubep` DISABLE KEYS */;
-INSERT INTO `daubep` VALUES (1,'','2020-07-11 04:30:46','inactive','2020-07-11 06:25:19','test2'),(2,'testdb1','2020-07-11 04:32:06','inactive','2020-07-11 06:25:23','test2'),(3,'testdb2','2020-07-11 04:36:26','active',NULL,'test2'),(4,'testdb3','2020-07-11 05:00:32','active',NULL,'test2'),(5,'testdb4','2020-07-11 05:16:03','active',NULL,'test2');
+INSERT INTO `daubep` VALUES (1,'','2020-07-11 04:30:46','inactive','2020-07-11 06:25:19','test2'),(2,'testdb1','2020-07-11 04:32:06','inactive','2020-07-11 06:25:23','test2'),(3,'testdb2','2020-07-11 04:36:26','active',NULL,'test2'),(4,'testdb3','2020-07-11 05:00:32','active',NULL,'test2'),(5,'testdb4','2020-07-11 05:16:03','active',NULL,'test2'),(6,'daubep1','2020-07-14 23:06:12','active',NULL,'testvendor5');
 /*!40000 ALTER TABLE `daubep` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,7 +165,7 @@ CREATE TABLE `donhang` (
   `id` int NOT NULL AUTO_INCREMENT,
   `idgiohang` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -174,7 +174,7 @@ CREATE TABLE `donhang` (
 
 LOCK TABLES `donhang` WRITE;
 /*!40000 ALTER TABLE `donhang` DISABLE KEYS */;
-INSERT INTO `donhang` VALUES (1,'2'),(2,'4'),(3,'5'),(4,'6'),(5,'7'),(6,'8'),(7,'9'),(8,'10'),(9,'3'),(10,'13'),(11,'14'),(12,'11'),(13,'16'),(14,'17'),(15,'null'),(16,'19'),(17,'20'),(18,'21'),(19,'15'),(20,'79'),(21,'80'),(22,'81'),(23,'82'),(24,'83'),(25,'84'),(26,'85'),(27,'86'),(28,'87');
+INSERT INTO `donhang` VALUES (1,'2'),(2,'4'),(3,'5'),(4,'6'),(5,'7'),(6,'8'),(7,'9'),(8,'10'),(9,'3'),(10,'13'),(11,'14'),(12,'11'),(13,'16'),(14,'17'),(15,'null'),(16,'19'),(17,'20'),(18,'21'),(19,'15'),(20,'79'),(21,'80'),(22,'81'),(23,'82'),(24,'83'),(25,'84'),(26,'85'),(27,'86'),(28,'87'),(29,'88'),(30,'90'),(31,'91'),(32,'92'),(33,'94'),(34,'93');
 /*!40000 ALTER TABLE `donhang` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -194,8 +194,9 @@ CREATE TABLE `foods` (
   `in_menu` int NOT NULL DEFAULT '0',
   `created_date` datetime NOT NULL,
   `trash` int NOT NULL DEFAULT '0',
+  `vendorowner` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,7 +205,7 @@ CREATE TABLE `foods` (
 
 LOCK TABLES `foods` WRITE;
 /*!40000 ALTER TABLE `foods` DISABLE KEYS */;
-INSERT INTO `foods` VALUES (15,'Bún bò Huế','/',30000,'Món này ngon vl',0,'2020-06-23 00:45:20',0),(16,'Cơm tấm','image-1593415140510-700375704-ke-hoach-kinh-doanh-com-tam.jpg',20000,'Cơm tấm',1,'2020-06-29 14:19:00',0),(17,'Phở','image-1593416908803-345158418-cach-lam-3-mon-pho-nuoc-ngon-nong-hoi-dam-da-huong-vi-viet 1.jpg',20000,'Phở',1,'2020-06-29 14:48:28',0);
+INSERT INTO `foods` VALUES (15,'Bún bò Huế','/',30000,'Món này ngon vl',0,'2020-06-23 00:45:20',0,NULL),(16,'Cơm tấm','image-1593415140510-700375704-ke-hoach-kinh-doanh-com-tam.jpg',20000,'Cơm tấm',1,'2020-06-29 14:19:00',0,NULL),(17,'Phở','image-1593416908803-345158418-cach-lam-3-mon-pho-nuoc-ngon-nong-hoi-dam-da-huong-vi-viet 1.jpg',20000,'Phở',1,'2020-06-29 14:48:28',0,NULL),(18,'Cơm gà','image-1594742683411-926616826-recipe40048-cook-step5-636894576207321843.jpg',25000,'Cơm gà làm từ thịt gà',1,'2020-07-14 23:04:43',1,'undefined'),(19,'Cơm gà','image-1594742813984-403707011-recipe40048-cook-step5-636894576207321843.jpg',25000,'Cơm gà',1,'2020-07-14 23:06:53',0,'testvendor5');
 /*!40000 ALTER TABLE `foods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -219,7 +220,7 @@ CREATE TABLE `giohang` (
   `idgiohang` int NOT NULL AUTO_INCREMENT,
   `username` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idgiohang`)
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -228,7 +229,7 @@ CREATE TABLE `giohang` (
 
 LOCK TABLES `giohang` WRITE;
 /*!40000 ALTER TABLE `giohang` DISABLE KEYS */;
-INSERT INTO `giohang` VALUES (1,'test1'),(2,'admin3'),(3,'guest'),(4,'admin3'),(5,'admin3'),(6,'admin3'),(7,'admin3'),(8,'admin3'),(9,'admin3'),(10,'admin4'),(11,'admin3'),(12,'admin4'),(13,'guest'),(14,'guest'),(15,'guest'),(16,'admin3'),(17,'admin3'),(18,'admin3'),(19,'admin2'),(20,'admin2'),(21,'admin2'),(22,'admin2'),(23,'testvendor1'),(24,'testvendor2'),(34,'test3'),(35,'test4'),(36,'test5'),(37,'test6'),(38,'test7'),(39,'test8'),(40,'test9'),(41,'test2'),(42,'test10'),(43,'testthungan1'),(44,'testtn1'),(45,'testtn2'),(46,'test123'),(47,'testtn4'),(48,'test11'),(49,'test12'),(50,'test13'),(51,'test14'),(52,'test15'),(53,'test16'),(54,'test17'),(55,'testtn5'),(56,'testtn6'),(57,'testtn7'),(58,'testtn8'),(59,'testtn9'),(60,'testtn10'),(61,'testtn11'),(62,'testtn12'),(63,'testtn13'),(64,'testnv1'),(65,''),(66,'testdb1'),(67,'testtn14'),(68,'testdb2'),(69,'testdb3'),(70,'testdb4'),(71,'testnv11'),(72,'testnv112'),(73,'test18'),(74,'testvendor3'),(75,'testvendor4'),(76,'testvendor6'),(77,'testnv13'),(78,'testvendor5'),(79,'guest'),(80,'guest'),(81,'guest'),(82,'guest'),(83,'guest'),(84,'guest'),(85,'guest'),(86,'guest'),(87,'guest'),(88,'guest');
+INSERT INTO `giohang` VALUES (1,'test1'),(2,'admin3'),(3,'guest'),(4,'admin3'),(5,'admin3'),(6,'admin3'),(7,'admin3'),(8,'admin3'),(9,'admin3'),(10,'admin4'),(11,'admin3'),(12,'admin4'),(13,'guest'),(14,'guest'),(15,'guest'),(16,'admin3'),(17,'admin3'),(18,'admin3'),(19,'admin2'),(20,'admin2'),(21,'admin2'),(22,'admin2'),(23,'testvendor1'),(24,'testvendor2'),(34,'test3'),(35,'test4'),(36,'test5'),(37,'test6'),(38,'test7'),(39,'test8'),(40,'test9'),(41,'test2'),(42,'test10'),(43,'testthungan1'),(44,'testtn1'),(45,'testtn2'),(46,'test123'),(47,'testtn4'),(48,'test11'),(49,'test12'),(50,'test13'),(51,'test14'),(52,'test15'),(53,'test16'),(54,'test17'),(55,'testtn5'),(56,'testtn6'),(57,'testtn7'),(58,'testtn8'),(59,'testtn9'),(60,'testtn10'),(61,'testtn11'),(62,'testtn12'),(63,'testtn13'),(64,'testnv1'),(65,''),(66,'testdb1'),(67,'testtn14'),(68,'testdb2'),(69,'testdb3'),(70,'testdb4'),(71,'testnv11'),(72,'testnv112'),(73,'test18'),(74,'testvendor3'),(75,'testvendor4'),(76,'testvendor6'),(77,'testnv13'),(78,'testvendor5'),(79,'guest'),(80,'guest'),(81,'guest'),(82,'guest'),(83,'guest'),(84,'guest'),(85,'guest'),(86,'guest'),(87,'guest'),(88,'guest'),(89,'daubep1'),(90,'guest'),(91,'guest'),(92,'guest'),(93,'guest'),(94,'nhanvien1'),(95,'nhanvien1'),(96,'guest');
 /*!40000 ALTER TABLE `giohang` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -270,7 +271,7 @@ CREATE TABLE `menu_foods` (
   `amount` int NOT NULL,
   `trash` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -279,7 +280,7 @@ CREATE TABLE `menu_foods` (
 
 LOCK TABLES `menu_foods` WRITE;
 /*!40000 ALTER TABLE `menu_foods` DISABLE KEYS */;
-INSERT INTO `menu_foods` VALUES (1,1,15,0,0),(2,2,15,100,1),(3,2,16,200,0),(4,2,17,200,0),(5,3,16,100,0),(6,3,17,100,0),(7,4,17,100,0),(8,4,16,100,0),(9,4,15,0,1);
+INSERT INTO `menu_foods` VALUES (1,1,15,0,0),(2,2,15,100,1),(3,2,16,200,0),(4,2,17,200,0),(5,3,16,100,0),(6,3,17,100,0),(7,4,17,100,0),(8,4,16,100,0),(9,4,15,0,1),(10,4,18,0,1),(11,4,19,100,0);
 /*!40000 ALTER TABLE `menu_foods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -300,7 +301,7 @@ CREATE TABLE `nhanvien` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -309,7 +310,7 @@ CREATE TABLE `nhanvien` (
 
 LOCK TABLES `nhanvien` WRITE;
 /*!40000 ALTER TABLE `nhanvien` DISABLE KEYS */;
-INSERT INTO `nhanvien` VALUES (1,'testnv1','2020-07-11 04:25:21',NULL,'active','test2'),(2,'testnv11','2020-07-11 06:07:22',NULL,'active','test3'),(3,'testnv112','2020-07-11 06:07:29',NULL,'active','test3'),(4,'testnv13','2020-07-11 06:29:10',NULL,'active','test3');
+INSERT INTO `nhanvien` VALUES (1,'testnv1','2020-07-11 04:25:21',NULL,'active','test2'),(2,'testnv11','2020-07-11 06:07:22',NULL,'active','test3'),(3,'testnv112','2020-07-11 06:07:29',NULL,'active','test3'),(4,'testnv13','2020-07-11 06:29:10',NULL,'active','test3'),(5,'nhanvien1','2020-07-14 23:53:12',NULL,'active','testvendor5');
 /*!40000 ALTER TABLE `nhanvien` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -358,7 +359,7 @@ CREATE TABLE `user` (
   `balance` int DEFAULT '0',
   PRIMARY KEY (`iduser`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -367,7 +368,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (0,'test456','202cb962ac59075b964b07152d234b70','user',123,'Sun Jun 21 2020 11:26:26 GMT+0700 (Indochina Time)',0),(1,'123','d41d8cd98f00b204e9800998ecf8427e','user',789,NULL,0),(2,'admin','202cb962ac59075b964b07152d234b70','user',394946767,NULL,0),(3,'admin2','202cb962ac59075b964b07152d234b70','user',394946767,NULL,0),(5,'admin3','202cb962ac59075b964b07152d234b70','admin',394946767,NULL,12001),(6,'guest','202cb962ac59075b964b07152d234b70','user',123,'Mon Jun 29 2020 00:38:01 GMT+0700 (Indochina Time)',20000),(7,'test1','202cb962ac59075b964b07152d234b70','user',123,'Mon Jun 29 2020 10:44:45 GMT+0700 (Indochina Time)',0),(8,'admin4','202cb962ac59075b964b07152d234b70','admin',123,'Mon Jun 29 2020 23:48:16 GMT+0700 (Indochina Time)',0),(9,'testvendor1','202cb962ac59075b964b07152d234b70','vendor',13,'2020-07-09 22:14:12',0),(10,'testvendor2','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-09 22:23:49',0),(22,'test3','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-10 14:36:16',0),(23,'test4','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-10 14:36:39',0),(24,'test5','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-10 14:38:11',0),(25,'test6','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-10 14:44:02',0),(26,'test7','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-10 14:56:09',0),(27,'test8','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-10 14:56:51',0),(28,'test9','739969b53246b2c727850dbb3490ede6','vendor',123,'2020-07-10 15:00:11',0),(30,'test2','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-10 15:01:09',0),(32,'test10','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-10 16:32:38',0),(35,'testthungan1','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-10 20:50:04',0),(41,'testtn1','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-10 20:51:49',0),(43,'testtn2','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-10 20:57:58',0),(47,'test123','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-10 21:01:39',0),(50,'testtn4','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-10 21:03:08',0),(51,'test11','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 00:38:30',0),(52,'test12','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 00:38:43',0),(53,'test13','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 00:39:09',0),(54,'test14','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 00:50:23',0),(55,'test15','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 01:19:49',0),(56,'test16','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 01:21:22',0),(57,'test17','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 01:21:56',0),(58,'testtn5','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 02:05:34',0),(61,'testtn6','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 02:09:31',0),(62,'testtn7','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 02:10:44',0),(63,'testtn8','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 02:12:14',0),(64,'testtn9','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 02:14:51',0),(65,'testtn10','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 02:17:03',0),(66,'testtn11','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 02:17:53',0),(67,'testtn12','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 02:18:33',0),(68,'testtn13','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 03:30:59',0),(69,'testnv1','202cb962ac59075b964b07152d234b70','nhanvien',123,'2020-07-11 04:25:21',0),(70,'','202cb962ac59075b964b07152d234b70','nhanvien',123,'2020-07-11 04:30:46',0),(71,'testdb1','202cb962ac59075b964b07152d234b70','nhanvien',123,'2020-07-11 04:32:06',0),(72,'testtn14','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 04:33:39',0),(73,'testdb2','202cb962ac59075b964b07152d234b70','daubep',123,'2020-07-11 04:36:26',0),(77,'testdb3','202cb962ac59075b964b07152d234b70','daubep',123,'2020-07-11 05:00:32',0),(78,'testdb4','202cb962ac59075b964b07152d234b70','daubep',123,'2020-07-11 05:16:03',0),(80,'testnv11','202cb962ac59075b964b07152d234b70','nhanvien',132,'2020-07-11 06:07:22',0),(82,'testnv112','202cb962ac59075b964b07152d234b70','nhanvien',132,'2020-07-11 06:07:29',0),(83,'test18','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 06:26:20',0),(86,'testvendor3','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 06:27:18',0),(87,'testvendor4','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 06:27:41',0),(91,'testvendor6','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 06:28:21',0),(92,'testnv13','202cb962ac59075b964b07152d234b70','nhanvien',123,'2020-07-11 06:29:10',0),(93,'testvendor5','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 06:31:24',0);
+INSERT INTO `user` VALUES (0,'test456','202cb962ac59075b964b07152d234b70','user',123,'Sun Jun 21 2020 11:26:26 GMT+0700 (Indochina Time)',0),(1,'123','d41d8cd98f00b204e9800998ecf8427e','user',789,NULL,0),(2,'admin','202cb962ac59075b964b07152d234b70','user',394946767,NULL,0),(3,'admin2','202cb962ac59075b964b07152d234b70','user',394946767,NULL,0),(5,'admin3','202cb962ac59075b964b07152d234b70','admin',394946767,NULL,12001),(6,'guest','202cb962ac59075b964b07152d234b70','user',123,'Mon Jun 29 2020 00:38:01 GMT+0700 (Indochina Time)',20000),(7,'test1','202cb962ac59075b964b07152d234b70','user',123,'Mon Jun 29 2020 10:44:45 GMT+0700 (Indochina Time)',0),(8,'admin4','202cb962ac59075b964b07152d234b70','admin',123,'Mon Jun 29 2020 23:48:16 GMT+0700 (Indochina Time)',0),(9,'testvendor1','202cb962ac59075b964b07152d234b70','vendor',13,'2020-07-09 22:14:12',0),(10,'testvendor2','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-09 22:23:49',0),(22,'test3','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-10 14:36:16',0),(23,'test4','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-10 14:36:39',0),(24,'test5','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-10 14:38:11',0),(25,'test6','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-10 14:44:02',0),(26,'test7','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-10 14:56:09',0),(27,'test8','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-10 14:56:51',0),(28,'test9','739969b53246b2c727850dbb3490ede6','vendor',123,'2020-07-10 15:00:11',0),(30,'test2','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-10 15:01:09',0),(32,'test10','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-10 16:32:38',0),(35,'testthungan1','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-10 20:50:04',0),(41,'testtn1','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-10 20:51:49',0),(43,'testtn2','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-10 20:57:58',0),(47,'test123','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-10 21:01:39',0),(50,'testtn4','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-10 21:03:08',0),(51,'test11','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 00:38:30',0),(52,'test12','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 00:38:43',0),(53,'test13','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 00:39:09',0),(54,'test14','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 00:50:23',0),(55,'test15','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 01:19:49',0),(56,'test16','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 01:21:22',0),(57,'test17','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 01:21:56',0),(58,'testtn5','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 02:05:34',0),(61,'testtn6','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 02:09:31',0),(62,'testtn7','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 02:10:44',0),(63,'testtn8','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 02:12:14',0),(64,'testtn9','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 02:14:51',0),(65,'testtn10','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 02:17:03',0),(66,'testtn11','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 02:17:53',0),(67,'testtn12','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 02:18:33',0),(68,'testtn13','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 03:30:59',0),(69,'testnv1','202cb962ac59075b964b07152d234b70','nhanvien',123,'2020-07-11 04:25:21',0),(70,'','202cb962ac59075b964b07152d234b70','nhanvien',123,'2020-07-11 04:30:46',0),(71,'testdb1','202cb962ac59075b964b07152d234b70','nhanvien',123,'2020-07-11 04:32:06',0),(72,'testtn14','202cb962ac59075b964b07152d234b70','thungan',123,'2020-07-11 04:33:39',0),(73,'testdb2','202cb962ac59075b964b07152d234b70','daubep',123,'2020-07-11 04:36:26',0),(77,'testdb3','202cb962ac59075b964b07152d234b70','daubep',123,'2020-07-11 05:00:32',0),(78,'testdb4','202cb962ac59075b964b07152d234b70','daubep',123,'2020-07-11 05:16:03',0),(80,'testnv11','202cb962ac59075b964b07152d234b70','nhanvien',132,'2020-07-11 06:07:22',0),(82,'testnv112','202cb962ac59075b964b07152d234b70','nhanvien',132,'2020-07-11 06:07:29',0),(83,'test18','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 06:26:20',0),(86,'testvendor3','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 06:27:18',0),(87,'testvendor4','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 06:27:41',0),(91,'testvendor6','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 06:28:21',0),(92,'testnv13','202cb962ac59075b964b07152d234b70','nhanvien',123,'2020-07-11 06:29:10',0),(93,'testvendor5','202cb962ac59075b964b07152d234b70','vendor',123,'2020-07-11 06:31:24',0),(96,'daubep1','202cb962ac59075b964b07152d234b70','daubep',123,'2020-07-14 23:06:12',0),(97,'nhanvien1','202cb962ac59075b964b07152d234b70','nhanvien',123,'2020-07-14 23:53:12',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -421,7 +422,7 @@ CREATE TABLE `xacnhan` (
   `idgiohang` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `iddonhang_UNIQUE` (`idgiohang`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -430,7 +431,7 @@ CREATE TABLE `xacnhan` (
 
 LOCK TABLES `xacnhan` WRITE;
 /*!40000 ALTER TABLE `xacnhan` DISABLE KEYS */;
-INSERT INTO `xacnhan` VALUES (23,'testdb2',NULL,NULL,NULL,NULL,NULL,'27'),(24,'testdb2',NULL,NULL,NULL,NULL,NULL,'87');
+INSERT INTO `xacnhan` VALUES (28,'daubep1','guest','nhanvien1','2020-07-15 01:27:46','2020-07-15 01:28:44','2020-07-15 01:28:16','93');
 /*!40000 ALTER TABLE `xacnhan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -456,7 +457,7 @@ select max(idgiohang)  into gh from giohang where username = name;
 insert into donhang(idgiohang) values(gh);
 insert into giohang(username) values(name);
 select (idgiohang) into dh from donhang where idgiohang = gh;
-insert into xacnhan(iddonhang) values(dh);
+insert into xacnhan(idgiohang) values(dh);
 
     
 END ;;
@@ -502,4 +503,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-14 21:01:43
+-- Dump completed on 2020-07-15  1:30:48
