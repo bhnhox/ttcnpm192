@@ -99,7 +99,7 @@ module.exports.xemgiohang = function (req, res, next) {
                 } else {
 
 
-                    res.render('xemgiohang', { title: 'Express', name: name, role: role, data: result });
+                    res.render('xemgiohang', { title: 'Express', name: name, role: role, data: result, status:"" });
 
                 }
             })
@@ -117,57 +117,65 @@ module.exports.thanhtoangiohang = function (req, res, next) {
         role = req.cookies.info.role;
 
     }
-
-    var sql = `select max(idgiohang) as id from giohang where username = '${name}'`;
+var sql = `call thanhtoangiohang('${name}')`;
     con.query(sql, function (err, result) {
         if (err) {
             console.log(err);
 
-        } else {
+        } else { 
+   res.render('xemgiohang', { title: 'Express', name: name, role: role, data: [], status:"Đặt hàng thành công" }); 
+
+        } })
+    // var sql = `select max(idgiohang) as id from giohang where username = '${name}'`;
+    // con.query(sql, function (err, result) {
+    //     if (err) {
+    //         console.log(err);
+
+    //     } else {
 
 
-            var sql = `insert into donhang(idgiohang) values('${result[0].id}')`;
-            con.query(sql, function (err, result) {
-                if (err) {
+    //         var sql = `insert into donhang(idgiohang) values('${result[0].id}')`;
+    //         con.query(sql, function (err, result) {
+    //             if (err) {
 
-                    console.log(err);
+    //                 console.log(err);
 
-                } else {
-
-
+    //             } else {
 
 
-                    var sql = `insert into giohang(username) values('${name}')`;
-                    con.query(sql, function (err, result) {
-                        if (err) {
-                            console.log(err);
-
-                        } else {
-
-                            res.redirect('/');
-                            //   res.render('xemgiohang', { title: 'Express', name: name, role: role, data: result });
-
-                        }
-                    })
 
 
-                }
-            })
+    //                 var sql = `insert into giohang(username) values('${name}')`;
+    //                 con.query(sql, function (err, result) {
+    //                     if (err) {
+    //                         console.log(err);
 
-            var sql = `insert into xacnhan(iddonhang) values('${result[0].id}')`;
-            con.query(sql, function (err, result) {
-                if (err) {
+    //                     } else {
 
-                    console.log(err);
+    //                         res.redirect('/');
+    //                         //   res.render('xemgiohang', { title: 'Express', name: name, role: role, data: result });
 
-                } else {
+    //                     }
+    //                 })
 
 
-                }
-            })
+    //             }
+    //         })
 
-        }
-    })
+    //         var sql = `insert into xacnhan(iddonhang) values('${result[0].id}')`;
+    //         con.query(sql, function (err, result) {
+    //             if (err) {
+
+    //                 console.log(err);
+
+    //             } else {
+
+
+    //             }
+    //         })
+
+    //     }
+    // })
 }
 //Dang ki
 module.exports.dangki = function (req, res) {
@@ -205,7 +213,7 @@ module.exports.xacthucdangki = function (req, res) {
             } else if (err.errno == 1062) {
                 console.log(err);
 
-                return res.render('dangnhap', { title: 'Express', status: 'Tai khoan da duoc dang ki', name: "", role: "" });
+                return res.render('dangki', { title: 'Express', status: 'Tai khoan da duoc dang ki', name: "", role: "" });
 
             } else {
                 console.log(err);
