@@ -44,6 +44,7 @@
           <div class="row align-items-center justify-content-center">
             <div class="col-md-12 col-lg-8 section-heading">
          
+              <p style="font-weight: bold; color: orange;" id="status"><%- status %></p>
 
                <!-- menu foods start -->
                
@@ -60,35 +61,7 @@
               <div class="tab-pane fade show active" id="pills-breakfast" role="tabpanel"
                 aria-labelledby="pills-breakfast-tab">
                 
-                
-                <% data.forEach(element => { %>
-                  <div class="row">
-                      <div class="card border-left-primary shadow h-100 py-2 d-flex flex-row">
-                          <img src="/uploads/foods/<%= element.image %>"
-                              style="width: 25%; height: 140px; border-radius: 5px; margin-left: 8px;" alt="">
-                          <div class="card-body">
-                              <div class="row no-gutters align-items-center">
-                                  <div class="col mr-2">
-                                      <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                          <%= element.title %> </div>
-                                      <div class="h5 mb-0 font-weight-bold text-gray-800"><%= element.description %> vnđ </div>
-                                  </div>
-                                 
-                              </div>
-                              <div class="row d-flex align-items-end justify-content-end mt-2 ">
-                                <form id="themvaogiohang" method="post" action="/">
-                                  <label>Số lượng</label>
-                                  <input class="amount" type="number" class="form-control" name='amount' style="width: 100px;"
-                                    min='1' ; value="<%= element.soluong %>">
-                                  <input type="hidden" name="idfood" value="<%= element.foodID %> ">
-                                  <!-- <button type="submit" class="btn-primary btn"></button> -->
-                                </form>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <br>
-                  <% }) %>
+              
            
 
             </div>
