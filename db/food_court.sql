@@ -83,7 +83,7 @@ CREATE TABLE `chonhang` (
   `time` varchar(45) DEFAULT NULL,
   `idgiohang` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +92,7 @@ CREATE TABLE `chonhang` (
 
 LOCK TABLES `chonhang` WRITE;
 /*!40000 ALTER TABLE `chonhang` DISABLE KEYS */;
-INSERT INTO `chonhang` VALUES (63,16,13,'2020-07-07',21),(75,17,17,'2020-07-07',21),(77,17,4,'2020-07-07',22),(78,16,60,'2020-07-07',22),(79,16,1,'2020-07-14',15),(80,16,1,'2020-07-14',80),(81,17,4,'2020-07-14',84),(82,17,2,'2020-07-14',85),(83,16,2,'2020-07-14',85),(84,17,2,'2020-07-14',86),(85,17,2,'2020-07-14',87),(86,19,1,'2020-07-14',88),(87,19,1,'2020-07-14',90),(88,19,1,'2020-07-14',91),(89,19,1,'2020-07-14',92),(90,19,2,'2020-07-15',94),(91,19,2,'2020-07-15',93);
+INSERT INTO `chonhang` VALUES (63,16,13,'2020-07-07',21),(75,17,17,'2020-07-07',21),(77,17,4,'2020-07-07',22),(78,16,60,'2020-07-07',22),(79,16,1,'2020-07-14',15),(80,16,1,'2020-07-14',80),(81,17,4,'2020-07-14',84),(82,17,2,'2020-07-14',85),(83,16,2,'2020-07-14',85),(84,17,2,'2020-07-14',86),(85,17,2,'2020-07-14',87),(86,19,1,'2020-07-14',88),(87,19,1,'2020-07-14',90),(88,19,1,'2020-07-14',91),(89,19,1,'2020-07-14',92),(90,19,2,'2020-07-15',94),(91,19,2,'2020-07-15',93),(92,19,1,'2020-07-17',96),(93,19,1,'2020-07-17',97),(94,19,5,'2020-07-17',95),(95,20,1,'2020-07-17',95),(96,20,1,'2020-07-17',98);
 /*!40000 ALTER TABLE `chonhang` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,7 +165,7 @@ CREATE TABLE `donhang` (
   `id` int NOT NULL AUTO_INCREMENT,
   `idgiohang` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -174,7 +174,7 @@ CREATE TABLE `donhang` (
 
 LOCK TABLES `donhang` WRITE;
 /*!40000 ALTER TABLE `donhang` DISABLE KEYS */;
-INSERT INTO `donhang` VALUES (1,'2'),(2,'4'),(3,'5'),(4,'6'),(5,'7'),(6,'8'),(7,'9'),(8,'10'),(9,'3'),(10,'13'),(11,'14'),(12,'11'),(13,'16'),(14,'17'),(15,'null'),(16,'19'),(17,'20'),(18,'21'),(19,'15'),(20,'79'),(21,'80'),(22,'81'),(23,'82'),(24,'83'),(25,'84'),(26,'85'),(27,'86'),(28,'87'),(29,'88'),(30,'90'),(31,'91'),(32,'92'),(33,'94'),(34,'93');
+INSERT INTO `donhang` VALUES (1,'2'),(2,'4'),(3,'5'),(4,'6'),(5,'7'),(6,'8'),(7,'9'),(8,'10'),(9,'3'),(10,'13'),(11,'14'),(12,'11'),(13,'16'),(14,'17'),(15,'null'),(16,'19'),(17,'20'),(18,'21'),(19,'15'),(20,'79'),(21,'80'),(22,'81'),(23,'82'),(24,'83'),(25,'84'),(26,'85'),(27,'86'),(28,'87'),(29,'88'),(30,'90'),(31,'91'),(32,'92'),(33,'94'),(34,'93'),(35,'96'),(36,'95'),(37,'98');
 /*!40000 ALTER TABLE `donhang` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -196,7 +196,7 @@ CREATE TABLE `foods` (
   `trash` int NOT NULL DEFAULT '0',
   `vendorowner` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -205,7 +205,7 @@ CREATE TABLE `foods` (
 
 LOCK TABLES `foods` WRITE;
 /*!40000 ALTER TABLE `foods` DISABLE KEYS */;
-INSERT INTO `foods` VALUES (15,'Bún bò Huế','/',30000,'Món này ngon vl',0,'2020-06-23 00:45:20',0,NULL),(16,'Cơm tấm','image-1593415140510-700375704-ke-hoach-kinh-doanh-com-tam.jpg',20000,'Cơm tấm',1,'2020-06-29 14:19:00',0,NULL),(17,'Phở','image-1593416908803-345158418-cach-lam-3-mon-pho-nuoc-ngon-nong-hoi-dam-da-huong-vi-viet 1.jpg',20000,'Phở',1,'2020-06-29 14:48:28',0,NULL),(18,'Cơm gà','image-1594742683411-926616826-recipe40048-cook-step5-636894576207321843.jpg',25000,'Cơm gà làm từ thịt gà',1,'2020-07-14 23:04:43',1,'undefined'),(19,'Cơm gà','image-1594742813984-403707011-recipe40048-cook-step5-636894576207321843.jpg',25000,'Cơm gà',1,'2020-07-14 23:06:53',0,'testvendor5');
+INSERT INTO `foods` VALUES (15,'Bún bò Huế','/',30000,'Món này ngon vl',0,'2020-06-23 00:45:20',0,NULL),(16,'Cơm tấm','image-1593415140510-700375704-ke-hoach-kinh-doanh-com-tam.jpg',20000,'Cơm tấm',1,'2020-06-29 14:19:00',0,NULL),(17,'Phở','image-1593416908803-345158418-cach-lam-3-mon-pho-nuoc-ngon-nong-hoi-dam-da-huong-vi-viet 1.jpg',20000,'Phở',1,'2020-06-29 14:48:28',0,NULL),(18,'Cơm gà','image-1594742683411-926616826-recipe40048-cook-step5-636894576207321843.jpg',25000,'Cơm gà làm từ thịt gà',1,'2020-07-14 23:04:43',1,'undefined'),(19,'Cơm gà','image-1594742813984-403707011-recipe40048-cook-step5-636894576207321843.jpg',25000,'Cơm gà',1,'2020-07-14 23:06:53',0,'testvendor5'),(20,'Bún bò','image-1594978127096-528597338-cach-nau-bun-bo-hue-mien-nam-de-ban-don-gia-chuan-vi-ngon-nhat.jpg',30000,'Bún bò',1,'2020-07-17 16:28:47',0,'testvendor5');
 /*!40000 ALTER TABLE `foods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -220,7 +220,7 @@ CREATE TABLE `giohang` (
   `idgiohang` int NOT NULL AUTO_INCREMENT,
   `username` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idgiohang`)
-) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -229,7 +229,7 @@ CREATE TABLE `giohang` (
 
 LOCK TABLES `giohang` WRITE;
 /*!40000 ALTER TABLE `giohang` DISABLE KEYS */;
-INSERT INTO `giohang` VALUES (1,'test1'),(2,'admin3'),(3,'guest'),(4,'admin3'),(5,'admin3'),(6,'admin3'),(7,'admin3'),(8,'admin3'),(9,'admin3'),(10,'admin4'),(11,'admin3'),(12,'admin4'),(13,'guest'),(14,'guest'),(15,'guest'),(16,'admin3'),(17,'admin3'),(18,'admin3'),(19,'admin2'),(20,'admin2'),(21,'admin2'),(22,'admin2'),(23,'testvendor1'),(24,'testvendor2'),(34,'test3'),(35,'test4'),(36,'test5'),(37,'test6'),(38,'test7'),(39,'test8'),(40,'test9'),(41,'test2'),(42,'test10'),(43,'testthungan1'),(44,'testtn1'),(45,'testtn2'),(46,'test123'),(47,'testtn4'),(48,'test11'),(49,'test12'),(50,'test13'),(51,'test14'),(52,'test15'),(53,'test16'),(54,'test17'),(55,'testtn5'),(56,'testtn6'),(57,'testtn7'),(58,'testtn8'),(59,'testtn9'),(60,'testtn10'),(61,'testtn11'),(62,'testtn12'),(63,'testtn13'),(64,'testnv1'),(65,''),(66,'testdb1'),(67,'testtn14'),(68,'testdb2'),(69,'testdb3'),(70,'testdb4'),(71,'testnv11'),(72,'testnv112'),(73,'test18'),(74,'testvendor3'),(75,'testvendor4'),(76,'testvendor6'),(77,'testnv13'),(78,'testvendor5'),(79,'guest'),(80,'guest'),(81,'guest'),(82,'guest'),(83,'guest'),(84,'guest'),(85,'guest'),(86,'guest'),(87,'guest'),(88,'guest'),(89,'daubep1'),(90,'guest'),(91,'guest'),(92,'guest'),(93,'guest'),(94,'nhanvien1'),(95,'nhanvien1'),(96,'guest');
+INSERT INTO `giohang` VALUES (1,'test1'),(2,'admin3'),(3,'guest'),(4,'admin3'),(5,'admin3'),(6,'admin3'),(7,'admin3'),(8,'admin3'),(9,'admin3'),(10,'admin4'),(11,'admin3'),(12,'admin4'),(13,'guest'),(14,'guest'),(15,'guest'),(16,'admin3'),(17,'admin3'),(18,'admin3'),(19,'admin2'),(20,'admin2'),(21,'admin2'),(22,'admin2'),(23,'testvendor1'),(24,'testvendor2'),(34,'test3'),(35,'test4'),(36,'test5'),(37,'test6'),(38,'test7'),(39,'test8'),(40,'test9'),(41,'test2'),(42,'test10'),(43,'testthungan1'),(44,'testtn1'),(45,'testtn2'),(46,'test123'),(47,'testtn4'),(48,'test11'),(49,'test12'),(50,'test13'),(51,'test14'),(52,'test15'),(53,'test16'),(54,'test17'),(55,'testtn5'),(56,'testtn6'),(57,'testtn7'),(58,'testtn8'),(59,'testtn9'),(60,'testtn10'),(61,'testtn11'),(62,'testtn12'),(63,'testtn13'),(64,'testnv1'),(65,''),(66,'testdb1'),(67,'testtn14'),(68,'testdb2'),(69,'testdb3'),(70,'testdb4'),(71,'testnv11'),(72,'testnv112'),(73,'test18'),(74,'testvendor3'),(75,'testvendor4'),(76,'testvendor6'),(77,'testnv13'),(78,'testvendor5'),(79,'guest'),(80,'guest'),(81,'guest'),(82,'guest'),(83,'guest'),(84,'guest'),(85,'guest'),(86,'guest'),(87,'guest'),(88,'guest'),(89,'daubep1'),(90,'guest'),(91,'guest'),(92,'guest'),(93,'guest'),(94,'nhanvien1'),(95,'nhanvien1'),(96,'guest'),(97,'guest'),(98,'nhanvien1'),(99,'nhanvien1');
 /*!40000 ALTER TABLE `giohang` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -244,7 +244,7 @@ CREATE TABLE `menu` (
   `id` int NOT NULL AUTO_INCREMENT,
   `created_date` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,7 +253,7 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (1,'2020-06-28 21:08:34'),(2,'2020-06-29 10:47:58'),(3,'2020-06-30 07:16:30'),(4,'2020-07-14 16:40:33');
+INSERT INTO `menu` VALUES (1,'2020-06-28 21:08:34'),(2,'2020-06-29 10:47:58'),(3,'2020-06-30 07:16:30'),(4,'2020-07-14 16:40:33'),(5,'2020-07-17 13:15:25');
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -271,7 +271,7 @@ CREATE TABLE `menu_foods` (
   `amount` int NOT NULL,
   `trash` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -280,7 +280,7 @@ CREATE TABLE `menu_foods` (
 
 LOCK TABLES `menu_foods` WRITE;
 /*!40000 ALTER TABLE `menu_foods` DISABLE KEYS */;
-INSERT INTO `menu_foods` VALUES (1,1,15,0,0),(2,2,15,100,1),(3,2,16,200,0),(4,2,17,200,0),(5,3,16,100,0),(6,3,17,100,0),(7,4,17,100,0),(8,4,16,100,0),(9,4,15,0,1),(10,4,18,0,1),(11,4,19,100,0);
+INSERT INTO `menu_foods` VALUES (1,1,15,0,0),(2,2,15,100,1),(3,2,16,200,0),(4,2,17,200,0),(5,3,16,100,0),(6,3,17,100,0),(7,4,17,100,0),(8,4,16,100,0),(9,4,15,0,1),(10,4,18,0,1),(11,4,19,100,0),(12,5,19,9,0),(13,5,20,10,0);
 /*!40000 ALTER TABLE `menu_foods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -422,7 +422,7 @@ CREATE TABLE `xacnhan` (
   `idgiohang` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `iddonhang_UNIQUE` (`idgiohang`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -431,7 +431,7 @@ CREATE TABLE `xacnhan` (
 
 LOCK TABLES `xacnhan` WRITE;
 /*!40000 ALTER TABLE `xacnhan` DISABLE KEYS */;
-INSERT INTO `xacnhan` VALUES (28,'daubep1','guest','nhanvien1','2020-07-15 01:27:46','2020-07-15 01:28:44','2020-07-15 01:28:16','93');
+INSERT INTO `xacnhan` VALUES (28,'daubep1','guest','nhanvien1','2020-07-15 01:27:46','2020-07-15 01:28:44','2020-07-15 01:28:16','93'),(29,'daubep1','guest','nhanvien1','2020-07-17 14:13:19','2020-07-17 14:14:35','2020-07-17 14:14:22','96'),(30,NULL,NULL,NULL,NULL,NULL,NULL,'95'),(31,NULL,NULL,NULL,NULL,NULL,NULL,'98');
 /*!40000 ALTER TABLE `xacnhan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -449,7 +449,7 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `thanhtoangiohang`(
-		 name VARCHAR(20) )
+		 name VARCHAR(20), tongtien int )
 BEGIN
 declare gh int;
 declare dh int;
@@ -457,6 +457,7 @@ select max(idgiohang)  into gh from giohang where username = name;
 insert into donhang(idgiohang) values(gh);
 insert into giohang(username) values(name);
 select (idgiohang) into dh from donhang where idgiohang = gh;
+update user set balance = balance - tongtien where username = name;
 insert into xacnhan(idgiohang) values(dh);
 
     
@@ -477,15 +478,16 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `themspvaogiohang`(
-			id int, amount int, giohang int )
+			id int, amount int, usrname varchar(45)  )
 BEGIN
 declare ht int;
+declare giohang int;
+
+select max(idgiohang)  into giohang from giohang where username = usrname;
  select soluong into ht from chonhang where idmon = id and idgiohang = giohang;
 if (ht > 0) then update chonhang set soluong = soluong + amount where idmon = id and idgiohang = giohang;
 else insert into chonhang(idmon, soluong, time, idgiohang)values( id, amount,DATE(NOW()), giohang);
 end if;
-select ht;
-SELECT * FROM food_court.chonhang;
     
 END ;;
 DELIMITER ;
@@ -503,4 +505,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-15  1:30:48
+-- Dump completed on 2020-07-17 19:28:51
