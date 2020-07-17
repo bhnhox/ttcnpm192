@@ -1,7 +1,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/cms">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
@@ -13,7 +13,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="/cms">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -91,49 +91,73 @@
     </li> -->
 
     <!-- Nav Item - Charts -->
-    
-    <li class="nav-item">
-        <a class="nav-link" href="/cms/order">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Order</span></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/cms/foods">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Foods</span></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/cms/menu">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Menu</span></a>
-    </li>
-    <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Bills</span></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Feedback</span></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/cms/baotri">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Bảo trì</span></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/cms/quanlynguoidung">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Quản lý</span></a>
-    </li>
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+    <%  if(role == 'daubep'){  %>
 
-    <!-- Sidebar Toggler (Sidebar) -->
-    <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-    </div>
+        <li class="nav-item">
+            <a class="nav-link" href="/cms/order">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Order</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/cms/foods">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Foods</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/cms/menu">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Menu</span></a>
+        </li>
+        <% } %>
+
+            <!-- Nav Item - Tables -->
+            <%  if(role == 'vendor'){  %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cms/foods">
+                        <i class="fas fa-fw fa-table"></i>
+                        <span>Foods</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cms/menu">
+                        <i class="fas fa-fw fa-table"></i>
+                        <span>Menu</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="tables.html">
+                        <i class="fas fa-fw fa-table"></i>
+                        <span>Bills</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="tables.html">
+                        <i class="fas fa-fw fa-table"></i>
+                        <span>Feedback</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/cms/quanlynguoidung">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Quản lý</span></a>
+                </li>
+                <% } %>
+                    <%  if(role == 'admin'){  %>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/cms/baotri">
+                                <i class="fas fa-fw fa-chart-area"></i>
+                                <span>Bảo trì</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/cms/quanlynguoidung">
+                                <i class="fas fa-fw fa-chart-area"></i>
+                                <span>Quản lý</span></a>
+                        </li>
+                        <% } %>
+                            <!-- Divider -->
+                            <hr class="sidebar-divider d-none d-md-block">
+
+                            <!-- Sidebar Toggler (Sidebar) -->
+                            <div class="text-center d-none d-md-inline">
+                                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                            </div>
 
 </ul>

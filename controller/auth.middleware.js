@@ -1,19 +1,18 @@
-
 var md5 = require('md5');
 var mysql = require('mysql');
 const { log } = require('debug');
 var con = require('./db')
-//Get date
+    //Get date
 var d = new Date();
 
 
 //Post xacthucdangnhap
-module.exports.xacthucdangnhap = function (req, res, next) {
+module.exports.xacthucdangnhap = function(req, res, next) {
     var usr = req.body.usr;
     var pass = md5(req.body.pass);
     var sql = `SELECT * FROM user where username = '${usr}' `;
 
-    con.query(sql, async function (err, result, kq) {
+    con.query(sql, async function(err, result, kq) {
         if (err) {
             console.log(err);
             return res.render('dangnhap', { title: 'Express', status: 'Co loi khi dang nhap' });
@@ -27,13 +26,14 @@ module.exports.xacthucdangnhap = function (req, res, next) {
                         'password': pass,
                         'role': result[0].role
                     };
+                    console.log(info);
                     if (info.role == 'daubep' || info.role == 'nhanvien') {
 
                         info.vendor = await new Promise((resolve, reject) => {
                             con.query(`SELECT * FROM ${info.role} WHERE username = '${usr}'`, (err, results, fields) => {
                                 if (err) throw err;
                                 if (results) {
-                                    console.log(results[0]);
+                                    console.log(results);
                                     resolve(results[0].vendorowner);
                                 }
                             })
@@ -63,7 +63,7 @@ module.exports.xacthucdangnhap = function (req, res, next) {
 }
 
 //kiem tra dang nhap
-module.exports.authen = function (req, res, next) {
+module.exports.authen = function(req, res, next) {
     var info = req.cookies.info;
 
 
@@ -77,25 +77,23 @@ module.exports.authen = function (req, res, next) {
         console.log("USR la " + username + " pas la " + password);
 
         var sql = `select * from user where username = '${username}'`;
-        con.query(sql, function (err, result, kq) {
+        con.query(sql, function(err, result, kq) {
             if (err) { console.log(err); } else {
                 if (username == result[0].username && password == result[0].password) {
                     next();
 
-                }
-                else {
+                } else {
 
                     res.redirect("/dangnhap")
                 }
             }
 
         })
-    }
-    else { res.redirect("/dangnhap") }
+    } else { res.redirect("/dangnhap") }
 }
 
 //Kiem tra bao tri
-module.exports.checkMaintainmode = function (req, res, next) {
+module.exports.checkMaintainmode = function(req, res, next) {
     var username = "";
     var role = "";
     if (req.cookies.info) {
@@ -104,7 +102,7 @@ module.exports.checkMaintainmode = function (req, res, next) {
 
     }
     var sql = `SELECT * FROM food_court.baotri where idbaotri  =  (select max( idbaotri) from food_court.baotri   )`;
-    con.query(sql, function (err, result, kq) {
+    con.query(sql, function(err, result, kq) {
         if (err) { console.log(err); } else {
 
             if (result[0].trangthai == 'off') {
@@ -132,28 +130,28 @@ module.exports.checkMaintainmode = function (req, res, next) {
 }
 
 //Post bật bao tri
-module.exports.postbatbaotri = function (req, res, next) {
-    username = req.cookie.info.username;
-    role = req.cookie.info.role;
-    if (role == 'admin') {
+module.exports.postbatbaotri = function(req, res, next) {
+        username = req.cookie.info.username;
+        role = req.cookie.info.role;
+        if (role == 'admin') {
 
 
 
-        var sql = `insert into baotri (username, trangthai, thoi gian) values( '${username}', 'on','${d}')`;
-        con.query(sql, function (err, result, kq) {
-            if (err) { console.log(err); } else {
-                console.log('sucess');
+            var sql = `insert into baotri (username, trangthai, thoi gian) values( '${username}', 'on','${d}')`;
+            con.query(sql, function(err, result, kq) {
+                if (err) { console.log(err); } else {
+                    console.log('sucess');
 
-            }
-        })
+                }
+            })
 
 
-    } else {
-        res.redirect('/');
+        } else {
+            res.redirect('/');
+        }
     }
-}
-//Post tắt bao tri
-module.exports.postbatbaotri = function (req, res, next) {
+    //Post tắt bao tri
+module.exports.postbatbaotri = function(req, res, next) {
     username = req.cookie.info.username;
     role = req.cookie.info.role;
     if (role == 'admin') {
@@ -161,7 +159,7 @@ module.exports.postbatbaotri = function (req, res, next) {
 
 
         var sql = `insert into baotri (username, trangthai, thoi gian) values( '${username}', 'off','${d}')`;
-        con.query(sql, function (err, result, kq) {
+        con.query(sql, function(err, result, kq) {
             if (err) { console.log(err); } else {
                 console.log('sucess');
 
@@ -176,7 +174,7 @@ module.exports.postbatbaotri = function (req, res, next) {
 
 
 //Check role
-module.exports.checkRole = function (req, res, next) {
+module.exports.checkRole = function(req, res, next) {
     var role = "";
     role = req.cookies.info.role;
 

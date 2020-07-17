@@ -1,4 +1,3 @@
-
 var md5 = require('md5');
 const { log } = require('debug');
 
@@ -12,7 +11,7 @@ var con = require('./db')
 //Get date
 var d = new Date();
 //Index
-module.exports.index = function (req, res, next) {
+module.exports.index = function(req, res, next) {
     var name = "";
     var role = "";
     if (req.cookies.info) {
@@ -21,7 +20,7 @@ module.exports.index = function (req, res, next) {
 
     }
     var sql = `SELECT *, menu_foods.id AS id from menu_foods INNER JOIN foods ON menu_foods.foodID = foods.id AND menu_foods.trash = 0 AND  menu_foods.menuID= (select max(id) from menu);`
-    con.query(sql, function (err, result) {
+    con.query(sql, function(err, result) {
         if (err) {
             console.log(err);
 
@@ -33,7 +32,7 @@ module.exports.index = function (req, res, next) {
 }
 
 //Them vao gio hang
-module.exports.themvaogiohang = function (req, res, next) {
+module.exports.themvaogiohang = function(req, res, next) {
     var name = "";
     var role = "";
     if (req.cookies.info) {
@@ -45,7 +44,7 @@ module.exports.themvaogiohang = function (req, res, next) {
     var amount = req.body.amount;
     console.log(req.body);
     var sql = `select max(idgiohang) as id from giohang where username = '${name}'`;
-    con.query(sql, function (err, result) {
+    con.query(sql, function(err, result) {
         if (err) {
             console.log(err);
 
@@ -55,7 +54,7 @@ module.exports.themvaogiohang = function (req, res, next) {
             //case san phan chua duoc them truoc do
             var sql = ` call themspvaogiohang(${foodID},${amount},${result[0].id});`;
             // var sql = `insert into chonhang(idmon, soluong, time, idgiohang)values( '${foodID}', '${amount}',DATE(NOW()),'${result[0].id}')`;
-            con.query(sql, function (err, result) {
+            con.query(sql, function(err, result) {
                 if (err) {
                     console.log(err);
 
@@ -74,63 +73,64 @@ module.exports.themvaogiohang = function (req, res, next) {
 
 
 //Them vao gio hang
-module.exports.xemgiohang = function (req, res, next) {
-    var name = "";
-    var role = "";
-    if (req.cookies.info) {
-        name = req.cookies.info.username;
-        role = req.cookies.info.role;
-
-    }
-
-    var sql = `select max(idgiohang) as id from giohang where username = '${name}'`;
-    con.query(sql, function (err, result) {
-        if (err) {
-            console.log(err);
-
-        } else {
-
-
-            //case san phan chua duoc them truoc do
-            var sql = `SELECT chonhang.idmon, chonhang.soluong, foods.price,foods.image,foods.description, idmon as id FROM food_court.chonhang  inner join  foods ON foods.id = chonhang.idmon and  chonhang.idgiohang = '${result[0].id}';`;
-            con.query(sql, function (err, result) {
-                if (err) {
-                    console.log(err);
-
-                } else {
-
-                        console.log(result);
-                    res.render('xemgiohang', { title: 'Express', name: name, role: role, data: result, status:"" });
-
-                }
-            })
-
+module.exports.xemgiohang = function(req, res, next) {
+        var name = "";
+        var role = "";
+        if (req.cookies.info) {
+            name = req.cookies.info.username;
+            role = req.cookies.info.role;
 
         }
-    })
-}
-//Thanh toán giỏ hàng
-module.exports.thanhtoangiohang = function (req, res, next) {
-    var name = "";
-    var role = "";
-    if (req.cookies.info) {
-        name = req.cookies.info.username;
-        role = req.cookies.info.role;
+
+        var sql = `select max(idgiohang) as id from giohang where username = '${name}'`;
+        con.query(sql, function(err, result) {
+            if (err) {
+                console.log(err);
+
+            } else {
+
+
+                //case san phan chua duoc them truoc do
+                var sql = `SELECT chonhang.idmon, chonhang.soluong, foods.price,foods.image,foods.description, idmon as id FROM food_court.chonhang  inner join  foods ON foods.id = chonhang.idmon and  chonhang.idgiohang = '${result[0].id}';`;
+                con.query(sql, function(err, result) {
+                    if (err) {
+                        console.log(err);
+
+                    } else {
+
+                        console.log(result);
+                        res.render('xemgiohang', { title: 'Express', name: name, role: role, data: result, status: "" });
+
+                    }
+                })
+
+
+            }
+        })
+    }
+    //Thanh toán giỏ hàng
+module.exports.thanhtoangiohang = function(req, res, next) {
+        var name = "";
+        var role = "";
+        if (req.cookies.info) {
+            name = req.cookies.info.username;
+            role = req.cookies.info.role;
+
+        }
+        var sql = `call thanhtoangiohang('${name}')`;
+        con.query(sql, function(err, result) {
+            if (err) {
+                console.log(err);
+
+            } else {
+                res.render('xemgiohang', { title: 'Express', name: name, role: role, data: [], status: "Đặt hàng thành công" });
+
+            }
+        })
 
     }
-var sql = `call thanhtoangiohang('${name}')`;
-    con.query(sql, function (err, result) {
-        if (err) {
-            console.log(err);
-
-        } else { 
-   res.render('xemgiohang', { title: 'Express', name: name, role: role, data: [], status:"Đặt hàng thành công" }); 
-
-        } })
-    
-}
-//Dang ki
-module.exports.dangki = function (req, res) {
+    //Dang ki
+module.exports.dangki = function(req, res) {
     var name;
     if (req.cookies.info) {
         if (req.cookies.info.username) {
@@ -138,8 +138,7 @@ module.exports.dangki = function (req, res) {
         } else {
             name = "";
         }
-    }
-    else {
+    } else {
         name = "";
 
     }
@@ -148,14 +147,14 @@ module.exports.dangki = function (req, res) {
 
 
 
-module.exports.xacthucdangki = function (req, res) {
+module.exports.xacthucdangki = function(req, res) {
     var usr = req.body.usr;
     var pass = md5(req.body.pass);
     var phone = req.body.phone;
     var role = req.body.role;
     var ngaydk = d;
     var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','${role}','${ngaydk}')`;
-    con.query(sql, function (err, result, kq) {
+    con.query(sql, function(err, result, kq) {
         if (err) {
             if (err.errno != 1062) {
                 console.log(err);
@@ -171,11 +170,9 @@ module.exports.xacthucdangki = function (req, res) {
                 console.log(err);
 
             }
-        }
-
-        else {
+        } else {
             var sql = `INSERT INTO giohang (username) VALUES ('${usr}')`;
-            con.query(sql, function (err, result, kq) {
+            con.query(sql, function(err, result, kq) {
                 if (err) { console.log(err); } else {
                     return res.render('dangnhap', { title: 'Express', status: 'Dang ki thanh cong', name: "", role: "" });
 
@@ -201,7 +198,7 @@ module.exports.xacthucdangki = function (req, res) {
 
 
 
-module.exports.dangnhap = function (req, res, next) {
+module.exports.dangnhap = function(req, res, next) {
     var name, role;
     if (req.cookies.info) {
         if (req.cookies.info.username) {
@@ -213,8 +210,7 @@ module.exports.dangnhap = function (req, res, next) {
             name = "";
             role = "";
         }
-    }
-    else {
+    } else {
         name = "";
         role = "";
     }
@@ -224,22 +220,22 @@ module.exports.dangnhap = function (req, res, next) {
 
 //Dang xuat
 //Logout
-module.exports.logout = function (req, res, next) {
-    //    res.cookie('info',{'username':usr, 'password':pass});
+module.exports.logout = function(req, res, next) {
+        //    res.cookie('info',{'username':usr, 'password':pass});
 
-    res.cookie('info', { expires: Date.now() });
-    res.redirect('/');
-}
-//Them the
-module.exports.themthe = function (req, res) {
+        res.cookie('info', { expires: Date.now() });
+        res.redirect('/');
+    }
+    //Them the
+module.exports.themthe = function(req, res) {
 
-    var name = req.cookies.info.username;
-    var role = req.cookies.info.role;
+        var name = req.cookies.info.username;
+        var role = req.cookies.info.role;
 
-    res.render('themthe', { title: 'Express', status: 'Thêm thẻ', name: name, role: role });
-}
-//Post them the
-module.exports.postthemthe = function (req, res) {
+        res.render('themthe', { title: 'Express', status: 'Thêm thẻ', name: name, role: role });
+    }
+    //Post them the
+module.exports.postthemthe = function(req, res) {
 
     var name = req.cookies.info.username;
     var namecard = req.body.namecard;
@@ -248,7 +244,7 @@ module.exports.postthemthe = function (req, res) {
     var role = req.cookies.info.role;
 
     var sql = `INSERT INTO card (namecard, bankname,usernameowner,timecreate,idbankcard) VALUES ('${namecard}','${bankname}','${name}','${d}','${idcard}')`;
-    con.query(sql, function (err, result, kq) {
+    con.query(sql, function(err, result, kq) {
         if (err) { console.log(err); } else {
             status = "Thêm thẻ thành công"
             res.render('themthe', { title: 'Thêm thẻ', status: status, name: name, role: role });
@@ -259,22 +255,22 @@ module.exports.postthemthe = function (req, res) {
 }
 
 //Get nap tien
-module.exports.naptien = function (req, res) {
+module.exports.naptien = function(req, res) {
 
-    var name = req.cookies.info.username;
-    var role = req.cookies.info.role;
+        var name = req.cookies.info.username;
+        var role = req.cookies.info.role;
 
-    var sql = `Select * from card where usernameowner = '${name}'`;
-    con.query(sql, function (err, result, kq) {
-        if (err) { console.log(err); } else {
+        var sql = `Select * from card where usernameowner = '${name}'`;
+        con.query(sql, function(err, result, kq) {
+            if (err) { console.log(err); } else {
 
-            res.render('naptien', { title: 'Nạp tiền vào tài khoản', status: 'Nạp tiền vào tài khoản', name: name, role: role, card: result });
+                res.render('naptien', { title: 'Nạp tiền vào tài khoản', status: 'Nạp tiền vào tài khoản', name: name, role: role, card: result });
 
-        }
-    })
-}
-//Post nap tien
-module.exports.postnaptien = function (req, res) {
+            }
+        })
+    }
+    //Post nap tien
+module.exports.postnaptien = function(req, res) {
     var role = req.cookies.info.role;
 
     var name = req.cookies.info.username;
@@ -284,7 +280,7 @@ module.exports.postnaptien = function (req, res) {
 
     var sql = `select * from user where username = '${name}'`;
 
-    con.query(sql, function (err, result, kq) {
+    con.query(sql, function(err, result, kq) {
         if (err) {
             console.log(err);
             res.render('naptien', { title: 'Express', status: 'Có lỗi trong quá trình xử lý', name: name, role: role, card: result });
@@ -294,17 +290,17 @@ module.exports.postnaptien = function (req, res) {
                 console.log(result);
 
                 var sql = `insert into deposit(amount, time, status, idcard,username ) values ('${amount}','${d}','success','${idcard}','${name}' ); `;
-                con.query(sql, function (err, result, kq) {
+                con.query(sql, function(err, result, kq) {
                     if (err) {
                         console.log(err);
                         res.render('naptien', { title: 'Express', status: 'Có lỗi trong quá trình xử lý', name: name, role: role, card: result });
 
                     } else {
                         var sql = ` update user set balance = balance + ${amount} where username = '${name}';`;
-                        con.query(sql, function (err, result, kq) {
+                        con.query(sql, function(err, result, kq) {
                             if (err) { console.log(err); } else {
                                 var sql = `Select * from card where usernameowner = '${name}'`;
-                                con.query(sql, function (err, result, kq) {
+                                con.query(sql, function(err, result, kq) {
                                     if (err) { console.log(err); } else {
 
 
@@ -333,415 +329,407 @@ module.exports.postnaptien = function (req, res) {
 
 };
 //Get xem so du
-module.exports.xemsodu = function (req, res) {
+module.exports.xemsodu = function(req, res) {
 
-    var name = req.cookies.info.username;
-    var role = req.cookies.info.role;
+        var name = req.cookies.info.username;
+        var role = req.cookies.info.role;
 
-    var sql = `Select * from user where username = '${name}'`;
-    con.query(sql, function (err, result, kq) {
-        if (err) { console.log(err); } else {
+        var sql = `Select * from user where username = '${name}'`;
+        con.query(sql, function(err, result, kq) {
+            if (err) { console.log(err); } else {
 
-            res.render('xemsodu', { title: 'Express', status: '', name: name, role: role, sodu: result[0].balance });
+                res.render('xemsodu', { title: 'Express', status: '', name: name, role: role, sodu: result[0].balance });
+
+            }
+        })
+    }
+    //vao trang quan ly user của admin
+module.exports.adminquanlynguoidung = function(req, res) {
+
+        var name = req.cookies.info.username;
+        var role = req.cookies.info.role;
+
+        var result = "";
+        if (role == "admin") {
+            res.render('adminquanlynguoidung', { role: role });
+
+        } else if (role == "vendor") {
+            res.render('vendorquanly', { role: role });
 
         }
-    })
-}
-//vao trang quan ly user của admin
-module.exports.adminquanlynguoidung = function (req, res) {
 
-    var name = req.cookies.info.username;
-    var role = req.cookies.info.role;
 
-    var result = "";
-    if (role == "admin") {
-        res.render('adminquanlynguoidung', {role:role});
-
-    } else if (role == "vendor") {
-        res.render('vendorquanly', {role:role});
 
     }
+    //Thêm vendor/thungan
+module.exports.themvendor = function(req, res) {
+        var role = req.cookies.info.role;
+        var vendorowner = req.cookies.info.username;
+        var name = req.body.flag;
+        console.log(req.body);
+
+        if (role == 'admin') {
 
 
-
-}
-//Thêm vendor/thungan
-module.exports.themvendor = function (req, res) {
-    var role = req.cookies.info.role;
-    var vendorowner = req.cookies.info.username;
-    var name = req.body.flag; 
-    console.log(req.body);
-    
-    if (role == 'admin') {
-
-
-        var name = req.body.vendorname;
-        if (!name) {
-            var usr = req.body.username;
-            var pass = md5(req.body.password);
-            var role = 'thungan';
-            var phone = req.body.phone;
-            var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','${role}',NOW())`;
-            con.query(sql, function (err, result, kq) {
-                if (err) {
-                    if (err.errno != 1062) {
-                        console.log(err);
-                        res.send('Có lỗi khi đăng kí')
-
-                    } else if (err.errno == 1062) {
-
-                        res.send('Tài khoản đã được đăng kí')
-
-                    } else {
-                        console.log(err);
-
-                    }
-                }
-
-                else {
-                    var sql = `INSERT INTO giohang (username) VALUES ('${usr}')`;
-                    con.query(sql, function (err, result, kq) {
-                        if (err) { console.log(err); } else {
-                            // return res.render('dangnhap', { title: 'Express', status: 'Dang ki thanh cong', name: "", role: "" });
-                            var sql = `INSERT INTO thungan (username, ngayvaolam, trangthai) VALUES ('${usr}',NOW(), 'active' )`;
-                            con.query(sql, function (err, result, kq) {
-                                if (err) { console.log(err); } else {
-                                    res.send('Thêm thành công')
-
-                                }
-                            })
-                        }
-                    })
-
-
-                }
-
-            })
-        } else {
-            var usr = req.body.username;
-            var pass = md5(req.body.password);
-            var phone = req.body.phone;
             var name = req.body.vendorname;
-            var admin = req.cookies.info.username;
-            var role = 'vendor';
-            var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','${role}',NOW())`;
-            con.query(sql, function (err, result, kq) {
-                if (err) {
-                    if (err.errno != 1062) {
-                        console.log(err);
-                        res.send('Có lỗi khi đăng kí')
+            if (!name) {
+                var usr = req.body.username;
+                var pass = md5(req.body.password);
+                var role = 'thungan';
+                var phone = req.body.phone;
+                var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','${role}',NOW())`;
+                con.query(sql, function(err, result, kq) {
+                    if (err) {
+                        if (err.errno != 1062) {
+                            console.log(err);
+                            res.send('Có lỗi khi đăng kí')
 
-                    } else if (err.errno == 1062) {
+                        } else if (err.errno == 1062) {
 
-                        res.send('Tài khoản đã được đăng kí')
+                            res.send('Tài khoản đã được đăng kí')
 
+                        } else {
+                            console.log(err);
+
+                        }
                     } else {
-                        console.log(err);
+                        var sql = `INSERT INTO giohang (username) VALUES ('${usr}')`;
+                        con.query(sql, function(err, result, kq) {
+                            if (err) { console.log(err); } else {
+                                // return res.render('dangnhap', { title: 'Express', status: 'Dang ki thanh cong', name: "", role: "" });
+                                var sql = `INSERT INTO thungan (username, ngayvaolam, trangthai) VALUES ('${usr}',NOW(), 'active' )`;
+                                con.query(sql, function(err, result, kq) {
+                                    if (err) { console.log(err); } else {
+                                        res.send('Thêm thành công')
+
+                                    }
+                                })
+                            }
+                        })
+
 
                     }
-                }
 
-                else {
-                    var sql = `INSERT INTO giohang (username) VALUES ('${usr}')`;
-                    con.query(sql, function (err, result, kq) {
-                        if (err) { console.log(err); } else {
-                            // return res.render('dangnhap', { title: 'Express', status: 'Dang ki thanh cong', name: "", role: "" });
-                            var sql = `INSERT INTO vendor (username, tenquay, ngaytao, adminthuchien) VALUES ('${usr}','${name}',NOW(), '${admin}' )`;
-                            con.query(sql, function (err, result, kq) {
-                                if (err) { console.log(err); } else {
-                                    res.send('Thêm thành công')
+                })
+            } else {
+                var usr = req.body.username;
+                var pass = md5(req.body.password);
+                var phone = req.body.phone;
+                var name = req.body.vendorname;
+                var admin = req.cookies.info.username;
+                var role = 'vendor';
+                var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','${role}',NOW())`;
+                con.query(sql, function(err, result, kq) {
+                    if (err) {
+                        if (err.errno != 1062) {
+                            console.log(err);
+                            res.send('Có lỗi khi đăng kí')
 
-                                }
-                            })
+                        } else if (err.errno == 1062) {
+
+                            res.send('Tài khoản đã được đăng kí')
+
+                        } else {
+                            console.log(err);
+
                         }
-                    })
-
-
-                }
-
-            })
-        }
-    } else if (role == "vendor") {
-
-      //vendorname se la flag
-        console.log('them dau bep 1' + name);
-
-        if (name == 'nhanvien') {
-            var usr = req.body.username;
-            var pass = md5(req.body.password);
-            var role = 'nhanvien';
-            var phone = req.body.phone;
-            var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','${role}',NOW())`;
-            con.query(sql, function (err, result, kq) {
-                if (err) {
-                    if (err.errno != 1062) {
-                        console.log(err);
-                        res.send('Có lỗi khi đăng kí')
-
-                    } else if (err.errno == 1062) {
-
-                        res.send('Tài khoản đã được đăng kí')
-
                     } else {
-                        console.log(err);
+                        var sql = `INSERT INTO giohang (username) VALUES ('${usr}')`;
+                        con.query(sql, function(err, result, kq) {
+                            if (err) { console.log(err); } else {
+                                // return res.render('dangnhap', { title: 'Express', status: 'Dang ki thanh cong', name: "", role: "" });
+                                var sql = `INSERT INTO vendor (username, tenquay, ngaytao, adminthuchien) VALUES ('${usr}','${name}',NOW(), '${admin}' )`;
+                                con.query(sql, function(err, result, kq) {
+                                    if (err) { console.log(err); } else {
+                                        res.send('Thêm thành công')
+
+                                    }
+                                })
+                            }
+                        })
+
 
                     }
-                }
 
-                else {
-                    var sql = `INSERT INTO giohang (username) VALUES ('${usr}')`;
-                    con.query(sql, function (err, result, kq) {
-                        if (err) { console.log(err); } else {
-                            // return res.render('dangnhap', { title: 'Express', status: 'Dang ki thanh cong', name: "", role: "" });
-                            var sql = `INSERT INTO nhanvien (username, ngayvaolam, trangthai, vendorowner) VALUES ('${usr}',NOW(), 'active','${vendorowner}' )`;
-                            con.query(sql, function (err, result, kq) {
-                                if (err) { console.log(err); } else {
-                                    res.send('Thêm thành công')
+                })
+            }
+        } else if (role == "vendor") {
 
-                                }
-                            })
+            //vendorname se la flag
+            console.log('them dau bep 1' + name);
+
+            if (name == 'nhanvien') {
+                var usr = req.body.username;
+                var pass = md5(req.body.password);
+                var role = 'nhanvien';
+                var phone = req.body.phone;
+                var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','${role}',NOW())`;
+                con.query(sql, function(err, result, kq) {
+                    if (err) {
+                        if (err.errno != 1062) {
+                            console.log(err);
+                            res.send('Có lỗi khi đăng kí')
+
+                        } else if (err.errno == 1062) {
+
+                            res.send('Tài khoản đã được đăng kí')
+
+                        } else {
+                            console.log(err);
+
                         }
-                    })
-
-
-                }
-
-            })
-        } else if (name == 'daubep') {
-            
-            var usr = req.body.username;
-            var pass = md5(req.body.password);
-            var role = 'daubep';
-            var phone = req.body.phone;
-            var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','${role}',NOW())`;
-            con.query(sql, function (err, result, kq) {
-                if (err) {
-                    if (err.errno != 1062) {
-                        console.log(err);
-                        res.send('Có lỗi khi đăng kí')
-
-                    } else if (err.errno == 1062) {
-
-                        res.send('Tài khoản đã được đăng kí')
-
                     } else {
-                        console.log(err);
+                        var sql = `INSERT INTO giohang (username) VALUES ('${usr}')`;
+                        con.query(sql, function(err, result, kq) {
+                            if (err) { console.log(err); } else {
+                                // return res.render('dangnhap', { title: 'Express', status: 'Dang ki thanh cong', name: "", role: "" });
+                                var sql = `INSERT INTO nhanvien (username, ngayvaolam, trangthai, vendorowner) VALUES ('${usr}',NOW(), 'active','${vendorowner}' )`;
+                                con.query(sql, function(err, result, kq) {
+                                    if (err) { console.log(err); } else {
+                                        res.send('Thêm thành công')
+
+                                    }
+                                })
+                            }
+                        })
+
 
                     }
-                }
 
-                else {
+                })
+            } else if (name == 'daubep') {
 
-                    var sql = `INSERT INTO giohang (username) VALUES ('${usr}')`;
-                    con.query(sql, function (err, result, kq) {
-                        if (err) { console.log(err); } else {
-                            // return res.render('dangnhap', { title: 'Express', status: 'Dang ki thanh cong', name: "", role: "" });
-                            var sql = `INSERT INTO daubep (username, ngayvaolam, trangthai, vendorowner) VALUES ('${usr}',NOW(), 'active','${vendorowner}' )`;
-                            con.query(sql, function (err, result, kq) {
-                                if (err) { console.log(err); } else {
-                                    res.send('Thêm thành công')
+                var usr = req.body.username;
+                var pass = md5(req.body.password);
+                var role = 'daubep';
+                var phone = req.body.phone;
+                var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','${role}',NOW())`;
+                con.query(sql, function(err, result, kq) {
+                    if (err) {
+                        if (err.errno != 1062) {
+                            console.log(err);
+                            res.send('Có lỗi khi đăng kí')
 
-                                }
-                            })
+                        } else if (err.errno == 1062) {
+
+                            res.send('Tài khoản đã được đăng kí')
+
+                        } else {
+                            console.log(err);
+
                         }
-                    })
+                    } else {
+
+                        var sql = `INSERT INTO giohang (username) VALUES ('${usr}')`;
+                        con.query(sql, function(err, result, kq) {
+                            if (err) { console.log(err); } else {
+                                // return res.render('dangnhap', { title: 'Express', status: 'Dang ki thanh cong', name: "", role: "" });
+                                var sql = `INSERT INTO daubep (username, ngayvaolam, trangthai, vendorowner) VALUES ('${usr}',NOW(), 'active','${vendorowner}' )`;
+                                con.query(sql, function(err, result, kq) {
+                                    if (err) { console.log(err); } else {
+                                        res.send('Thêm thành công')
+
+                                    }
+                                })
+                            }
+                        })
 
 
-                }
+                    }
 
-            })
+                })
+            }
         }
     }
-}
-//Get vendor/thungan form input
-module.exports.editformvendor = function (req, res) {
+    //Get vendor/thungan form input
+module.exports.editformvendor = function(req, res) {
 
-    var name = req.cookies.info.username;
-    var role = req.cookies.info.role;
-    if (role == 'admin') {
-        var username = req.body.username;
-        var action = req.body.action;
-        console.log(req.body);
+        var name = req.cookies.info.username;
+        var role = req.cookies.info.role;
+        if (role == 'admin') {
+            var username = req.body.username;
+            var action = req.body.action;
+            console.log(req.body);
 
-        if (action == 'vendor') {
-            var sql = `Select * from vendor where username = '${username}' `;
-            con.query(sql, function (err, result, kq) {
-                if (err) { console.log(err); } else {
+            if (action == 'vendor') {
+                var sql = `Select * from vendor where username = '${username}' `;
+                con.query(sql, function(err, result, kq) {
+                    if (err) { console.log(err); } else {
 
-                    res.send(result[0]);
+                        res.send(result[0]);
 
-                }
-            })
-        } else {
-            var sql = `Select * from thungan where username = '${username}' `;
-            con.query(sql, function (err, result, kq) {
-                if (err) { console.log(err); } else {
+                    }
+                })
+            } else {
+                var sql = `Select * from thungan where username = '${username}' `;
+                con.query(sql, function(err, result, kq) {
+                    if (err) { console.log(err); } else {
 
-                    res.send(result[0]);
+                        res.send(result[0]);
 
-                }
-            })
-        }
-    } else if (role == "vendor") {
-        var username = req.body.username;
-        var action = req.body.action;
-        console.log(req.body);
+                    }
+                })
+            }
+        } else if (role == "vendor") {
+            var username = req.body.username;
+            var action = req.body.action;
+            console.log(req.body);
 
-        if (action == 'daubep') {
-            var sql = `Select * from daubep where username = '${username}' `;
-            con.query(sql, function (err, result, kq) {
-                if (err) { console.log(err); } else {
+            if (action == 'daubep') {
+                var sql = `Select * from daubep where username = '${username}' `;
+                con.query(sql, function(err, result, kq) {
+                    if (err) { console.log(err); } else {
 
-                    res.send(result[0]);
+                        res.send(result[0]);
 
-                }
-            })
-        } else if (action == 'nhanvien')  {
-            var sql = `Select * from nhanvien where username = '${username}' `;
-            con.query(sql, function (err, result, kq) {
-                if (err) { console.log(err); } else {
+                    }
+                })
+            } else if (action == 'nhanvien') {
+                var sql = `Select * from nhanvien where username = '${username}' `;
+                con.query(sql, function(err, result, kq) {
+                    if (err) { console.log(err); } else {
 
-                    res.send(result[0]);
+                        res.send(result[0]);
 
-                }
-            })
+                    }
+                })
+            }
         }
     }
-}
-//Post edit vendor /thu ngan
-module.exports.editvendor = function (req, res) {
-    var action = req.body.tenquay;
-    var name = req.cookies.info.username;
-    var role = req.cookies.info.role;
+    //Post edit vendor /thu ngan
+module.exports.editvendor = function(req, res) {
+        var action = req.body.tenquay;
+        var name = req.cookies.info.username;
+        var role = req.cookies.info.role;
 
-    if (role == 'admin') {
+        if (role == 'admin') {
 
 
-        if (!action) {
+            if (!action) {
 
-            var trangthai = req.body.trangthai;
-            var username = req.body.username;
+                var trangthai = req.body.trangthai;
+                var username = req.body.username;
+                console.log(req.body);
+
+                console.log("usr la " + username);
+
+                if (trangthai == 'active') {
+                    console.log("submit thu ngan active");
+
+                    sql = `UPDATE thungan SET trangthai = 'active',ngaynghiviec = NULL  WHERE username = '${username}'; `;
+
+                } else {
+                    console.log("submit thu ngan inactive co usr la " + username);
+
+                    sql = `UPDATE thungan SET trangthai = 'inactive',ngaynghiviec = NOW()  WHERE username = '${username}'; `;
+
+                }
+                con.query(sql, function(err, result, kq) {
+                    if (err) { console.log(err); } else {
+
+                        res.send('Cập nhật thành công')
+
+                    }
+                })
+
+
+            } else {
+
+                console.log("submit vendor");
+
+                var name = req.cookies.info.username;
+                var usernamevendor = req.body.usernamevendor;
+                var tenquay = req.body.tenquay;
+                var trangthai = req.body.trangthai;
+                var id = req.body.id;
+                console.log(trangthai);
+
+                var sql;
+                if (trangthai == 'inactive') {
+                    sql = `UPDATE vendor SET username = '${usernamevendor}',tenquay = '${tenquay}',adminthuchien = '${name}',trangthai = 'inactive',ngaydong = NOW()  WHERE id = '${id}'; `;
+
+                } else {
+                    sql = `UPDATE vendor SET username = '${usernamevendor}',tenquay = '${tenquay}',adminthuchien = '${name}',trangthai = 'active',ngaydong = NULL  WHERE id = '${id}'; `;
+
+                }
+                con.query(sql, function(err, result, kq) {
+                    if (err) { console.log(err); } else {
+
+                        res.send('Cập nhật thành công')
+
+                    }
+                })
+
+            }
+        } else if (role == "vendor") {
+            var flag = req.body.flag;
             console.log(req.body);
 
-            console.log("usr la " + username);
+            if (flag == "daubep") {
 
-            if (trangthai == 'active') {
-                console.log("submit thu ngan active");
+                var trangthai = req.body.trangthai;
+                var username = req.body.username;
+                console.log(req.body);
 
-                sql = `UPDATE thungan SET trangthai = 'active',ngaynghiviec = NULL  WHERE username = '${username}'; `;
+                console.log("usr la " + username);
 
-            } else {
-                console.log("submit thu ngan inactive co usr la " + username);
+                if (trangthai == 'active') {
+                    console.log("submit daubep active");
 
-                sql = `UPDATE thungan SET trangthai = 'inactive',ngaynghiviec = NOW()  WHERE username = '${username}'; `;
+                    sql = `UPDATE daubep SET trangthai = 'active',ngaynghiviec = NULL  WHERE username = '${username}'; `;
 
-            }
-            con.query(sql, function (err, result, kq) {
-                if (err) { console.log(err); } else {
+                } else {
+                    console.log("submit daubep inactive co usr la " + username);
 
-                    res.send('Cập nhật thành công')
-
-                }
-            })
-
-
-        } else {
-
-            console.log("submit vendor");
-
-            var name = req.cookies.info.username;
-            var usernamevendor = req.body.usernamevendor;
-            var tenquay = req.body.tenquay;
-            var trangthai = req.body.trangthai;
-            var id = req.body.id;
-            console.log(trangthai);
-
-            var sql;
-            if (trangthai == 'inactive') {
-                sql = `UPDATE vendor SET username = '${usernamevendor}',tenquay = '${tenquay}',adminthuchien = '${name}',trangthai = 'inactive',ngaydong = NOW()  WHERE id = '${id}'; `;
-
-            } else {
-                sql = `UPDATE vendor SET username = '${usernamevendor}',tenquay = '${tenquay}',adminthuchien = '${name}',trangthai = 'active',ngaydong = NULL  WHERE id = '${id}'; `;
-
-            }
-            con.query(sql, function (err, result, kq) {
-                if (err) { console.log(err); } else {
-
-                    res.send('Cập nhật thành công')
+                    sql = `UPDATE daubep SET trangthai = 'inactive',ngaynghiviec = NOW()  WHERE username = '${username}'; `;
 
                 }
-            })
+                con.query(sql, function(err, result, kq) {
+                    if (err) { console.log(err); } else {
 
-        }
-    } else if (role == "vendor") {
-        var flag = req.body.flag;
-        console.log(req.body);
+                        res.send('Cập nhật thành công')
 
-        if (flag == "daubep") {
+                    }
+                })
 
-            var trangthai = req.body.trangthai;
-            var username = req.body.username;
-            console.log(req.body);
 
-            console.log("usr la " + username);
+            } else if (flag == "nhanvien") {
 
-            if (trangthai == 'active') {
-                console.log("submit daubep active");
+                console.log("submit nhanvien");
 
-                sql = `UPDATE daubep SET trangthai = 'active',ngaynghiviec = NULL  WHERE username = '${username}'; `;
+                var trangthai = req.body.trangthai;
+                var username = req.body.username;
+                console.log(req.body);
 
-            } else {
-                console.log("submit daubep inactive co usr la " + username);
+                console.log("usr la " + username);
 
-                sql = `UPDATE daubep SET trangthai = 'inactive',ngaynghiviec = NOW()  WHERE username = '${username}'; `;
+                if (trangthai == 'active') {
+                    console.log("submit nhanvien active");
 
-            }
-            con.query(sql, function (err, result, kq) {
-                if (err) { console.log(err); } else {
+                    sql = `UPDATE nhanvien SET trangthai = 'active',ngaynghiviec = NULL  WHERE username = '${username}'; `;
 
-                    res.send('Cập nhật thành công')
+                } else {
+                    console.log("submit nhanvien inactive co usr la " + username);
+
+                    sql = `UPDATE nhanvien SET trangthai = 'inactive',ngaynghiviec = NOW()  WHERE username = '${username}'; `;
 
                 }
-            })
+                con.query(sql, function(err, result, kq) {
+                    if (err) { console.log(err); } else {
 
+                        res.send('Cập nhật thành công')
 
-        } else  if (flag == "nhanvien") {
-
-            console.log("submit nhanvien");
-
-            var trangthai = req.body.trangthai;
-            var username = req.body.username;
-            console.log(req.body);
-
-            console.log("usr la " + username);
-
-            if (trangthai == 'active') {
-                console.log("submit nhanvien active");
-
-                sql = `UPDATE nhanvien SET trangthai = 'active',ngaynghiviec = NULL  WHERE username = '${username}'; `;
-
-            } else {
-                console.log("submit nhanvien inactive co usr la " + username);
-
-                sql = `UPDATE nhanvien SET trangthai = 'inactive',ngaynghiviec = NOW()  WHERE username = '${username}'; `;
+                    }
+                })
 
             }
-            con.query(sql, function (err, result, kq) {
-                if (err) { console.log(err); } else {
-
-                    res.send('Cập nhật thành công')
-
-                }
-            })
-
         }
     }
-}
-//Get vendor table
-module.exports.vendortable = function (req, res) {
+    //Get vendor table
+module.exports.vendortable = function(req, res) {
     var name = req.cookies.info.username;
     var role = req.cookies.info.role;
-    
+
     if (role == 'admin') {
 
 
@@ -750,7 +738,7 @@ module.exports.vendortable = function (req, res) {
 
         if (action == "vendor") {
             var sql = `Select * from vendor `;
-            con.query(sql, function (err, result) {
+            con.query(sql, function(err, result) {
                 if (err) { console.log(err); } else {
 
                     res.send(result);
@@ -760,7 +748,7 @@ module.exports.vendortable = function (req, res) {
         } else if (action == 'thungan') {
 
             var sql = `Select * from thungan `;
-            con.query(sql, function (err, result) {
+            con.query(sql, function(err, result) {
                 if (err) { console.log(err); } else {
 
                     res.send(result);
@@ -774,7 +762,7 @@ module.exports.vendortable = function (req, res) {
 
         if (action == "daubep") {
             var sql = `Select * from daubep where vendorowner = '${name}' `;
-            con.query(sql, function (err, result) {
+            con.query(sql, function(err, result) {
                 if (err) { console.log(err); } else {
 
                     res.send(result);
@@ -784,7 +772,7 @@ module.exports.vendortable = function (req, res) {
         } else if (action == 'nhanvien') {
 
             var sql = `Select * from nhanvien where vendorowner = '${name}' `;
-            con.query(sql, function (err, result) {
+            con.query(sql, function(err, result) {
                 if (err) { console.log(err); } else {
 
                     res.send(result);
@@ -794,69 +782,70 @@ module.exports.vendortable = function (req, res) {
         }
     }
 }
-module.exports.xacnhan = async (req, res) => {
-    
+module.exports.xacnhan = async(req, res) => {
+
     name = req.cookies.info.username;
     role = req.cookies.info.role;
-    if(role == "nhanvien"){
-        var donhangs = await new Promise((resolve, reject)=>{
-            con.query(`select xacnhan.id, xacnhan.daubepxacnhan, xacnhan.userxacnhan, xacnhan.quayhangxacnhan, xacnhan.idgiohang  from xacnhan inner join nhanvien inner join daubep on daubep.username = xacnhan.daubepxacnhan and daubep.vendorowner = nhanvien.vendorowner and nhanvien.username = '${name}' and xacnhan.quayhangxacnhan is null;`, 
-            function(err,results,fields){
-                if (err) throw err;
-                resolve(results);
-            })
-        });
-        for (let i=0; i<donhangs.length; i++){
-            donhangs[i].foods = await new Promise((resolve,reject)=>{
-                con.query(`SELECT * from chonhang inner join  foods on foods.id = chonhang.idmon AND idgiohang = ${donhangs[i].idgiohang}`,
-                function(err, results, fields){
+    if (role == "nhanvien") {
+        var donhangs = await new Promise((resolve, reject) => {
+            con.query(`select xacnhan.id, xacnhan.daubepxacnhan, xacnhan.userxacnhan, xacnhan.quayhangxacnhan, xacnhan.idgiohang  from xacnhan inner join nhanvien inner join daubep on daubep.username = xacnhan.daubepxacnhan and daubep.vendorowner = nhanvien.vendorowner and nhanvien.username = '${name}' and xacnhan.quayhangxacnhan is null;`,
+                function(err, results, fields) {
                     if (err) throw err;
                     resolve(results);
                 })
+        });
+        for (let i = 0; i < donhangs.length; i++) {
+            donhangs[i].foods = await new Promise((resolve, reject) => {
+                con.query(`SELECT * from chonhang inner join  foods on foods.id = chonhang.idmon AND idgiohang = ${donhangs[i].idgiohang}`,
+                    function(err, results, fields) {
+                        if (err) throw err;
+                        resolve(results);
+                    })
             })
         }
         // res.send(donhangs);
-         res.render('Xacnhan/xacnhancuanhanvien',{title: 'Express', name: name, role: role, data:donhangs , status:""} )
-    } else if( role == 'user'){
-        var donhangs = await new Promise((resolve, reject)=>{
-            con.query(`select xacnhan.id, xacnhan.daubepxacnhan, xacnhan.userxacnhan, xacnhan.quayhangxacnhan, xacnhan.idgiohang  from xacnhan  inner join giohang on xacnhan.daubepxacnhan is not null and xacnhan.quayhangxacnhan is not null and giohang.idgiohang = xacnhan.idgiohang and  giohang.username = '${name}' and xacnhan.userxacnhan is null;`, 
-            function(err,results,fields){
-                if (err) throw err;
-                resolve(results);
-            })
-        });
-        for (let i=0; i<donhangs.length; i++){
-            donhangs[i].foods = await new Promise((resolve,reject)=>{
-                con.query(`SELECT * from chonhang inner join  foods on foods.id = chonhang.idmon AND idgiohang = ${donhangs[i].idgiohang}`,
-                function(err, results, fields){
+        res.render('Xacnhan/xacnhancuanhanvien', { title: 'Express', name: name, role: role, data: donhangs, status: "" })
+    } else if (role == 'user') {
+        var donhangs = await new Promise((resolve, reject) => {
+            con.query(`select xacnhan.id, xacnhan.daubepxacnhan, xacnhan.userxacnhan, xacnhan.quayhangxacnhan, xacnhan.idgiohang  from xacnhan  inner join giohang on xacnhan.daubepxacnhan is not null and xacnhan.quayhangxacnhan is not null and giohang.idgiohang = xacnhan.idgiohang and  giohang.username = '${name}' and xacnhan.userxacnhan is null;`,
+                function(err, results, fields) {
                     if (err) throw err;
                     resolve(results);
                 })
+        });
+        for (let i = 0; i < donhangs.length; i++) {
+            donhangs[i].foods = await new Promise((resolve, reject) => {
+                con.query(`SELECT * from chonhang inner join  foods on foods.id = chonhang.idmon AND idgiohang = ${donhangs[i].idgiohang}`,
+                    function(err, results, fields) {
+                        if (err) throw err;
+                        resolve(results);
+                    })
             })
         }
         // res.send(donhangs);
-         res.render('Xacnhan/xacnhancuanguoidung',{title: 'Express', name: name, role: role, data:donhangs , status:""} )
+        res.render('Xacnhan/xacnhancuanguoidung', { title: 'Express', name: name, role: role, data: donhangs, status: "" })
+    } else {
+        res.redirect('/')
     }
-   
+
 
 }
-module.exports.quayhangxacnhan= function (req, res){
+module.exports.quayhangxacnhan = function(req, res) {
     role = req.cookies.info.role;
     var name = req.cookies.info.username;
-    if(role == 'nhanvien'){
+    if (role == 'nhanvien') {
 
-  
-    con.query(`UPDATE xacnhan SET quayhangxacnhan='${name}' ,timequayhangxacnhan= now() WHERE id=${req.body.id}`,
-    function(err, results, fields){
-        if (err) throw err;
-        res.send({status: "success", id:req.body.id});
-    })
-} else if( role == 'user'){
-    con.query(`UPDATE xacnhan SET userxacnhan='${name}' , timeuserxacnhan= now() WHERE id=${req.body.id}`,
-    function(err, results, fields){
-        if (err) throw err;
-        res.send({status: "success", id:req.body.id});
-    })
-}
-}
 
+        con.query(`UPDATE xacnhan SET quayhangxacnhan='${name}' ,timequayhangxacnhan= now() WHERE id=${req.body.id}`,
+            function(err, results, fields) {
+                if (err) throw err;
+                res.send({ status: "success", id: req.body.id });
+            })
+    } else if (role == 'user') {
+        con.query(`UPDATE xacnhan SET userxacnhan='${name}' , timeuserxacnhan= now() WHERE id=${req.body.id}`,
+            function(err, results, fields) {
+                if (err) throw err;
+                res.send({ status: "success", id: req.body.id });
+            })
+    }
+}

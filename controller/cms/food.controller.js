@@ -5,14 +5,15 @@ const { log } = require("console");
 module.exports = {
     index: (req, res) => {
         var sql = "";
-        if (req.cookies.info.vendor){
+        if (req.cookies.info.vendor) {
             sql = `SELECT * FROM foods WHERE trash = 0 AND vendorowner = '${req.cookies.info.vendor}' ORDER BY created_date DESC`;
-        }
-        else sql = `SELECT * FROM foods WHERE trash = 0 ORDER BY created_date DESC`;
+        } else sql = `SELECT * FROM foods WHERE trash = 0 ORDER BY created_date DESC`;
         DB.query(sql,
-            function (err, results, fields) {
+            function(err, results, fields) {
                 if (err) throw err;
-                res.render('cms/main_layout', { content: "foods/index", footer: 'foods/footer', data: results });
+                var role = req.cookies.info.role;
+
+                res.render('cms/main_layout', { content: "foods/index", footer: 'foods/footer', data: results, role: role });
             })
     },
     add: (req, res) => {
@@ -20,18 +21,17 @@ module.exports = {
         console.log(req.cookies.info);
         var sql = `INSERT INTO foods (title, image, price, description, in_menu, created_date, vendorowner) VALUES ('${req.body.title}','${req.file.filename}',${req.body.price},'${req.body.description}',${req.body.in_menu == "on" ? 1 : 0},NOW(),'${req.cookies.info.vendor}')`;
         DB.query(sql,
-            async function (err, results, fields) {
+            async function(err, results, fields) {
                 if (err) throw err;
                 var menuID = await new Promise((resolve, reject) => {
                     DB.query(`SELECT * FROM menu WHERE DATE(created_date) = DATE(NOW())`,
-                        function (err, results, fields) {
+                        function(err, results, fields) {
                             if (err) reject(err);
                             if (results.length > 0) {
                                 resolve(results[0].id);
-                            }
-                            else {
+                            } else {
                                 DB.query(`INSERT INTO menu (created_date) VALUES (NOW())`,
-                                    function (err, result) {
+                                    function(err, result) {
                                         resolve(result.insertId);
                                     })
                             }
@@ -45,30 +45,28 @@ module.exports = {
     },
     changeStateMenu: (req, res) => {
         DB.query(`UPDATE foods SET in_menu=${req.body.in_menu == 'true' ? 1 : 0} WHERE id=${req.body.id}`,
-            async function (err, results, fields) {
+            async function(err, results, fields) {
                 if (err) throw err;
                 var menuID = await new Promise((resolve, reject) => {
                     DB.query(`SELECT * FROM menu WHERE DATE(created_date) = DATE(NOW())`,
-                        function (err, results, fields) {
+                        function(err, results, fields) {
                             if (err) reject(err);
                             if (results.length > 0) {
                                 resolve(results[0].id);
-                            }
-                            else {
+                            } else {
                                 DB.query(`INSERT INTO menu (created_date) VALUES (NOW())`,
-                                    function (err, result) {
+                                    function(err, result) {
                                         resolve(result.insertId);
                                     })
                             }
                         });
                 });
                 DB.query(`SELECT * FROM menu_foods WHERE menuID=${menuID} AND foodID=${req.body.id}`,
-                    function (err, results, fields) {
+                    function(err, results, fields) {
                         if (err) throw err;
                         if (results.length > 0) {
                             DB.query(`UPDATE menu_foods SET trash=${req.body.in_menu == 'true' ? 0 : 1} WHERE id=${results[0].id}`);
-                        }
-                        else {
+                        } else {
                             if (req.body.in_menu == 'true') {
                                 DB.query(`INSERT INTO menu_foods (menuID, foodID, amount, trash) VALUES (${menuID},${req.body.id},0,0)`)
                             }
@@ -80,7 +78,7 @@ module.exports = {
     },
     get: (req, res) => {
         DB.query(`SELECT * FROM foods WHERE trash = 0 AND id=${req.params.id}`,
-            function (err, results, fields) {
+            function(err, results, fields) {
                 if (err) throw err;
                 if (results.length > 0) {
                     res.send(results[0]);
@@ -89,7 +87,7 @@ module.exports = {
     },
     update: (req, res) => {
         DB.query(`SELECT * FROM foods WHERE id=${req.params.id}`,
-            async function (err, results, fields) {
+            async function(err, results, fields) {
                 if (err) throw err;
                 var image = "";
                 if (req.file) {
@@ -100,10 +98,10 @@ module.exports = {
                 } else image = results[0].image;
                 DB.query(`UPDATE foods SET trash=1 WHERE id=${req.params.id}`);
                 await DB.query(`INSERT INTO foods (title, image, price, description, in_menu, created_date) VALUES ('${req.body.title}','${image}',${req.body.price},'${req.body.description}',${req.body.in_menu == 'on' ? 1 : 0},NOW())`,
-                    async function (err, results, fields) {
+                    async function(err, results, fields) {
                         var amount = await new Promise((resolve, reject) => {
                             DB.query(`SELECT * FROM menu_foods WHERE foodID = ${req.params.id} ORDER BY id DESC`,
-                                function (err, results, fields) {
+                                function(err, results, fields) {
                                     if (err) reject(err);
                                     if (results.length > 0) {
                                         DB.query(`UPDATE menu_foods set trash=1 WHERE id=${results[0].id}`);
@@ -114,14 +112,13 @@ module.exports = {
                         })
                         var menuID = await new Promise((resolve, reject) => {
                             DB.query(`SELECT * FROM menu WHERE DATE(created_date) = DATE(NOW())`,
-                                function (err, results, fields) {
+                                function(err, results, fields) {
                                     if (err) reject(err);
                                     if (results.length > 0) {
                                         resolve(results[0].id);
-                                    }
-                                    else {
+                                    } else {
                                         DB.query(`INSERT INTO menu (created_date) VALUES (NOW())`,
-                                            function (err, result) {
+                                            function(err, result) {
                                                 resolve(result.insertId);
                                             })
                                     }
@@ -137,7 +134,7 @@ module.exports = {
     },
     delete: (req, res) => {
         DB.query(`SELECT * FROM foods WHERE id=${req.params.id}`,
-            async function (err, results, fields) {
+            async function(err, results, fields) {
                 if (err) throw err;
                 if (results.length > 0) {
                     if (fs.existsSync('public/uploads/foods/' + results[0].image)) {
@@ -147,14 +144,13 @@ module.exports = {
                     if (results[0].in_menu == 1) {
                         var menuID = await new Promise((resolve, reject) => {
                             DB.query(`SELECT * FROM menu WHERE DATE(created_date) = DATE(NOW())`,
-                                function (err, results, fields) {
+                                function(err, results, fields) {
                                     if (err) reject(err);
                                     if (results.length > 0) {
                                         resolve(results[0].id);
-                                    }
-                                    else {
+                                    } else {
                                         DB.query(`INSERT INTO menu (created_date) VALUES (NOW())`,
-                                            function (err, result) {
+                                            function(err, result) {
                                                 resolve(result.insertId);
                                             })
                                     }
