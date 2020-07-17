@@ -30,6 +30,13 @@ router.post('/', auth.checkMaintainmode, controller.themvaogiohang);
 
 /* GET Xem gio hang */
 router.get('/xemgiohang', auth.checkMaintainmode, controller.xemgiohang);
+/* Use Cap nhat gio hang */
+router.use('/capnhatgiohang', auth.checkMaintainmode, controller.capnhatgiohang);
+/* Use Xoa san pham gio hang */
+router.use('/xoasanphamtronggiohang', auth.checkMaintainmode, controller.xoasanphamtronggiohang);
+
+
+
 
 /* POST Thanh toan gio hang. */
 router.post('/thanhtoan', auth.checkMaintainmode, controller.thanhtoangiohang);
@@ -80,3 +87,4 @@ module.exports = router;
 router.get('/xacnhan', auth.authen, auth.checkMaintainmode, controller.xacnhan);
 //Use quay hang xac nhan
 router.use('/quayhangxacnhan', auth.authen, auth.checkMaintainmode, controller.quayhangxacnhan);
+

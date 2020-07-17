@@ -98,8 +98,8 @@ module.exports.xemgiohang = function (req, res, next) {
         } else {
 
 
-            //case san phan chua duoc them truoc do
-            var sql = `SELECT chonhang.idmon, chonhang.soluong, foods.price,foods.image,foods.description, idmon as id FROM food_court.chonhang  inner join  foods ON foods.id = chonhang.idmon and  chonhang.idgiohang = '${result[0].id}';`;
+           
+            var sql = `SELECT chonhang.idmon, chonhang.soluong, menu_foods.amount, foods.price,foods.image,foods.description, idmon as id FROM food_court.chonhang  inner join  foods inner join menu_foods  ON foods.id = chonhang.idmon and  chonhang.idgiohang = ${result[0].id} and menu_foods.menuID = (select max(id) from menu) and menu_foods.foodid =  chonhang.idmon ;`;
             con.query(sql, function (err, result) {
                 if (err) {
                     console.log(err);
@@ -116,6 +116,79 @@ module.exports.xemgiohang = function (req, res, next) {
         }
     })
 }
+//Cap nhat gio hang
+module.exports.capnhatgiohang = function (req, res, next) {
+    var name = "";
+    var role = "";
+    if (req.cookies.info) {
+        name = req.cookies.info.username;
+        role = req.cookies.info.role;
+
+    }
+    var soluong = req.body.soluong;
+    var id = req.body.id;
+    var sql = `select max(idgiohang) as id from giohang where username = '${name}'`;
+    con.query(sql, function (err, result) {
+        if (err) {
+            console.log(err);
+
+        } else {
+
+
+            //case san phan chua duoc them truoc do
+            var sql = `update chonhang set soluong = ${soluong} where idgiohang = ${result[0].id} ;`;
+            con.query(sql, function (err, result) {
+                if (err) {
+                    console.log(err);
+
+                } else {
+
+                    console.log(result);
+                    res.send("Cập nhật thành công")
+
+                }
+            })
+
+
+        }
+    })
+}
+//Xoa san pham trong gio hang
+module.exports.xoasanphamtronggiohang = function (req, res, next) {
+    var name = "";
+    var role = "";
+    if (req.cookies.info) {
+        name = req.cookies.info.username;
+        role = req.cookies.info.role;
+
+    }
+    
+    var id = req.body.id;
+    var sql = `select max(idgiohang) as id from giohang where username = '${name}'`;
+    con.query(sql, function (err, result) {
+        if (err) {
+            console.log(err);
+
+        } else {
+
+
+            //case san phan chua duoc them truoc do
+            var sql = `delete from  chonhang where idgiohang = ${result[0].id} and idmon = ${id} ;`;
+            con.query(sql, function (err, result) {
+                if (err) {
+                    console.log(err);
+
+                } else {
+
+                    res.send("Xóa  thành công")
+
+                }
+            })
+
+
+        }
+    })
+}
 //Thanh toán giỏ hàng
 module.exports.thanhtoangiohang = function (req, res, next) {
     var name = "";
@@ -123,6 +196,7 @@ module.exports.thanhtoangiohang = function (req, res, next) {
     if (req.cookies.info) {
         name = req.cookies.info.username;
         role = req.cookies.info.role;
+        id = req.body.id;
 
     }
 
@@ -131,10 +205,10 @@ module.exports.thanhtoangiohang = function (req, res, next) {
     con.query(sql, async (err, result, fields) => {
         if (err) throw err;
         else {
-            var tongtien = 0, ketquasosanh = [], food = { idmon: '', amount: '', tenmon:'' };
+            var tongtien = 0, ketquasosanh = [];
             var idgiohang = result[0].id;
             let dulieu = await new Promise((resolve, reject) => {
-                var sql = `SELECT chonhang.idmon, chonhang.soluong, foods.price,foods.image,foods.description, foods.title as tenmon, menu_foods.amount FROM food_court.chonhang  inner join  foods inner join menu_foods ON foods.id = chonhang.idmon and  chonhang.idgiohang = ${idgiohang} and menu_foods.foodID =chonhang.idmon ;`;
+                var sql = `SELECT chonhang.idmon, chonhang.soluong,foods.vendorowner, foods.price,foods.image,foods.description, foods.title as tenmon, a.amount FROM food_court.chonhang  inner join  foods inner join menu_foods as a ON foods.id = chonhang.idmon and  chonhang.idgiohang = ${idgiohang} and a.foodID =chonhang.idmon and a.menuid = (select max(id) from menu)  ;`;
                 con.query(sql, async function (err, results, fields) {
                     console.log(sql);
                     if (err) throw err;
@@ -145,13 +219,12 @@ module.exports.thanhtoangiohang = function (req, res, next) {
             });
             dulieu.forEach(element => {
                 if (element.soluong > element.amount) {
-                    food.idmon = element.idmon;
-                    food.tenmon = element.tenmon;
-                    food.amount = element.amount;
-                    ketquasosanh.push(food);
+                   
+                    ketquasosanh.push({ idmon: element.idmon, amount: element.tenmon, tenmon: element.amount });
+
                 }
-                tongtien += element.price;
-               
+                tongtien += element.price*element.soluong;
+
             });
 
             console.log("tongtien la ");
@@ -168,8 +241,8 @@ module.exports.thanhtoangiohang = function (req, res, next) {
                         }
                     })
                 });
-                if(balance - tongtien < 0 ){
-                    res.render('xemgiohang', { title: 'Express', name: name, role: role, data: [], status: "Tài khoản không đủ tiền" });
+                if (balance - tongtien < 0) {
+                    res.send("nem");
 
                 } else {
                     var sql = `call thanhtoangiohang ('${name}', ${tongtien})`;
@@ -178,20 +251,20 @@ module.exports.thanhtoangiohang = function (req, res, next) {
                             console.log(err);
 
                         } else {
-                            res.render('xemgiohang', { title: 'Express', name: name, role: role, data: [], status: "Đặt hàng thành công" });
+                            res.send('success');
                         }
                     })
 
                 }
 
             } else {
-                console.log(food);
-                res.render('xemgiohang', { title: 'Express', name: name, role: role, data: [], status: "Kiểm tra lại giỏ hàng" });
+                console.log(ketquasosanh);
+                res.send(ketquasosanh);
 
             }
 
 
-            
+
 
         }
     })
