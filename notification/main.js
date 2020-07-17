@@ -3,6 +3,7 @@ var cookie = require('cookie');
 var io;
 
 module.exports = {
+    io: io,
     init: (server) => {
         io = require('socket.io')(server);
         io.on('connection', socket => {
@@ -10,13 +11,21 @@ module.exports = {
             JSONCookieToObj(cookies);
             console.log(cookies);
             var role = cookies.role;
-            if (role == "thungan" || role == "vendor" || role == "daubep"){
-                socket.join(cookies.vender)
+            if (role == "nhanvien" || role == "vendor" || role == "daubep"){
+                socket.join(cookies.vender);
             }
+            
+            socket.on('xac nhan', ()=>{
+                console.log('xac nhan do an xong');
+            })
+            
             socket.on('disconnect',(data)=>{
                 console.log(socket.id,data);
             });
         });
+    },
+    notiBookFood: (data)=>{
+        io.in(data.vendor).emit('book food',data);
     }
 }
 

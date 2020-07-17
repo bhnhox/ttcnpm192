@@ -1,5 +1,6 @@
 var md5 = require('md5');
 const { log } = require('debug');
+var noti = require('../notification/main');
 
 //End of Import lowDB
 //Date time
@@ -118,13 +119,51 @@ module.exports.thanhtoangiohang = function(req, res, next) {
 
         }
         var sql = `call thanhtoangiohang('${name}')`;
-        con.query(sql, function(err, result) {
+        con.query(sql, async function(err, result) {
             if (err) {
                 console.log(err);
 
             } else {
+                var idgiohang = await new Promise((res,rej)=>{
+                    con.query(`SELECT max(idgiohang) as id FROM giohang WHERE username = '${name}'`,(err, results, fields)=>{
+                        if (err) throw err;
+                        if (results){
+                            res(results[0].id);
+                        }
+                    })
+                });
+                var foods = await new Promise((res,rej)=>{
+                    con.query(`SELECT * FROM chonhang WHERE idgiohang = ${idgiohang}`,(err, results, fields)=>{
+                        if (err) throw err;
+                        if (results){
+                            res(results);
+                        }
+                    })
+                });
+                var vendors = [];
+                for (food of foods){
+                    var vendor = await new Promise((res, rej)=>{
+                        con.query(`SELECT vendorowner FROM foods WHERE id='${food.idmon}'`,(err, results, fields)=>{
+                            if (err) throw err;
+                            if (results){
+                                res(results[0].vendorowner);
+                            }
+                        })
+                    });
+                    var v = vendors.find((ven)=>{return ven.vendor == vendor});
+                    if (v) v.foods.push(food);
+                    else {
+                        vendors.push({
+                            vendor: vendor,
+                            foods:[food]
+                        })
+                    }
+                }
+                console.log(vendors);
+                // vendors.forEach((ven)=>{
+                //     noti.notiBookFood(ven);
+                // })
                 res.render('xemgiohang', { title: 'Express', name: name, role: role, data: [], status: "Đặt hàng thành công" });
-
             }
         })
 
