@@ -49,10 +49,10 @@
               <div class="col-md-12 col-lg-8 section-heading">
                 <h2 class="heading mb-5"><%= status %> </h2>
 
-                <form method="POST" action="/naptien">
+                <form method="" action="">
                   <div class="form-group">
                     <label for="">Số tiền</label>
-                    <input type="text" name="amount" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter pass">
+                    <input type="number" name="amount" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter pass">
                     <label for="">Mật khẩu</label>
                     <input type="password" name="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter pass">
                     <label for="">Tên ngân hàng</label>
@@ -80,7 +80,53 @@
 
 
     <%- include("function/footer.ejs") %>
-
+      <script>
+        $('form').submit(function name(params) {
+          var that = $(this);
+          $.ajax({
+            url:'/postnaptien', type:'post', data: that.serialize(), success: function name(result) {
+              if(result == 'nan'){
+                $("#status").html('Số tiền không đúng định dạng');
+                   document.getElementsByName('amount').value = '';
+                   
+              } else if(result == 'err'){
+                $("#status").html('Có lỗi trong quá trình xử lý');
+                   document.getElementsByName('amount').value = '';
+                  
+              } else if(result == 'wrongpass'){
+                $("#status").html('Sai mật khẩu');
+                   document.getElementsByName('amount').value = '';
+                  
+              }else if(result == 'success'){
+                $("#status").html('Sai mật khẩu');
+                   document.getElementsByName('amount').value = '';
+                   
+              } else if(result == 'lessthan10k') {
+                $("#status").html('Số tiền nạp phải lớn hơn 10.000 vnđ');
+                   document.getElementsByName('amount').value = '';
+                  
+              }
+               else if(result == 'morethan10m') {
+                $("#status").html('Số tiền 1 lần nạp không được nhiều hơn 10.000.000 vnđ');
+                   document.getElementsByName('amount').value = '';
+                  
+              }
+               else if(result == 'selectbank') {
+                $("#status").html('Chưa chọn ngân hàng');
+                   document.getElementsByName('amount').value = '';
+                  
+              }
+              else {
+                $("#status").html('Error code');
+                   document.getElementsByName('amount').value = '';
+                  
+              }
+            
+            }
+          })
+          return false;
+        })
+      </script>
   </body>
 
 </html>

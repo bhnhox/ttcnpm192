@@ -130,9 +130,9 @@ module.exports.capnhatgiohang = function async(req, res, next) {
     console.log(Number.isInteger(soluong));
     //Kiểm tra số lượng món ăn
     if (soluong < 1) {
-      return  res.send("Số lượng món ăn phải lớn hơn 0");
+        return res.send("Số lượng món ăn phải lớn hơn 0");
     } else if (!Number.isInteger(soluong)) {
-      return  res.send("Số lượng món ăn không hợp lệ");
+        return res.send("Số lượng món ăn không hợp lệ");
     }
     var id = req.body.id;
 
@@ -141,7 +141,7 @@ module.exports.capnhatgiohang = function async(req, res, next) {
     con.query(sql, async function (err, result) {
         if (err) {
             console.log(err);
-            return  res.send("Có lỗi");
+            return res.send("Có lỗi");
         } else {
             let soluonginstock = await new Promise((resolve, reject) => {
                 var sql = `select amount from menu_foods where foodid = ${id} and menuid = ${result[0].id};`;
@@ -153,7 +153,7 @@ module.exports.capnhatgiohang = function async(req, res, next) {
                 })
             });
             if (soluonginstock < soluong) {
-                return  res.send("Số lượng món ăn trong quầy không đủ")
+                return res.send("Số lượng món ăn trong quầy không đủ")
             } else {
                 var sql = `select max(idgiohang) as id from giohang where username = '${name}'`;
                 con.query(sql, function (err, result) {
@@ -170,7 +170,7 @@ module.exports.capnhatgiohang = function async(req, res, next) {
                             } else {
                                 console.log("here");
 
-                              return  res.send("Cập nhật thành công");
+                                return res.send("Cập nhật thành công");
 
                             }
                         })
@@ -182,7 +182,7 @@ module.exports.capnhatgiohang = function async(req, res, next) {
 
 
         }
-       
+
 
 
     })
@@ -264,7 +264,7 @@ module.exports.thanhtoangiohang = function (req, res, next) {
             });
 
             if (tongtien == 0) {
-            return    res.send('0');
+                return res.send('0');
             }
             if (ketquasosanh.length == 0) { //Toi buoc tinh tien
                 let balance = await new Promise((resolve, reject) => {  //Lay so tien hien tai
@@ -279,88 +279,88 @@ module.exports.thanhtoangiohang = function (req, res, next) {
                     })
                 });
                 if (balance - tongtien < 0) {
-                  return  res.send("nem");
+                    return res.send("nem");
 
                 } else {
                     //Bảng xác nhận
-                    var tenquay =  await new Promise((resolve, reject) => {  //lấy vendorowner trong giỏ hàng
+                    var tenquay = await new Promise((resolve, reject) => {  //lấy vendorowner trong giỏ hàng
                         var sql = `SELECT distinct  vendor.tenquay FROM food_court.chonhang  inner join  foods inner join menu_foods  inner join vendor ON foods.id = chonhang.idmon and  chonhang.idgiohang = ${idgiohang} and menu_foods.menuID = (select max(id) from menu) and menu_foods.foodid =  chonhang.idmon where  foods.vendorowner  = vendor.username  ;`;
                         con.query(sql, function (err, result) {
                             if (err) {
                                 console.log(err);
-    
+
                             } else {
                                 return resolve(result);
                             }
                         })
                     });
                     //Thêm vào bảng đơn hàng
-                   
-                        
-                        var addxacnhan =  await new Promise((resolve, reject) => {  //Thêm vào bảng xác nhận
-                            var sql = `insert into donhang(idgiohang) values(${idgiohang});`;
-                            con.query(sql, function (err, result) {
-                                if (err) {
-                                    console.log(err);
-        
-                                } else {
-                                    return resolve(result);
-                                }
-                            })
-                        });
-                       
 
-                    
-                    tenquay.forEach( async element => {
-                        
-                        var addxacnhan =  await new Promise((resolve, reject) => {  //Thêm vào bảng xác nhận
+
+                    var addxacnhan = await new Promise((resolve, reject) => {  //Thêm vào bảng xác nhận
+                        var sql = `insert into donhang(idgiohang) values(${idgiohang});`;
+                        con.query(sql, function (err, result) {
+                            if (err) {
+                                console.log(err);
+
+                            } else {
+                                return resolve(result);
+                            }
+                        })
+                    });
+
+
+
+                    tenquay.forEach(async element => {
+
+                        var addxacnhan = await new Promise((resolve, reject) => {  //Thêm vào bảng xác nhận
                             var sql = `insert into xacnhan(idgiohang, vendorname) values (${idgiohang}, '${element.tenquay}');`;
                             con.query(sql, function (err, result) {
                                 if (err) {
                                     console.log(err);
-        
+
                                 } else {
                                     return resolve(result);
                                 }
                             })
                         });
-                       
+
 
                     })
                     //Cộng tiền cho vendorowner và thêm vào bảng lịch sử nạp tiền của vendor
-                     //Tính tiền từng sản phẩm sau đó add tiền vô tài khoản vendor tương ứng và bảng lịch sử nạp tiền của vendor
-                    var infofooods =  await new Promise((resolve, reject) => { 
+                    //Tính tiền từng sản phẩm sau đó add tiền vô tài khoản vendor tương ứng và bảng lịch sử nạp tiền của vendor
+                    var infofooods = await new Promise((resolve, reject) => {
                         var sql = `SELECT   vendor.tenquay ,chonhang.idmon,chonhang.soluong, foods.price, donhang.idgiohang as donhang  FROM food_court.chonhang  inner join  foods inner join menu_foods  inner join vendor inner join donhang ON foods.id = chonhang.idmon and  chonhang.idgiohang = ${idgiohang} and menu_foods.menuID = (select max(id) from menu) and menu_foods.foodid =  chonhang.idmon and  foods.vendorowner  = vendor.username  and donhang.idgiohang = chonhang.idgiohang;`;  //Lấy thông tin từng sản phẩm của đơn hàng mua tại quầy
                         con.query(sql, function (err, result) {
                             if (err) {
                                 console.log(err);
-    
+
                             } else {
                                 return resolve(result);
                             }
                         })
                     });
                     console.log(infofooods);
-                    infofooods.forEach( async element => { //Thêm vào tài khoản của vendor và bảng lịch sử nạp tiền
-                        
-                        var addbalance =  await new Promise((resolve, reject) => {  //Thêm vào bảng xác nhận
+                    infofooods.forEach(async element => { //Thêm vào tài khoản của vendor và bảng lịch sử nạp tiền
+
+                        var addbalance = await new Promise((resolve, reject) => {  //Thêm vào bảng xác nhận
                             var sql = `update user set balance = balance + ${element.price * element.soluong}  where username = '${element.tenquay}';`;
                             con.query(sql, function (err, result) {
                                 if (err) {
                                     console.log(err);
-        
+
                                 } else {
                                     return resolve(result);
                                 }
                             })
                         });
-                       
-                        var addlichsu =   await new Promise((resolve, reject) => {  //Thêm vào bảng xác nhận
-                            var sql = `insert into lichsunaptienvendor(tenquay, iddonhang, sotien, idfood) values('${element.tenquay}',${element.donhang},${element.soluong*element.price}, ${element.idmon}      ) `;
+
+                        var addlichsu = await new Promise((resolve, reject) => {  //Thêm vào bảng xác nhận
+                            var sql = `insert into lichsunaptienvendor(tenquay, iddonhang, sotien, idfood) values('${element.tenquay}',${element.donhang},${element.soluong * element.price}, ${element.idmon}      ) `;
                             con.query(sql, function (err, result) {
                                 if (err) {
                                     console.log(err);
-        
+
                                 } else {
                                     return resolve(result);
                                 }
@@ -434,18 +434,18 @@ module.exports.xacthucdangki = function (req, res) {
     var phone = req.body.phone;
     var role = req.body.role;
     var ngaydk = d;
-    var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','${role}','${ngaydk}')`;
+    var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','user','${ngaydk}')`;
     con.query(sql, function (err, result, kq) {
         if (err) {
             if (err.errno != 1062) {
                 console.log(err);
-                return res.render('dangki', { title: 'Express', status: 'Co loi khi dang ki', name: "", role: "" });
+                return res.render('dangki', { title: 'Express', status: 'Có lỗi khi đăng kí', name: "", role: "" });
 
 
             } else if (err.errno == 1062) {
                 console.log(err);
 
-                return res.render('dangki', { title: 'Express', status: 'Tai khoan da duoc dang ki', name: "", role: "" });
+                return res.render('dangki', { title: 'Express', status: 'Tài khoản đã được đăng kí', name: "", role: "" });
 
             } else {
                 console.log(err);
@@ -455,7 +455,7 @@ module.exports.xacthucdangki = function (req, res) {
             var sql = `INSERT INTO giohang (username) VALUES ('${usr}')`;
             con.query(sql, function (err, result, kq) {
                 if (err) { console.log(err); } else {
-                    return res.render('dangnhap', { title: 'Express', status: 'Dang ki thanh cong', name: "", role: "" });
+                    return res.render('dangnhap', { title: 'Express', status: 'Đăng kí thành công', name: "", role: "" });
 
                 }
             })
@@ -558,23 +558,43 @@ module.exports.postnaptien = function (req, res) {
     var amount = req.body.amount;
     var idcard = req.body.idbankcard;
     var password = md5(req.body.password);
+    //Vertify số tiền
+    if(!idcard){
+        return res.send('selectbank');
 
+    }
+    amount = parseInt(amount);
+    if (Number.isNaN(amount)) {
+        return res.send('nan');
+
+    }
+    if(amount < 10000){
+        return res.send('lessthan10k');
+
+    } else if(amount > 10000000){
+        return res.send('morethan10m');
+
+    }
     var sql = `select * from user where username = '${name}'`;
+
 
     con.query(sql, function (err, result, kq) {
         if (err) {
             console.log(err);
-            res.render('naptien', { title: 'Express', status: 'Có lỗi trong quá trình xử lý', name: name, role: role, card: result });
+            res.send('err');
 
         } else {
+            console.log("result");
+
+            console.log(result[0].password);
+
             if (result[0].password == password) {
-                console.log(result);
 
                 var sql = `insert into deposit(amount, time, status, idcard,username ) values ('${amount}','${d}','success','${idcard}','${name}' ); `;
                 con.query(sql, function (err, result, kq) {
                     if (err) {
                         console.log(err);
-                        res.render('naptien', { title: 'Express', status: 'Có lỗi trong quá trình xử lý', name: name, role: role, card: result });
+                        res.send('err');
 
                     } else {
                         var sql = ` update user set balance = balance + ${amount} where username = '${name}';`;
@@ -585,7 +605,7 @@ module.exports.postnaptien = function (req, res) {
                                     if (err) { console.log(err); } else {
 
 
-                                        res.render('naptien', { title: 'Express', status: 'Nap tien thanh cong', name: name, role: role, card: result });
+                                        res.send('success');
 
                                     }
                                 })
@@ -595,13 +615,13 @@ module.exports.postnaptien = function (req, res) {
                     }
                 })
 
-            } else if (result.password[0] != password) {
+            } else if (result[0].password != password) {
 
 
-                res.render('naptien', { title: 'Express', status: 'Sai mật khẩu', name: name, role: role, card: result });
+                res.send('wrongpass');
 
             } else {
-                res.render('naptien', { title: 'Express', status: 'Có lỗi trong quá trình xử lý', name: name, role: role, card: result });
+                res.send('err');
 
             }
 
@@ -1129,4 +1149,152 @@ module.exports.quayhangxacnhan = function (req, res) {
                 res.send({ status: "success", id: req.body.id });
             })
     }
+}
+module.exports.adminquanlynguoidunguser = function (req, res) {
+    role = req.cookies.info.role;
+    var name = req.cookies.info.username;
+    var sql = `select * from user`
+    con.query(sql,
+            function (err, results, fields) {
+                if (err) throw err;
+                res.render('adminquanlynguoidunguser', {data:results});
+            })
+}
+//Tìm kiếm người dùng 
+module.exports.searchusercms = function (req, res) {
+    role = req.cookies.info.role;
+    var keyword = req.body.keyword;
+    console.log(req.body);
+    var sql = `SELECT * FROM user WHERE username LIKE '${keyword}%'`;
+    con.query(sql,
+            function (err, results, fields) {
+                if (err) throw err; else {
+                    console.log(results);
+
+                    res.render('adminquanlynguoidunguser', {data:results});
+                }
+
+            })
+}
+//Admin đăng kí ở trang cms
+module.exports.admindangki = function (req, res) {
+
+    var usr = req.body.usr;
+    var pass = md5(req.body.pass);
+    var phone = req.body.phone;
+    var role = req.body.role;
+    var ngaydk = d;
+
+    var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','${role}','${ngaydk}')`;
+
+    con.query(sql, function (err, result, kq) {
+        if (err) {
+            if (err.errno != 1062) {
+                console.log(err);
+                return res.send('err');
+
+
+            } else if (err.errno == 1062) {
+                console.log(err);
+
+                return res.send('duplicate');
+
+            } 
+        } else {
+            var sql = `INSERT INTO giohang (username) VALUES ('${usr}')`;
+            con.query(sql, function (err, result, kq) {
+                if (err) { console.log(err); } else {
+                    console.log(result);
+                    return res.send(result);
+
+                }
+            })
+
+        }
+
+    })
+
+
+
+
+
+}
+//Hiển thị form sửa  ở trang cms
+module.exports.suauser = function (req, res) {
+
+    var usr = req.body.usr;
+  console.log(usr);
+
+    var sql = `select * from user where username = '${usr}'`;
+
+    con.query(sql, function (err, result, kq) {
+        if (err) {
+            return res.send(err);
+
+        } else {
+           return res.send(result[0]);
+        }
+
+    })
+
+}
+//Xác nhận sửa user  ở trang cms
+module.exports.xacnhansuausr = function (req, res) {
+
+    var usr = req.body.usr;
+   var pass = md5(req.body.pass);
+   var phone = req.body.phone;
+   var role = req.body.role;
+
+if(pass){
+    var sql = `update user set  role = '${role}', phone = '${phone}' , password = '${pass}' where username = '${usr}'`;
+
+    con.query(sql, function (err, result, kq) {
+        if (err) {
+            return res.send('err');
+
+        } else {
+           return res.send(result);
+        }
+
+    })
+} else {
+    var sql = `update user set  role = '${role}', phone = '${phone}' where username = '${usr}'`;
+
+    con.query(sql, function (err, result, kq) {
+        if (err) {
+            console.log(err);
+            return res.send('err');
+
+        } else {
+           return res.send(result);
+        }
+
+    })
+}
+   
+
+}
+//Xóa user  ở trang cms
+module.exports.xoausrcms = function (req, res) {
+
+    var usr = req.body.usr;
+  
+
+console.log("here");
+    var sql = `delete from user where username = '${usr}'`;
+
+    con.query(sql, function (err, result, kq) {
+        if (err) {
+            console.log(err);
+            return res.send('err');
+
+        } else {
+           return res.send('success');
+        }
+
+    })
+
+   
+
 }
