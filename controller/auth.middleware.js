@@ -26,14 +26,12 @@ module.exports.xacthucdangnhap = function(req, res, next) {
                         'password': pass,
                         'role': result[0].role
                     };
-                    console.log(info);
                     if (info.role == 'daubep' || info.role == 'nhanvien') {
 
                         info.vendor = await new Promise((resolve, reject) => {
                             con.query(`SELECT * FROM ${info.role} WHERE username = '${usr}'`, (err, results, fields) => {
                                 if (err) throw err;
                                 if (results) {
-                                    console.log(results);
                                     resolve(results[0].vendorowner);
                                 }
                             })
@@ -44,7 +42,6 @@ module.exports.xacthucdangnhap = function(req, res, next) {
 
                     res.redirect('/');
                 } else {
-                    console.log("here");
                     return res.render('dangnhap', { title: 'Express', status: 'Sai username hoặc password', name: "", role: "" });
 
                 }
@@ -74,7 +71,6 @@ module.exports.authen = function(req, res, next) {
     } else if (info.username) {
         var username = info.username
         var password = info.password;
-        console.log("USR la " + username + " pas la " + password);
 
         var sql = `select * from user where username = '${username}'`;
         con.query(sql, function(err, result, kq) {
@@ -110,7 +106,6 @@ module.exports.checkMaintainmode = function(req, res, next) {
 
             } else if (result[0].trangthai == 'on') {
                 if (role == 'admin') {
-                    console.log("role hien tai la " + role);
 
                     next()
                 } else {

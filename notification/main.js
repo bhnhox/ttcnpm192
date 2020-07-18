@@ -10,9 +10,9 @@ module.exports = {
             var cookies = cookie.parse(socket.handshake.headers.cookie);
             JSONCookieToObj(cookies);
             console.log(cookies);
-            var role = cookies.role;
+            var role = cookies.info.role;
             if (role == "nhanvien" || role == "vendor" || role == "daubep"){
-                socket.join(cookies.vender);
+                socket.join(cookies.info.vendor);
             }
             
             socket.on('xac nhan', ()=>{

@@ -38,7 +38,7 @@
 
 
                     <div class="action" style="float:right; padding:20px 0px 10px 10px;">
-                        <a href="#" class="btn btn-success btn-circle btn-xacnhan" xacnhan_id="<%= element.id %>" >
+                        <a href="#" class="btn btn-success btn-circle btn-xacnhan" xacnhan_id="<%= element.id %>">
                             <i class="fas fa-check"></i>
                         </a>
                         <!-- <a href="#" class="btn btn-danger btn-circle">
@@ -55,21 +55,25 @@
 <script src="vendor/jquery/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
-        $(".btn-xacnhan").click(function (e) { 
+        $(".btn-xacnhan").click(function (e) {
             e.preventDefault();
             var data = {
-                id : $(e.currentTarget).attr("xacnhan_id")
+                id: $(e.currentTarget).attr("xacnhan_id")
             }
             $.ajax({
                 type: "post",
                 url: "order/",
                 data: data,
                 success: function (response) {
-                    if (response.status == "success"){
+                    if (response.status == "success") {
                         $(`div[donhang_item=${response.id}]`).remove();
                     }
                 }
             });
         });
+        socket.on('book food', (data) => {
+            console.log(data);
+            
+        })
     });
 </script>
