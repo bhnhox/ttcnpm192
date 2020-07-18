@@ -1,0 +1,46 @@
+
+<style>
+    #wrap_noti{
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        z-index: 1000;
+    }
+    .card_noti{
+        position: absolute;
+        top: 30px;
+        right: 0px;
+        width: 400px;
+        background: white;
+        border-radius: 10px;
+        border: 1px solid gray;
+    }
+</style>
+<template id="template_noti">
+    <div id="wrap_noti">
+        <div class="card_noti">
+            <div class="noti-head">
+                <h5>Thông báo</h5>
+            </div>
+            <div class="noti-body">
+                
+            </div>
+        </div>
+    </div>
+</template>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"
+    integrity="sha512-v8ng/uGxkge3d1IJuEo6dJP8JViyvms0cly9pnbfRxT6/31c3dRWxIiwGnMSWwZjHKOuY3EVmijs7k1jz/9bLA=="
+    crossorigin="anonymous"></script>
+<script>
+    var socket = io();
+    socket.on('food ready', (data) => {
+        var template = document.getElementById('template_noti');
+        var noti = template.content.cloneNode(true);
+        $(noti.querySelector('.noti-body')).text(data);
+        document.body.appendChild(noti);
+        setTimeout(()=>{
+            $("#wrap_noti").remove();
+            console.log('remove');
+        }, 3000);
+    })
+</script>

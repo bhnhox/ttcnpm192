@@ -1,5 +1,6 @@
 var md5 = require('md5');
 const { log } = require('debug');
+var noti = require('../notification/main');
 
 //End of Import lowDB
 //Date time
@@ -241,21 +242,31 @@ module.exports.thanhtoangiohang = function (req, res, next) {
     con.query(sql, async (err, result, fields) => {
         if (err) throw err;
         else {
-            var tongtien = 0, ketquasosanh = [];
+            var tongtien = 0, ketquasosanh = [], food = { idmon: '', amount: '', tenmon: '' };
             var idgiohang = result[0].id;
             let dulieu = await new Promise((resolve, reject) => {
-                var sql = `SELECT chonhang.idmon, chonhang.soluong,foods.vendorowner, foods.price,foods.image,foods.description, foods.title as tenmon, a.amount FROM food_court.chonhang  inner join  foods inner join menu_foods as a ON foods.id = chonhang.idmon and  chonhang.idgiohang = ${idgiohang} and a.foodID =chonhang.idmon and a.menuid = (select max(id) from menu)  ;`;
-                con.query(sql, async function (err, results, fields) {
+                var sql = `SELECT chonhang.idmon, chonhang.soluong,foods.vendorowner, foods.price,foods.image,foods.description, foods.title as tenmon, a.amount FROM food_court.chonhang  inner join  foods inner join menu_foods as a ON foods.id = chonhang.idmon and  chonhang.idgiohang = ${idgiohang} and a.foodID =chonhang.idmon and a.menuid = (select max(id) from menu);`;
+                con.query(sql, function (err, results, fields) {
                     console.log(sql);
                     if (err) throw err;
                     else {
-                        return resolve(results)
+                        resolve(results)
                     }
                 })
             });
+            var vendors = [];
             dulieu.forEach(element => {
+                var vendor = vendors.find((ven) => { return ven.vendor == element.vendorowner });
+                if (vendor) {
+                    vendor.foods.push(element);
+                }
+                else {
+                    vendors.push({
+                        vendor: element.vendorowner,
+                        foods: [element]
+                    });
+                }
                 if (element.soluong > element.amount) {
-
                     ketquasosanh.push({ idmon: element.idmon, amount: element.tenmon, tenmon: element.amount });
 
                 }
@@ -274,7 +285,7 @@ module.exports.thanhtoangiohang = function (req, res, next) {
                             console.log(err);
 
                         } else {
-                            return resolve(result[0].balance)
+                            resolve(result[0].balance)
                         }
                     })
                 });
@@ -320,7 +331,9 @@ module.exports.thanhtoangiohang = function (req, res, next) {
                                     console.log(err);
 
                                 } else {
-                                    return resolve(result);
+
+                                    vendors.find((ven) => { return ven.vendor == element.tenquay}).id = result.insertId;
+                                    resolve(result);
                                 }
                             })
                         });
@@ -373,8 +386,10 @@ module.exports.thanhtoangiohang = function (req, res, next) {
                     con.query(sql, function (err, result) {
                         if (err) {
                             console.log(err);
-
                         } else {
+                            vendors.forEach((ven) => {
+                                noti.notiBookFood(ven);
+                            })
                             //Thêm mới vào bảng Xacnhan. procedure sẽ không có bảng xác nhận nữa.
 
 
@@ -394,21 +409,8 @@ module.exports.thanhtoangiohang = function (req, res, next) {
 
 
         }
+
     })
-
-
-
-    // var sql = `call thanhtoangiohang('${name}')`;
-    // con.query(sql, function (err, result) {
-    //     if (err) {
-    //         console.log(err);
-
-    //     } else {
-    //         res.render('xemgiohang', { title: 'Express', name: name, role: role, data: [], status: "Đặt hàng thành công" });
-
-    //     }
-    // })
-
 }
 //Dang ki
 module.exports.dangki = function (req, res) {

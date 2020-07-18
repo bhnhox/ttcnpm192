@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" id="ct">
     <% data.forEach(element => { %>
     <div class="container-fluid d-flex justify-content-center" donhang_item="<%= element.id %>">
 
@@ -29,7 +29,7 @@
                                     </div>
                                 </div>
                                 <div class="row d-flex align-items-end justify-content-end mt-4 pr-3">
-                                    <p class="mb-0"><strong>Số lượng: </strong><%= food.soluong %></p>
+                                    <p class="mb-0"><strong>Số lượng: <%= food.soluong %></strong></p>
                                 </div>
                             </div>
                         </div>
@@ -38,7 +38,7 @@
 
 
                     <div class="action" style="float:right; padding:20px 0px 10px 10px;">
-                        <a href="#" class="btn btn-success btn-circle btn-xacnhan" xacnhan_id="<%= element.id %>" >
+                        <a href="#" class="btn btn-success btn-circle btn-xacnhan" xacnhan_id="<%= element.id %>">
                             <i class="fas fa-check"></i>
                         </a>
                         <!-- <a href="#" class="btn btn-danger btn-circle">
@@ -52,24 +52,118 @@
     </div>
     <% }) %>
 </div>
+<template id="order">
+    <div class="container-fluid d-flex justify-content-center" donhang_item="_dataid">
+
+
+        <div class="card shadow mb-2" style="width: 60%; min-width: 600px;">
+            <!-- Card Header - Accordion -->
+            <a href="#collapse_dataid" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button"
+                aria-expanded="false" aria-controls="collapse_dataid">
+                <h6 class="m-0 font-weight-bold text-primary">Đơn hàng #_dataid </h6>
+            </a>
+            <!-- Card Content - Collapse -->
+            <div class="collapse" id="collapse_dataid">
+                <div class="card-body">
+
+
+
+                    <div class="action" style="float:right; padding:20px 0px 10px 10px;">
+                        <a href="#" class="btn btn-success btn-circle btn-xacnhan" xacnhan_id="_dataid">
+                            <i class="fas fa-check"></i>
+                        </a>
+                        <!-- <a href="#" class="btn btn-danger btn-circle">
+                            <i class="fas fa-trash"></i>
+                        </a> -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<template id="food">
+    <div class="mb-2">
+        <div class="card border-left-primary shadow h-100 py-2 d-flex flex-row">
+            <img src="/uploads/foods/_image" style="width: 25%; height: 140px; border-radius: 5px; margin-left: 8px;"
+                alt="">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
+                            _title </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">$_price </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+                <div class="row d-flex align-items-end justify-content-end mt-4 pr-3">
+                    <p class="mb-0"><strong>Số lượng: </strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
 <script src="vendor/jquery/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
-        $(".btn-xacnhan").click(function (e) { 
+        $(".btn-xacnhan").click(function (e) {
             e.preventDefault();
             var data = {
-                id : $(e.currentTarget).attr("xacnhan_id")
+                id: $(e.currentTarget).attr("xacnhan_id")
             }
             $.ajax({
                 type: "post",
                 url: "order/",
                 data: data,
                 success: function (response) {
-                    if (response.status == "success"){
+                    if (response.status == "success") {
                         $(`div[donhang_item=${response.id}]`).remove();
                     }
                 }
             });
         });
+
+        var order = document.getElementById('order');
+        var foodtmp = document.getElementById('food');
+        socket.on('book food', (data) => {
+            var content = order.content.cloneNode(true);
+            $(content.querySelector('div[donhang_item="_dataid"]')).attr('donhang_item', data.id);
+            $(content.querySelector('a[href="#collapse_dataid"]')).attr('href', '#collapse' + data.id);
+            $(content.querySelector('a[aria-controls="collapse_dataid"]')).attr('aria-controls', 'collapse' + data.id);
+            $(content.querySelector('h6')).text('Đơn hàng #' + data.id);
+            $(content.getElementById('collapse_dataid')).attr('id', 'collapse' + data.id);
+            $(content.querySelector('a[xacnhan_id="_dataid"]')).attr('xacnhan_id', data.id);
+            var bodyCard = content.querySelector('.card-body');
+            data.foods.forEach(element => {
+                var food = foodtmp.content.cloneNode(true);
+                console.log(food.querySelectorAll('.mb-2'));
+                $(food.querySelector('img')).attr('src', '/uploads/foods/' + element.image);
+                $(food.querySelector('.col > .text-md')).text(element.tenmon);
+                $(food.querySelector('.col > .h5')).text('$' + element.price);
+                $(food.querySelector('.row > p > strong')).text('Số lượng: ' + element.soluong);
+                console.log(food);
+                bodyCard.insertBefore(food, bodyCard.childNodes[0])
+            });
+            
+            document.getElementById('ct').appendChild(content);
+            $(".btn-xacnhan").click(function (e) {
+                e.preventDefault();
+                var data = {
+                    id: $(e.currentTarget).attr("xacnhan_id")
+                }
+                $.ajax({
+                    type: "post",
+                    url: "order/",
+                    data: data,
+                    success: function (response) {
+                        if (response.status == "success") {
+                            $(`div[donhang_item=${response.id}]`).remove();
+                        }
+                    }
+                });
+            });
+        })
     });
 </script>

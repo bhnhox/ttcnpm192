@@ -16,7 +16,7 @@ module.exports = {
                     }
                 });
         });
-        DB.query(`SELECT *, menu_foods.id AS id from menu_foods INNER JOIN foods ON menu_foods.foodID = foods.id AND menu_foods.trash = 0 AND  menu_foods.menuID=${menuID}`,
+        DB.query(`SELECT *, menu_foods.id AS id from menu_foods INNER JOIN foods ON menu_foods.foodID = foods.id AND menu_foods.trash = 0 AND  menu_foods.menuID=${menuID} AND foods.vendorowner = '${req.cookies.info.vendor}'`,
             function(err, results, fields) {
                 if (err) throw err;
                 var role = req.cookies.info.role;
