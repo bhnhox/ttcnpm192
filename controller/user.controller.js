@@ -99,7 +99,7 @@ module.exports.xemgiohang = function (req, res, next) {
         } else {
 
 
-           
+
             var sql = `SELECT chonhang.idmon, chonhang.soluong, menu_foods.amount, foods.price,foods.image,foods.description, idmon as id FROM food_court.chonhang  inner join  foods inner join menu_foods  ON foods.id = chonhang.idmon and  chonhang.idgiohang = ${result[0].id} and menu_foods.menuID = (select max(id) from menu) and menu_foods.foodid =  chonhang.idmon ;`;
             con.query(sql, function (err, result) {
                 if (err) {
@@ -118,7 +118,7 @@ module.exports.xemgiohang = function (req, res, next) {
     })
 }
 //Cap nhat gio hang
-module.exports.capnhatgiohang = function (req, res, next) {
+module.exports.capnhatgiohang = function async(req, res, next) {
     var name = "";
     var role = "";
     if (req.cookies.info) {
@@ -127,32 +127,68 @@ module.exports.capnhatgiohang = function (req, res, next) {
 
     }
     var soluong = req.body.soluong;
+    soluong = parseInt(soluong);
+    console.log(Number.isInteger(soluong));
+    //Kiểm tra số lượng món ăn
+    if (soluong < 1) {
+        return res.send("Số lượng món ăn phải lớn hơn 0");
+    } else if (!Number.isInteger(soluong)) {
+        return res.send("Số lượng món ăn không hợp lệ");
+    }
     var id = req.body.id;
-    var sql = `select max(idgiohang) as id from giohang where username = '${name}'`;
-    con.query(sql, function (err, result) {
+
+    //Kiểm tra số lượng trong stock
+    var sql = `select max(id) as id from menu`;
+    con.query(sql, async function (err, result) {
         if (err) {
             console.log(err);
-
+            return res.send("Có lỗi");
         } else {
+            let soluonginstock = await new Promise((resolve, reject) => {
+                var sql = `select amount from menu_foods where foodid = ${id} and menuid = ${result[0].id};`;
+                con.query(sql, async function (err, results, fields) {
+                    if (err) throw err;
+                    else {
+                        return resolve(results[0].amount)
+                    }
+                })
+            });
+            if (soluonginstock < soluong) {
+                return res.send("Số lượng món ăn trong quầy không đủ")
+            } else {
+                var sql = `select max(idgiohang) as id from giohang where username = '${name}'`;
+                con.query(sql, function (err, result) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+
+                        //case san phan chua duoc them truoc do
+                        var sql = `update chonhang set soluong = ${soluong} where idgiohang = ${result[0].id} ;`;
+                        con.query(sql, function (err, result) {
+                            if (err) {
+                                console.log(err);
+
+                            } else {
+                                console.log("here");
+
+                                return res.send("Cập nhật thành công");
+
+                            }
+                        })
 
 
-            //case san phan chua duoc them truoc do
-            var sql = `update chonhang set soluong = ${soluong} where idgiohang = ${result[0].id} ;`;
-            con.query(sql, function (err, result) {
-                if (err) {
-                    console.log(err);
-
-                } else {
-
-                    console.log(result);
-                    res.send("Cập nhật thành công")
-
-                }
-            })
+                    }
+                })
+            }
 
 
         }
+
+
+
     })
+
+
 }
 //Xoa san pham trong gio hang
 module.exports.xoasanphamtronggiohang = function (req, res, next) {
@@ -163,7 +199,7 @@ module.exports.xoasanphamtronggiohang = function (req, res, next) {
         role = req.cookies.info.role;
 
     }
-    
+
     var id = req.body.id;
     var sql = `select max(idgiohang) as id from giohang where username = '${name}'`;
     con.query(sql, function (err, result) {
@@ -231,16 +267,16 @@ module.exports.thanhtoangiohang = function (req, res, next) {
                     });
                 }
                 if (element.soluong > element.amount) {
-                
                     ketquasosanh.push({ idmon: element.idmon, amount: element.tenmon, tenmon: element.amount });
 
                 }
-                tongtien += element.price*element.soluong;
+                tongtien += element.price * element.soluong;
 
             });
 
-            console.log("tongtien la ");
-            console.log(tongtien);
+            if (tongtien == 0) {
+                return res.send('0');
+            }
             if (ketquasosanh.length == 0) { //Toi buoc tinh tien
                 let balance = await new Promise((resolve, reject) => {  //Lay so tien hien tai
                     var sql = `select balance from user where username = ('${name}')`;
@@ -254,9 +290,98 @@ module.exports.thanhtoangiohang = function (req, res, next) {
                     })
                 });
                 if (balance - tongtien < 0) {
-                    res.send("nem");
+                    return res.send("nem");
 
                 } else {
+                    //Bảng xác nhận
+                    var tenquay = await new Promise((resolve, reject) => {  //lấy vendorowner trong giỏ hàng
+                        var sql = `SELECT distinct  vendor.tenquay FROM food_court.chonhang  inner join  foods inner join menu_foods  inner join vendor ON foods.id = chonhang.idmon and  chonhang.idgiohang = ${idgiohang} and menu_foods.menuID = (select max(id) from menu) and menu_foods.foodid =  chonhang.idmon where  foods.vendorowner  = vendor.username  ;`;
+                        con.query(sql, function (err, result) {
+                            if (err) {
+                                console.log(err);
+
+                            } else {
+                                return resolve(result);
+                            }
+                        })
+                    });
+                    //Thêm vào bảng đơn hàng
+
+
+                    var addxacnhan = await new Promise((resolve, reject) => {  //Thêm vào bảng xác nhận
+                        var sql = `insert into donhang(idgiohang) values(${idgiohang});`;
+                        con.query(sql, function (err, result) {
+                            if (err) {
+                                console.log(err);
+
+                            } else {
+                                resolve(result);
+                            }
+                        })
+                    });
+
+
+
+                    tenquay.forEach(async element => {
+
+                        var addxacnhan = await new Promise((resolve, reject) => {  //Thêm vào bảng xác nhận
+                            var sql = `insert into xacnhan(idgiohang, vendorname) values (${idgiohang}, '${element.tenquay}');`;
+                            con.query(sql, function (err, result) {
+                                if (err) {
+                                    console.log(err);
+
+                                } else {
+
+                                    vendors.find((ven) => { return ven.vendor == element.tenquay}).id = result.insertId;
+                                    resolve(result);
+                                }
+                            })
+                        });
+
+
+                    })
+                    //Cộng tiền cho vendorowner và thêm vào bảng lịch sử nạp tiền của vendor
+                    //Tính tiền từng sản phẩm sau đó add tiền vô tài khoản vendor tương ứng và bảng lịch sử nạp tiền của vendor
+                    var infofooods = await new Promise((resolve, reject) => {
+                        var sql = `SELECT   vendor.tenquay ,chonhang.idmon,chonhang.soluong, foods.price, donhang.idgiohang as donhang  FROM food_court.chonhang  inner join  foods inner join menu_foods  inner join vendor inner join donhang ON foods.id = chonhang.idmon and  chonhang.idgiohang = ${idgiohang} and menu_foods.menuID = (select max(id) from menu) and menu_foods.foodid =  chonhang.idmon and  foods.vendorowner  = vendor.username  and donhang.idgiohang = chonhang.idgiohang;`;  //Lấy thông tin từng sản phẩm của đơn hàng mua tại quầy
+                        con.query(sql, function (err, result) {
+                            if (err) {
+                                console.log(err);
+
+                            } else {
+                                return resolve(result);
+                            }
+                        })
+                    });
+                    console.log(infofooods);
+                    infofooods.forEach(async element => { //Thêm vào tài khoản của vendor và bảng lịch sử nạp tiền
+
+                        var addbalance = await new Promise((resolve, reject) => {  //Thêm vào bảng xác nhận
+                            var sql = `update user set balance = balance + ${element.price * element.soluong}  where username = '${element.tenquay}';`;
+                            con.query(sql, function (err, result) {
+                                if (err) {
+                                    console.log(err);
+
+                                } else {
+                                    return resolve(result);
+                                }
+                            })
+                        });
+
+                        var addlichsu = await new Promise((resolve, reject) => {  //Thêm vào bảng xác nhận
+                            var sql = `insert into lichsunaptienvendor(tenquay, iddonhang, sotien, idfood) values('${element.tenquay}',${element.donhang},${element.soluong * element.price}, ${element.idmon}      ) `;
+                            con.query(sql, function (err, result) {
+                                if (err) {
+                                    console.log(err);
+
+                                } else {
+                                    return resolve(result);
+                                }
+                            })
+                        });
+
+
+                    })
                     var sql = `call thanhtoangiohang ('${name}', ${tongtien})`;
                     con.query(sql, function (err, result) {
                         if (err) {
@@ -265,6 +390,9 @@ module.exports.thanhtoangiohang = function (req, res, next) {
                             vendors.forEach((ven) => {
                                 noti.notiBookFood(ven);
                             })
+                            //Thêm mới vào bảng Xacnhan. procedure sẽ không có bảng xác nhận nữa.
+
+
                             res.send('success');
                         }
                     })
@@ -281,54 +409,6 @@ module.exports.thanhtoangiohang = function (req, res, next) {
 
 
         }
-        // var sql = `call thanhtoangiohang('${name}')`;
-        // con.query(sql, async function(err, result) {
-        //     if (err) {
-        //         console.log(err);
-
-        //     } else {
-        //         var idgiohang = await new Promise((res,rej)=>{
-        //             con.query(`SELECT max(idgiohang) as id FROM giohang WHERE username = '${name}'`,(err, results, fields)=>{
-        //                 if (err) throw err;
-        //                 if (results){
-        //                     res(results[0].id);
-        //                 }
-        //             })
-        //         });
-        //         var foods = await new Promise((res,rej)=>{
-        //             con.query(`SELECT * FROM chonhang WHERE idgiohang = ${idgiohang}`,(err, results, fields)=>{
-        //                 if (err) throw err;
-        //                 if (results){
-        //                     res(results);
-        //                 }
-        //             })
-        //         });
-        //         var vendors = [];
-        //         for (food of foods){
-        //             var vendor = await new Promise((res, rej)=>{
-        //                 con.query(`SELECT vendorowner FROM foods WHERE id='${food.idmon}'`,(err, results, fields)=>{
-        //                     if (err) throw err;
-        //                     if (results){
-        //                         res(results[0].vendorowner);
-        //                     }
-        //                 })
-        //             });
-        //             var v = vendors.find((ven)=>{return ven.vendor == vendor});
-        //             if (v) v.foods.push(food);
-        //             else {
-        //                 vendors.push({
-        //                     vendor: vendor,
-        //                     foods:[food]
-        //                 })
-        //             }
-        //         }
-        //         console.log(vendors);
-        //         // vendors.forEach((ven)=>{
-        //         //     noti.notiBookFood(ven);
-        //         // })
-        //         res.render('xemgiohang', { title: 'Express', name: name, role: role, data: [], status: "Đặt hàng thành công" });
-        //     }
-        // })
 
     })
 }

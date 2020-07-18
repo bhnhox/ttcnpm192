@@ -1,19 +1,19 @@
 var DB = require("../db");
 const { log } = require("debug");
-
+var noti = require('../../notification/main');
 module.exports = {
-    index: async(req, res) => {
+    index: async (req, res) => {
         var donhangs = await new Promise((resolve, reject) => {
-            DB.query("SELECT * FROM xacnhan WHERE daubepxacnhan is null",
-                function(err, results, fields) {
+            DB.query(`SELECT * FROM xacnhan WHERE daubepxacnhan is null AND vendorname = '${req.cookies.info.vendor}'`,
+                function (err, results, fields) {
                     if (err) throw err;
                     resolve(results);
                 })
         });
         for (let i = 0; i < donhangs.length; i++) {
             donhangs[i].foods = await new Promise((resolve, reject) => {
-                DB.query(`SELECT * from chonhang inner join  foods on foods.id = chonhang.idmon AND idgiohang = ${donhangs[i].idgiohang}`,
-                    function(err, results, fields) {
+                DB.query(`SELECT * from chonhang inner join  foods on foods.id = chonhang.idmon AND idgiohang = ${donhangs[i].idgiohang} AND foods.vendorowner = '${req.cookies.info.vendor}'`,
+                    function (err, results, fields) {
                         if (err) throw err;
                         resolve(results);
                     })
@@ -27,9 +27,27 @@ module.exports = {
     xacnhan: (req, res) => {
         var name = req.cookies.info.username;
         DB.query(`UPDATE xacnhan SET daubepxacnhan='${name}' , timedaubepxacnhan= now() WHERE id=${req.body.id}`,
-            function(err, results, fields) {
+            function (err, results, fields) {
                 if (err) throw err;
                 res.send({ status: "success", id: req.body.id });
             })
+        DB.query(`SELECT * FROM xacnhan WHERE idgiohang=(SELECT idgiohang FROM xacnhan WHERE id=${req.body.id}) AND daubepxacnhan is null`, async (err, results, fields) => {
+            if (err) throw err;
+            if (results.length == 0) {
+                var username = await new Promise((res, rej) => {
+                    DB.query(`SELECT username FROM giohang WHERE idgiohang = (SELECT idgiohang FROM xacnhan WHERE id=${req.body.id})`, (err, results, fields) => {
+                        if (err) throw err;
+                        if (results) {
+                            res(results[0].username);
+                        }
+                    });
+                })
+                var data = {
+                    username: username
+
+                }
+                noti.notiFoodReady(data);
+            }
+        })
     }
 }

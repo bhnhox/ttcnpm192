@@ -10,11 +10,11 @@ module.exports = {
             var cookies = cookie.parse(socket.handshake.headers.cookie);
             JSONCookieToObj(cookies);
             console.log(cookies);
-            var role = cookies.info.role;
+            var role = cookies.info ? cookies.info.role : '';
             if (role == "nhanvien" || role == "vendor" || role == "daubep"){
                 socket.join(cookies.info.vendor);
             }
-            
+            socket.join(cookies.info.username);
             socket.on('xac nhan', ()=>{
                 console.log('xac nhan do an xong');
             })
@@ -26,6 +26,9 @@ module.exports = {
     },
     notiBookFood: (data)=>{
         io.in(data.vendor).emit('book food',data);
+    },
+    notiFoodReady: (data)=>{
+        io.in(data.username).emit('food ready', 'Đồ ăn của bạn đã chuẩn bị xong');
     }
 }
 
