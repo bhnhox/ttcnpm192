@@ -1132,3 +1132,7 @@ module.exports.quayhangxacnhan = function (req, res) {
             })
     }
 }
+
+module.exports.userxacnhan = (req, res)=>{
+    
+}

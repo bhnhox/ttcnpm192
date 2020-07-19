@@ -88,3 +88,5 @@ router.get('/xacnhan', auth.authen, auth.checkMaintainmode, controller.xacnhan);
 //Use quay hang xac nhan
 router.use('/quayhangxacnhan', auth.authen, auth.checkMaintainmode, controller.quayhangxacnhan);
 
+// người dùng xác nhận
+router.use('/xacnhanorder', controller.userxacnhan);
