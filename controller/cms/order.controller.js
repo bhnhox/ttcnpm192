@@ -4,8 +4,8 @@ var noti = require('../../notification/main');
 module.exports = {
     index: async (req, res) => {
         var donhangs = await new Promise((resolve, reject) => {
-            DB.query(`SELECT * FROM xacnhan WHERE daubepxacnhan is null AND vendorname = '${req.cookies.info.vendor}'`,
-                function (err, results, fields) {
+            DB.query(` SELECT xacnhan.id , xacnhan.idgiohang, donhang.id as iddonhang FROM xacnhan inner join donhang on daubepxacnhan is  null AND vendorname = '${req.cookies.info.vendor}' and quayhangxacnhan is null  and donhang.idgiohang = xacnhan.idgiohang;      `,
+                     function (err, results, fields) {
                     if (err) throw err;
                     resolve(results);
                 })
