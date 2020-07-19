@@ -315,7 +315,7 @@ module.exports.thanhtoangiohang = function (req, res, next) {
                                 console.log(err);
 
                             } else {
-                                resolve(result);
+                                return resolve(result);
                             }
                         })
                     });
@@ -436,18 +436,18 @@ module.exports.xacthucdangki = function (req, res) {
     var phone = req.body.phone;
     var role = req.body.role;
     var ngaydk = d;
-    var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','${role}','${ngaydk}')`;
+    var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','user','${ngaydk}')`;
     con.query(sql, function (err, result, kq) {
         if (err) {
             if (err.errno != 1062) {
                 console.log(err);
-                return res.render('dangki', { title: 'Express', status: 'Co loi khi dang ki', name: "", role: "" });
+                return res.render('dangki', { title: 'Express', status: 'Có lỗi khi đăng kí', name: "", role: "" });
 
 
             } else if (err.errno == 1062) {
                 console.log(err);
 
-                return res.render('dangki', { title: 'Express', status: 'Tai khoan da duoc dang ki', name: "", role: "" });
+                return res.render('dangki', { title: 'Express', status: 'Tài khoản đã được đăng kí', name: "", role: "" });
 
             } else {
                 console.log(err);
@@ -457,7 +457,7 @@ module.exports.xacthucdangki = function (req, res) {
             var sql = `INSERT INTO giohang (username) VALUES ('${usr}')`;
             con.query(sql, function (err, result, kq) {
                 if (err) { console.log(err); } else {
-                    return res.render('dangnhap', { title: 'Express', status: 'Dang ki thanh cong', name: "", role: "" });
+                    return res.render('dangnhap', { title: 'Express', status: 'Đăng kí thành công', name: "", role: "" });
 
                 }
             })
@@ -560,23 +560,43 @@ module.exports.postnaptien = function (req, res) {
     var amount = req.body.amount;
     var idcard = req.body.idbankcard;
     var password = md5(req.body.password);
+    //Vertify số tiền
+    if(!idcard){
+        return res.send('selectbank');
 
+    }
+    amount = parseInt(amount);
+    if (Number.isNaN(amount)) {
+        return res.send('nan');
+
+    }
+    if(amount < 10000){
+        return res.send('lessthan10k');
+
+    } else if(amount > 10000000){
+        return res.send('morethan10m');
+
+    }
     var sql = `select * from user where username = '${name}'`;
+
 
     con.query(sql, function (err, result, kq) {
         if (err) {
             console.log(err);
-            res.render('naptien', { title: 'Express', status: 'Có lỗi trong quá trình xử lý', name: name, role: role, card: result });
+            res.send('err');
 
         } else {
+            console.log("result");
+
+            console.log(result[0].password);
+
             if (result[0].password == password) {
-                console.log(result);
 
                 var sql = `insert into deposit(amount, time, status, idcard,username ) values ('${amount}','${d}','success','${idcard}','${name}' ); `;
                 con.query(sql, function (err, result, kq) {
                     if (err) {
                         console.log(err);
-                        res.render('naptien', { title: 'Express', status: 'Có lỗi trong quá trình xử lý', name: name, role: role, card: result });
+                        res.send('err');
 
                     } else {
                         var sql = ` update user set balance = balance + ${amount} where username = '${name}';`;
@@ -587,7 +607,7 @@ module.exports.postnaptien = function (req, res) {
                                     if (err) { console.log(err); } else {
 
 
-                                        res.render('naptien', { title: 'Express', status: 'Nap tien thanh cong', name: name, role: role, card: result });
+                                        res.send('success');
 
                                     }
                                 })
@@ -597,13 +617,13 @@ module.exports.postnaptien = function (req, res) {
                     }
                 })
 
-            } else if (result.password[0] != password) {
+            } else if (result[0].password != password) {
 
 
-                res.render('naptien', { title: 'Express', status: 'Sai mật khẩu', name: name, role: role, card: result });
+                res.send('wrongpass');
 
             } else {
-                res.render('naptien', { title: 'Express', status: 'Có lỗi trong quá trình xử lý', name: name, role: role, card: result });
+                res.send('err');
 
             }
 
@@ -1132,7 +1152,151 @@ module.exports.quayhangxacnhan = function (req, res) {
             })
     }
 }
+module.exports.adminquanlynguoidunguser = function (req, res) {
+    role = req.cookies.info.role;
+    var name = req.cookies.info.username;
+    var sql = `select * from user`
+    con.query(sql,
+            function (err, results, fields) {
+                if (err) throw err;
+                res.render('adminquanlynguoidunguser', {data:results});
+            })
+}
+//Tìm kiếm người dùng 
+module.exports.searchusercms = function (req, res) {
+    role = req.cookies.info.role;
+    var keyword = req.body.keyword;
+    console.log(req.body);
+    var sql = `SELECT * FROM user WHERE username LIKE '${keyword}%'`;
+    con.query(sql,
+            function (err, results, fields) {
+                if (err) throw err; else {
+                    console.log(results);
 
-module.exports.userxacnhan = (req, res)=>{
-    
+                    res.render('adminquanlynguoidunguser', {data:results});
+                }
+
+            })
+}
+//Admin đăng kí ở trang cms
+module.exports.admindangki = function (req, res) {
+
+    var usr = req.body.usr;
+    var pass = md5(req.body.pass);
+    var phone = req.body.phone;
+    var role = req.body.role;
+    var ngaydk = d;
+
+    var sql = `INSERT INTO user (username, password,phone,role,ngaydk) VALUES ('${usr}','${pass}','${phone}','${role}','${ngaydk}')`;
+
+    con.query(sql, function (err, result, kq) {
+        if (err) {
+            if (err.errno != 1062) {
+                console.log(err);
+                return res.send('err');
+
+
+            } else if (err.errno == 1062) {
+                console.log(err);
+
+                return res.send('duplicate');
+
+            } 
+        } else {
+            var sql = `INSERT INTO giohang (username) VALUES ('${usr}')`;
+            con.query(sql, function (err, result, kq) {
+                if (err) { console.log(err); } else {
+                    console.log(result);
+                    return res.send(result);
+
+                }
+            })
+
+        }
+
+    })
+
+
+
+
+
+}
+//Hiển thị form sửa  ở trang cms
+module.exports.suauser = function (req, res) {
+
+    var usr = req.body.usr;
+  console.log(usr);
+
+    var sql = `select * from user where username = '${usr}'`;
+
+    con.query(sql, function (err, result, kq) {
+        if (err) {
+            return res.send(err);
+
+        } else {
+           return res.send(result[0]);
+        }
+
+    })
+
+}
+//Xác nhận sửa user  ở trang cms
+module.exports.xacnhansuausr = function (req, res) {
+
+    var usr = req.body.usr;
+   var pass = md5(req.body.pass);
+   var phone = req.body.phone;
+   var role = req.body.role;
+
+if(pass){
+    var sql = `update user set  role = '${role}', phone = '${phone}' , password = '${pass}' where username = '${usr}'`;
+
+    con.query(sql, function (err, result, kq) {
+        if (err) {
+            return res.send('err');
+
+        } else {
+           return res.send(result);
+        }
+
+    })
+} else {
+    var sql = `update user set  role = '${role}', phone = '${phone}' where username = '${usr}'`;
+
+    con.query(sql, function (err, result, kq) {
+        if (err) {
+            console.log(err);
+            return res.send('err');
+
+        } else {
+           return res.send(result);
+        }
+
+    })
+}
+   
+
+}
+//Xóa user  ở trang cms
+module.exports.xoausrcms = function (req, res) {
+
+    var usr = req.body.usr;
+  
+
+console.log("here");
+    var sql = `delete from user where username = '${usr}'`;
+
+    con.query(sql, function (err, result, kq) {
+        if (err) {
+            console.log(err);
+            return res.send('err');
+
+        } else {
+           return res.send('success');
+        }
+
+    })
+
+   
+
 }

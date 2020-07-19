@@ -122,18 +122,27 @@
                     <div class="row">
                         <div class="card border-left-primary shadow h-100 py-2 d-flex flex-row">
                             <img src="/uploads/foods/<%= element.image %>"
-                                style="width: 25%; height: 140px; border-radius: 5px; margin-left: 8px;" alt="">
+                                style="width: 25%; height: 140px; border-radius: 5px; margin-left: 8px;" alt="food-img">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            <%= element.title %> </div>
+                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1 row">
+                                          <div class="col-7">
+                                          <p class=""> <%= element.title %> </p>
+                                        </div>
+                                        <div class="col-4" style="color: black; display: inline-flex;">
+                                          Stock: 
+                                          <p style="color: red; padding-left: 2%;" > <%= element.amount %> </p>
+                                        </div>
+
+                                          </div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><%= element.description %> </div>
                                     </div>
                                    
                                 </div>
                                 <div class="row d-flex align-items-end justify-content-end mt-2 ">
                                   <form >
+                                    
                                     <label>
                                         <%= element.price %> vnđ
                                     </label>

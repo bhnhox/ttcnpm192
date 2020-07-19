@@ -6,7 +6,7 @@ var MenuRouter = require('./menu');
 var OrderRouter = require('./order');
 
 var LoginController = require('../../controller/cms/login.controller')
-    //Thiện
+//Thiện
 var BaotriRouter = require('./baotri')
 var Auth = require('../../controller/auth.middleware');
 var Controller = require('../../controller/user.controller');
@@ -46,7 +46,7 @@ var adminCheckRole = function adminCheckRole(req, res, next) {
 
 };
 //Router
-router.get('/', Auth.authen, Auth.checkRole, function(req, res, next) {
+router.get('/', Auth.authen, Auth.checkRole, function (req, res, next) {
     var role = req.cookies.info.role;
     res.render('cms/main_layout', { content: "dashboard/home", data: null, role: role });
 
@@ -69,6 +69,8 @@ router.get('/', Auth.authen, Auth.checkRole, function(req, res, next) {
 router.get('/logout', Auth.authen, Auth.checkRole, LoginController.logout)
 router.use('/foods', Auth.authen, Auth.checkRole, foodmenucheckrole, FoodRouter);
 router.use('/menu', Auth.authen, Auth.checkRole, foodmenucheckrole, MenuRouter);
+
+//Thiện
 //Trang quan ly nguoidung cua admin
 router.use('/quanlynguoidung', Auth.authen, Auth.checkRole, vendorAdminCheckRole, Controller.adminquanlynguoidung);
 //Trang them vendor
@@ -79,13 +81,11 @@ router.use('/editformvendor', Auth.authen, Auth.checkRole, vendorAdminCheckRole,
 router.use('/editvendor', Auth.authen, Auth.checkRole, vendorAdminCheckRole, Controller.editvendor);
 router.use('/vendortable', Auth.authen, Auth.checkRole, vendorAdminCheckRole, Controller.vendortable);
 //Xem order cua dau bep
-router.use('/order', Auth.authen, Auth.checkRole, checkRoleDauBep,
-    OrderRouter)
-
-
-//Thiện
+router.use('/order', Auth.authen, Auth.checkRole, checkRoleDauBep,OrderRouter)
 //Bảo trì
-router.use('/baotri', Auth.checkRole, adminCheckRole,
-    BaotriRouter);
+router.use('/baotri', Auth.checkRole, adminCheckRole,BaotriRouter);
+//Quản lý người dùng của admin
+router.use('/cmsquanlyuser', Auth.authen, Auth.checkRole, vendorAdminCheckRole, Controller.adminquanlynguoidunguser);
+
 
 module.exports = router;

@@ -58,7 +58,7 @@ router.post('/themthe', auth.authen, auth.checkMaintainmode, controller.postthem
 //Nạp tiền
 router.get('/naptien', auth.authen, auth.checkMaintainmode, controller.naptien);
 //Post nap tien
-router.post('/naptien', auth.authen, auth.checkMaintainmode, controller.postnaptien)
+router.post('/postnaptien', auth.authen, auth.checkMaintainmode, controller.postnaptien)
 
 //Xem so du
 router.get('/xemsodu', auth.authen, auth.checkMaintainmode, controller.xemsodu);
@@ -87,6 +87,14 @@ module.exports = router;
 router.get('/xacnhan', auth.authen, auth.checkMaintainmode, controller.xacnhan);
 //Use quay hang xac nhan
 router.use('/quayhangxacnhan', auth.authen, auth.checkMaintainmode, controller.quayhangxacnhan);
+//Admin đăng kí bên trang cms
+router.use('/admindangki', auth.authen, auth.checkMaintainmode, controller.admindangki);
+//Sửa người dùng
+router.use('/suauser', auth.authen, auth.checkMaintainmode, controller.suauser);
 
-// người dùng xác nhận
-router.use('/xacnhanorder', controller.userxacnhan);
+//Sửa người dùng
+router.use('/xacnhansuausr', auth.authen, auth.checkMaintainmode, controller.xacnhansuausr);
+//Xóa người dùng
+router.use('/xoausrcms', auth.authen, auth.checkMaintainmode, controller.xoausrcms);
+//Tìm kiếm người dùng cms - admin
+router.use('/searchusercms', auth.authen, auth.checkMaintainmode, controller.searchusercms);

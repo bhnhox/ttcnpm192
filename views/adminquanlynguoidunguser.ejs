@@ -1,0 +1,457 @@
+<% include function/cmsheader %>
+
+<!-- <% include function/js/adminquanlynguoidung %> -->
+
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+    body {
+        background: #f2f2f2;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .search {
+        width: 100%;
+        position: relative;
+        display: flex;
+    }
+
+    .searchTerm {
+        width: 100%;
+        border: 3px solid #00B4CC;
+        border-right: none;
+        padding: 5px;
+        height: 100%;
+        border-radius: 5px 0 0 5px;
+        outline: none;
+        color: #9DBFAF;
+    }
+
+    .searchTerm:focus {
+        color: #00B4CC;
+    }
+
+    .searchButton {
+        width: 40px;
+        height: 36px;
+        border: 1px solid #00B4CC;
+        background: #00B4CC;
+        text-align: center;
+        color: #fff;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+        font-size: 20px;
+    }
+
+    /*Resize the wrap to see the search bar change!*/
+    .wrap {
+        width: 30%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <% include cms/sidebar %>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <% include cms/header %>
+                <!-- End of Topbar -->
+                <div class="container-fluid">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <div class="row">
+
+                                <div class="col-3">
+
+                                    <a id="nguoidung" href="/cms/quanlynguoidung/nguoidung"
+                                        class="m-0 font-weight-bold text-primary"
+                                        style="padding: 10px; background-color:lightblue ">Người dùng</a>
+                                </div>
+                                <div class="col-9">
+                                    <h4 class="m-0 font-weight-bold text-primary" id="status">
+                                    </h4>
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-8">
+                                <button class="btn1 btn btn-primary add-user">Thêm người dùng mới</button>
+                            </div>
+                                <div class="col-4">
+                                    <div class="wrap">
+                                        <div class="search">
+                                            <form action="/searchusercms" method="post">
+                                                <input type="text" name="keyword" class="searchTerm col-12" placeholder="Search">
+                                            <button type="submit" class="searchButton">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                            </form>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <form action="/searchusercms" method="post">
+                            <input type="text" name="keyword" class="searchTerm col-12" placeholder="Search">
+                                            <button type="submit" class="searchButton">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                        </form>
+                        <div class="form formcms" style="width: 30%;">
+                            <button type="" id="huy" class="btn btn-danger" style="display: none;">Hủy</button>
+
+                            <form action="" id="cmsthemnguoidung" method="post" style="display:none">
+
+                                <div class="form-group">
+                                    <label for="">User name</label>
+                                    <input type="text" name="usr" class="form-control" id="usr"
+                                        aria-describedby="emailHelp" placeholder="Enter username">
+                                    <label for="">Password</label>
+                                    <input type="password" name="pass" class="form-control" id="pass"
+                                        aria-describedby="emailHelp" placeholder="Enter password">
+                                    <label for="">Phone</label>
+                                    <input type="number" name="phone" class="form-control" id="phone"
+                                        aria-describedby="emailHelp" placeholder="Enter phone number">
+                                    <label for="">Role</label> <br>
+                                    <select name="role" id="role">
+                                        <option value="admin">admin</option>
+                                        <option value="user">user</option>
+                                    </select>
+                                    <br>
+                                    <button type="" id="submit" style="margin-top:2%"
+                                        class="btn btn-success">Submit</button>
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="form formcmsedit" style="width: 30%;">
+                            <button type="" id="huy" class="btn btn-danger" style="display: none;">Hủy</button>
+
+                            <form action="" id="cmssuanguoidung" method="post" style="display:none">
+
+                                <div class="form-group">
+                                    <label for="" id="">User name</label>
+                                    <p id="labelusr"></p>
+                                    <input type="hidden" name="pass" class="form-control" id="editid"
+                                        aria-describedby="emailHelp" placeholder="Enter password">
+                                    <input type="text" name="usr" class="form-control" id="editusr" value=""
+                                        aria-describedby="emailHelp" placeholder="Enter username">
+                                    <label for="" id="labelpass">Password</label>
+                                    <input type="password" name="pass" class="form-control" id="editpass"
+                                        aria-describedby="emailHelp" placeholder="Enter password">
+                                    <label for="">Phone</label>
+                                    <input type="number" name="phone" class="form-control" id="editphone"
+                                        aria-describedby="emailHelp" placeholder="Enter phone number">
+                                    <label for="">Role</label> <br>
+                                    <select name="role" id="editrole">
+                                        <option value="admin">admin</option>
+                                        <option value="user">user</option>
+                                    </select>
+                                    <br>
+                                    <button id="suaform" style="margin-top:2%" class="btn btn-success">Sửa</button>
+                                </div>
+                            </form>
+
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Role</th>
+                                    <th>Phone</th>
+                                    <th>Sửa</th>
+                                    <th>Xóa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% data.forEach(element => { %>
+                                <tr id="<%- element.iduser %>">
+                                    <td><%- element.username %></td>
+                                    <td class="tdrole"><%- element.role %></td>
+                                    <td class="tdphone"><%- element.phone %></td>
+                                    <td>
+                                        <form action="" method="post" class="sua">
+                                            <input type="hidden" value="<%- element.username %>" name="usr">
+                                            <button class="btn btn-warning" type="submit">Sửa</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form action="" method="post" class="xoa">
+                                            <input type="hidden" value="<%- element.username %>" name="usr" class="usr">
+                                            <button class="btn btn-danger xoa" id="<%- element.iduser %>"
+                                                type="submit">Xóa</button>
+
+                                        </form>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+
+
+
+                    </div>
+                </div>
+
+                <script src="vendor/jquery/jquery.min.js"></script>
+                <script>
+                </script>
+
+
+                <!-- Begin Page Content -->
+
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <% include cms/footer %>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <% if (locals.notify) { %>
+    <%- include('notify_com',{notify:notify}) %>
+    <% } %>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
+    <% if (locals.datatb) { %>
+    <script id="datatb" datatb="<%= datatb %>">
+    </script>
+    <% } %>
+    <% if (locals.footer) { %>
+    <!-- <%- include(locals.footer) %>') -->
+    <% } %>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="js/demo/datatables-demo.js"></script>
+    <script>
+
+
+
+        $('.add-user').click(function name(params) {
+            $('#huy').show(500);
+            $('#cmsthemnguoidung').show(500);
+            $('.add-user').hide(500);
+        });
+        $('#huy').click(function name(params) {
+            $('#huy').hide(500);
+            $('.add-user').show(500);
+            $('#cmsthemnguoidung').hide(500);
+            $("#usr").html();
+            $("#pass").html();
+            $("#phone").html();
+            $("#role").html();
+            $("#cmssuanguoidung").hide(500);
+
+            return false;
+        });
+        $('#submit').click(function name(params) {
+
+            var data = { usr: $("#usr").val(), pass: $("#pass").val(), phone: $("#phone").val(), role: $("#role").val() };
+
+            $.ajax({
+                type: 'post',
+                url: '/admindangki',
+                data: data,
+                success: function (result) {
+                    console.log(result);
+                    if (result == 'err') {
+                        $("#status").html('Có lỗi trong quá trình đăng kí');
+                        document.getElementsByName('amount').value = '';
+                        myVar = setTimeout(function name(params) {
+
+                            $("#status").html("");
+
+                        }, 3000);
+                    } else if (result == 'duplicate') {
+                        $("#status").html('Tài khoản đã được đăng kí');
+                        document.getElementsByName('amount').value = '';
+                        myVar = setTimeout(function name(params) {
+
+                            $("#status").html("");
+
+                        }, 3000);
+                    } else {
+
+                        $('#usr').val("");
+                        $('#pass').val("");
+                        $('#phone').val("");
+                        $('#usr').val("");
+
+
+                        var appendE = ` <tr id="${result.insertId}">
+                                        <td>${data.usr}</td>
+                                        <td>${data.role}</td>
+                                        <td>${data.phone}</td>
+                                        <td>
+                                            <form action="" method="post" class="sua">
+                                                <input type="hidden" value="${data.usr}" name="usr">
+                                                <button class="btn btn-warning" type="submit">Sửa</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form action="" method="post" class="xoa">
+                                                <input type="hidden" value="${data.usr}" name="usr">
+                                                <button class="btn btn-danger" type="submit">Xóa</button>
+
+                                            </form>
+                                        </td>
+                                    </tr>`;
+                        $('tbody').append(appendE);
+                        $("#status").html('Đăng kí thành công');
+                        document.getElementsByName('amount').value = '';
+                        myVar = setTimeout(function name(params) {
+
+                            $("#status").html("");
+
+                        }, 3000);
+                    }
+                }
+            });
+            return false;
+        })
+
+        $('.sua').submit(function () {
+            var that = $(this);
+            $.ajax({
+                type: 'post',
+                url: '/suauser',
+                data: that.serialize(),
+                success: function (result) {
+                    console.log(result);
+                    $('#labelusr').html(result.username);
+                    $('#editphone').val(result.phone);
+                    $('#editrole').append(` <option value="${result.role}" hidden selected>${result.role}</option>`);
+                    $('#labelpass').html("New Password");
+                    $("#cmsthemnguoidung").hide(500);
+                    $("#editusr").hide(500);
+                    $("#editusr").val(result.username);
+                    $('#editid').val(result.iduser);
+                    $("#cmssuanguoidung").show(500);
+                    $('#huy').show(500);
+                    $('.add-user').hide(500);
+                }
+            })
+            return false;
+        })
+        $('#suaform').click(function () {
+            var data = { usr: $("#editusr").val(), pass: $("#editpass").val(), phone: $("#editphone").val(), role: $("#editrole").val(), id: $("#editid").val() };
+
+            $.ajax({
+                type: 'post',
+                url: '/xacnhansuausr',
+                data: data,
+                success: function (result) {
+                    if (result == 'err') {
+
+                        $("#status").html('Có lỗi trong quá trình sửa ');
+                        document.getElementsByName('amount').value = '';
+                        myVar = setTimeout(function name(params) {
+
+                            $("#status").html("");
+
+                        }, 3000);
+                    } else {
+                        $(`#${data.id} .tdrole`).html(data.role);
+                        $(`#${data.id} .tdphone`).html(data.phone);
+
+                        $("#status").html('Sửa thành công');
+                        document.getElementsByName('amount').value = '';
+                        myVar = setTimeout(function name(params) {
+
+                            $("#status").html("");
+
+                        }, 3000);
+                    }
+                }
+            });
+            return false;
+        })
+        $('.xoa').click(function () {
+            var id = this.id;
+            var name = $(`#${id} .usr`).val();
+            $.ajax({
+                type: 'post',
+                url: '/xoausrcms',
+                data: { usr: name },
+                success: function (result) {
+                    console.log("jrer");
+                    if (result == 'err') {
+
+                        $("#status").html('Có lỗi trong quá trình xóa ');
+                        document.getElementsByName('amount').value = '';
+                        myVar = setTimeout(function name(params) {
+
+                            $("#status").html("");
+
+                        }, 3000);
+                    } else {
+
+                        $(`#${id}`).remove();
+                        $("#status").html('Xóa thành công');
+                        document.getElementsByName('amount').value = '';
+                        myVar = setTimeout(function name(params) {
+
+                            $("#status").html("");
+
+                        }, 3000);
+                    }
+                    return false;
+                }
+            });
+
+            return false;
+        })
+       
+    </script>
+</body>
+
+</html>
