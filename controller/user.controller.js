@@ -332,7 +332,7 @@ module.exports.thanhtoangiohang = function (req, res, next) {
 
                                 } else {
 
-                                    vendors.find((ven) => { return ven.vendor == element.tenquay}).id = result.insertId;
+                                    vendors.find((ven) => { return ven.vendor == element.tenquay }).id = result.insertId;
                                     resolve(result);
                                 }
                             })
@@ -561,7 +561,7 @@ module.exports.postnaptien = function (req, res) {
     var idcard = req.body.idbankcard;
     var password = md5(req.body.password);
     //Vertify số tiền
-    if(!idcard){
+    if (!idcard) {
         return res.send('selectbank');
 
     }
@@ -570,10 +570,10 @@ module.exports.postnaptien = function (req, res) {
         return res.send('nan');
 
     }
-    if(amount < 10000){
+    if (amount < 10000) {
         return res.send('lessthan10k');
 
-    } else if(amount > 10000000){
+    } else if (amount > 10000000) {
         return res.send('morethan10m');
 
     }
@@ -1108,7 +1108,15 @@ module.exports.xacnhan = async (req, res) => {
         }
         // res.send(donhangs);
         res.render('Xacnhan/xacnhancuanhanvien', { title: 'Express', name: name, role: role, data: donhangs, status: "" })
-    } else if (role == 'user') {
+    } else {
+        res.redirect('/')
+    }
+
+
+}
+module.exports.danhgia = async (req, res) => {
+
+    if (role == 'user') {
         var donhangs = await new Promise((resolve, reject) => {
             con.query(`select xacnhan.id, xacnhan.daubepxacnhan, xacnhan.userxacnhan, xacnhan.quayhangxacnhan, xacnhan.idgiohang  from xacnhan  inner join giohang on xacnhan.daubepxacnhan is not null and xacnhan.quayhangxacnhan is not null and giohang.idgiohang = xacnhan.idgiohang and  giohang.username = '${name}' and xacnhan.userxacnhan is null;`,
                 function (err, results, fields) {
@@ -1132,35 +1140,55 @@ module.exports.xacnhan = async (req, res) => {
     }
 
 
+
 }
+
+
+
 module.exports.quayhangxacnhan = function (req, res) {
     role = req.cookies.info.role;
     var name = req.cookies.info.username;
     if (role == 'nhanvien') {
 
-
         con.query(`UPDATE xacnhan SET quayhangxacnhan='${name}' ,timequayhangxacnhan= now() WHERE id=${req.body.id}`,
             function (err, results, fields) {
-                if (err) throw err;
-                res.send({ status: "success", id: req.body.id });
-            })
-    } else if (role == 'user') {
+                if (err) throw err; else {
+                    con.query(``,
+                    function (err, results, fields) {
+                        if (err) throw err; else { 
+                            res.send({ status: "success", id: req.body.id });
+
+                        }
+                    })
+                }
+            } )
+    } else {
+        res.redirect('/');
+    }
+}
+
+module.exports.userdanhgia = function (req, res) {
+
+    if (role == 'user') {
         con.query(`UPDATE xacnhan SET userxacnhan='${name}' , timeuserxacnhan= now() WHERE id=${req.body.id}`,
             function (err, results, fields) {
                 if (err) throw err;
                 res.send({ status: "success", id: req.body.id });
             })
+    } else {
+        res.redirect('/');
     }
+
 }
 module.exports.adminquanlynguoidunguser = function (req, res) {
     role = req.cookies.info.role;
     var name = req.cookies.info.username;
     var sql = `select * from user`
     con.query(sql,
-            function (err, results, fields) {
-                if (err) throw err;
-                res.render('adminquanlynguoidunguser', {data:results});
-            })
+        function (err, results, fields) {
+            if (err) throw err;
+            res.render('adminquanlynguoidunguser', { data: results });
+        })
 }
 //Tìm kiếm người dùng 
 module.exports.searchusercms = function (req, res) {
@@ -1169,14 +1197,14 @@ module.exports.searchusercms = function (req, res) {
     console.log(req.body);
     var sql = `SELECT * FROM user WHERE username LIKE '${keyword}%'`;
     con.query(sql,
-            function (err, results, fields) {
-                if (err) throw err; else {
-                    console.log(results);
+        function (err, results, fields) {
+            if (err) throw err; else {
+                console.log(results);
 
-                    res.render('adminquanlynguoidunguser', {data:results});
-                }
+                res.render('adminquanlynguoidunguser', { data: results });
+            }
 
-            })
+        })
 }
 //Admin đăng kí ở trang cms
 module.exports.admindangki = function (req, res) {
@@ -1201,7 +1229,7 @@ module.exports.admindangki = function (req, res) {
 
                 return res.send('duplicate');
 
-            } 
+            }
         } else {
             var sql = `INSERT INTO giohang (username) VALUES ('${usr}')`;
             con.query(sql, function (err, result, kq) {
@@ -1225,7 +1253,7 @@ module.exports.admindangki = function (req, res) {
 module.exports.suauser = function (req, res) {
 
     var usr = req.body.usr;
-  console.log(usr);
+    console.log(usr);
 
     var sql = `select * from user where username = '${usr}'`;
 
@@ -1234,7 +1262,7 @@ module.exports.suauser = function (req, res) {
             return res.send(err);
 
         } else {
-           return res.send(result[0]);
+            return res.send(result[0]);
         }
 
     })
@@ -1244,46 +1272,46 @@ module.exports.suauser = function (req, res) {
 module.exports.xacnhansuausr = function (req, res) {
 
     var usr = req.body.usr;
-   var pass = md5(req.body.pass);
-   var phone = req.body.phone;
-   var role = req.body.role;
+    var pass = md5(req.body.pass);
+    var phone = req.body.phone;
+    var role = req.body.role;
 
-if(pass){
-    var sql = `update user set  role = '${role}', phone = '${phone}' , password = '${pass}' where username = '${usr}'`;
+    if (pass) {
+        var sql = `update user set  role = '${role}', phone = '${phone}' , password = '${pass}' where username = '${usr}'`;
 
-    con.query(sql, function (err, result, kq) {
-        if (err) {
-            return res.send('err');
+        con.query(sql, function (err, result, kq) {
+            if (err) {
+                return res.send('err');
 
-        } else {
-           return res.send(result);
-        }
+            } else {
+                return res.send(result);
+            }
 
-    })
-} else {
-    var sql = `update user set  role = '${role}', phone = '${phone}' where username = '${usr}'`;
+        })
+    } else {
+        var sql = `update user set  role = '${role}', phone = '${phone}' where username = '${usr}'`;
 
-    con.query(sql, function (err, result, kq) {
-        if (err) {
-            console.log(err);
-            return res.send('err');
+        con.query(sql, function (err, result, kq) {
+            if (err) {
+                console.log(err);
+                return res.send('err');
 
-        } else {
-           return res.send(result);
-        }
+            } else {
+                return res.send(result);
+            }
 
-    })
-}
-   
+        })
+    }
+
 
 }
 //Xóa user  ở trang cms
 module.exports.xoausrcms = function (req, res) {
 
     var usr = req.body.usr;
-  
 
-console.log("here");
+
+    console.log("here");
     var sql = `delete from user where username = '${usr}'`;
 
     con.query(sql, function (err, result, kq) {
@@ -1292,11 +1320,11 @@ console.log("here");
             return res.send('err');
 
         } else {
-           return res.send('success');
+            return res.send('success');
         }
 
     })
 
-   
+
 
 }
