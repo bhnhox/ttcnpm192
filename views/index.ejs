@@ -165,19 +165,9 @@
           </div>
         </div>
       </div> <!-- .section -->
-      <button id="123">123</button>
 
 
       <%- include("function/footer.ejs") %>
-<script>
-  $("#123").click(function (e) { 
-    e.preventDefault();
-    socket.emit('book food', {
-      mon: 12,
-      vendor: 123
-    })
-  });
-</script>
 <%- include("notification/noti") %> 
 </body>
 
