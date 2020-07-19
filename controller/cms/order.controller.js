@@ -24,18 +24,24 @@ module.exports = {
 
         res.render('cms/main_layout', { content: "order/index", data: donhangs, role: role });
     },
-    xacnhan: (req, res) => {
+    xacnhan: async (req, res) => {
         var name = req.cookies.info.username;
+        var idgiohang = await new Promise((res, rej)=>{
+            DB.query(`SELECT idgiohang FROM xacnhan WHERE id=${req.body.id}`, (err, results, fields)=>{
+                if (err) throw err;
+                if (results) res(results[0].idgiohang);
+            })
+        })
         DB.query(`UPDATE xacnhan SET daubepxacnhan='${name}' , timedaubepxacnhan= now() WHERE id=${req.body.id}`,
             function (err, results, fields) {
                 if (err) throw err;
                 res.send({ status: "success", id: req.body.id });
             })
-        DB.query(`SELECT * FROM xacnhan WHERE idgiohang=(SELECT idgiohang FROM xacnhan WHERE id=${req.body.id}) AND daubepxacnhan is null`, async (err, results, fields) => {
+        DB.query(`SELECT * FROM xacnhan WHERE idgiohang='${idgiohang}' AND daubepxacnhan is null`, async (err, results, fields) => {
             if (err) throw err;
             if (results.length == 0) {
                 var username = await new Promise((res, rej) => {
-                    DB.query(`SELECT username FROM giohang WHERE idgiohang = (SELECT idgiohang FROM xacnhan WHERE id=${req.body.id})`, (err, results, fields) => {
+                    DB.query(`SELECT username FROM giohang WHERE idgiohang = '${idgiohang}'`, (err, results, fields) => {
                         if (err) throw err;
                         if (results) {
                             res(results[0].username);
@@ -43,8 +49,8 @@ module.exports = {
                     });
                 })
                 var data = {
-                    username: username
-
+                    username: username,
+                    idgiohang: idgiohang
                 }
                 noti.notiFoodReady(data);
             }

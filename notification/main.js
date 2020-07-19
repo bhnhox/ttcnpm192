@@ -14,7 +14,7 @@ module.exports = {
             if (role == "nhanvien" || role == "vendor" || role == "daubep"){
                 socket.join(cookies.info.vendor);
             }
-            socket.join(cookies.info.username);
+            if (cookies.info) socket.join(cookies.info.username);
             socket.on('xac nhan', ()=>{
                 console.log('xac nhan do an xong');
             })
@@ -28,7 +28,10 @@ module.exports = {
         io.in(data.vendor).emit('book food',data);
     },
     notiFoodReady: (data)=>{
-        io.in(data.username).emit('food ready', 'Đồ ăn của bạn đã chuẩn bị xong');
+        io.in(data.username).emit('food ready', {
+            noti_content: 'Đồ ăn của bạn đã chuẩn bị xong',
+            idgiohang: data.idgiohang
+        });
     }
 }
 
