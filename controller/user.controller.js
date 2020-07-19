@@ -587,7 +587,7 @@ module.exports.postnaptien = function (req, res) {
             res.send('err');
 
         } else {
-            console.log("result");
+            console.log(password);
 
             console.log(result[0].password);
 
@@ -607,7 +607,7 @@ module.exports.postnaptien = function (req, res) {
                                 con.query(sql, function (err, result, kq) {
                                     if (err) { console.log(err); } else {
 
-
+                                        console.log("here");
                                         res.send('success');
 
                                     }
