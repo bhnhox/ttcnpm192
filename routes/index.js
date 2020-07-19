@@ -97,6 +97,8 @@ router.use('/xacnhansuausr', auth.authen, auth.checkMaintainmode, controller.xac
 //Xóa người dùng
 router.use('/xoausrcms', auth.authen, auth.checkMaintainmode, controller.xoausrcms);
 //Tìm kiếm người dùng cms - admin
-router.use('/searchusercms', auth.authen, auth.checkMaintainmode, controller.searchusercms);
+router.post('/searchusercms', auth.authen, auth.checkMaintainmode, controller.searchusercms);
 //Đánh giá
 router.use('/danhgia', auth.authen, auth.checkMaintainmode, controller.danhgia);
+//Post giá
+router.use('/postreview', auth.authen, auth.checkMaintainmode, controller.postreview);
