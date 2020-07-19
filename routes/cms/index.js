@@ -5,6 +5,8 @@ var FoodRouter = require('./foods');
 var MenuRouter = require('./menu');
 var OrderRouter = require('./order');
 
+var FeedbackRouter = require('./feedback')
+
 var LoginController = require('../../controller/cms/login.controller')
 //Thiện
 var BaotriRouter = require('./baotri')
@@ -69,6 +71,11 @@ router.get('/', Auth.authen, Auth.checkRole, function (req, res, next) {
 router.get('/logout', Auth.authen, Auth.checkRole, LoginController.logout)
 router.use('/foods', Auth.authen, Auth.checkRole, foodmenucheckrole, FoodRouter);
 router.use('/menu', Auth.authen, Auth.checkRole, foodmenucheckrole, MenuRouter);
+
+
+// feedback
+router.use('/feedback', FeedbackRouter);
+
 
 //Thiện
 //Trang quan ly nguoidung cua admin

@@ -1364,8 +1364,8 @@ module.exports.postreview = function (req, res) {
     var name = req.cookies.info.username;
     console.log(req.body);
 
-   
-    var sql = `update danhgia set username = '${name}', rate = '${rating}', nhanxet = '${review}' where donhang =  '${donhang}' and vendorname = '${vendorname}' `;
+
+    var sql = `update danhgia set username = '${name}', rate = '${rating}', nhanxet = '${review}', created_date=NOW() where donhang =  '${donhang}' and vendorname = '${vendorname}' `;
 
     con.query(sql, function (err, result, kq) {
         if (err) {

@@ -33,8 +33,22 @@ module.exports = {
             })
         })
         DB.query(`UPDATE xacnhan SET daubepxacnhan='${name}' , timedaubepxacnhan= now() WHERE id=${req.body.id}`,
-            function (err, results, fields) {
+            async function (err, results, fields) {
                 if (err) throw err;
+                var foods = await new Promise((res, rej)=>{
+                    DB.query(`SELECT * from chonhang inner join  foods on foods.id = chonhang.idmon AND idgiohang = ${idgiohang} AND foods.vendorowner = '${req.cookies.info.vendor}'`,
+                    (err, results, fields)=>{
+                        if (err) throw err;
+                        if (results){
+                            res(results);
+                        }
+                    })
+                })
+                noti.notiFoodReadyNV({
+                    vendor: req.cookies.info.vendor,
+                    donhang: req.body.id,
+                    foods: foods
+                })
                 res.send({ status: "success", id: req.body.id });
             })
         DB.query(`SELECT * FROM xacnhan WHERE idgiohang='${idgiohang}' AND daubepxacnhan is null`, async (err, results, fields) => {

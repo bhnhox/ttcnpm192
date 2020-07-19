@@ -32,6 +32,9 @@ module.exports = {
             noti_content: 'Đồ ăn của bạn đã chuẩn bị xong',
             idgiohang: data.idgiohang
         });
+    },
+    notiFoodReadyNV: (data)=>{
+        io.in(data.vendor).emit('food ready nv', data);
     }
 }
 
