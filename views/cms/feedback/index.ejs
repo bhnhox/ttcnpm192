@@ -16,6 +16,7 @@
                         <tr>
                             <th>STT</th>
                             <th>Khách hàng</th>
+                            <th>Mã đơn</th>
                             <th>Nội dung</th>
                             <th>Số sao</th>
                             <% if (data.role == 'admin'){ %>
@@ -29,6 +30,7 @@
                         <tr>
                             <td><%= index+1 %></td>
                             <td><%= element.username %> </td>
+                            <td><%= element.donhang %> </td>
                             <td style="text-align: left;"><%= element.nhanxet %> </td>
                             <td style="text-align: center;"><%= element.rate %> </td>
                             <% if (data.role == 'admin'){ %>
