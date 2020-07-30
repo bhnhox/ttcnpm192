@@ -1,0 +1,557 @@
+commit 07467a578c0975a40047c4f602d4fd585bf6b788
+Merge: 1feab6d 7a1a2f2
+Author: abcd <babcd>
+Date:   Tue Jul 21 19:50:25 2020 +0700
+
+    Merge branch 'master' of https://github.com/bhnhox/ttcnpm192
+
+commit 1feab6d1e432a002305d5c57b343c5fae591e165
+Author: abcd <babcd>
+Date:   Tue Jul 21 19:50:12 2020 +0700
+
+     add Feedback to admin at sidebar
+
+commit 7a1a2f2920bdffe446019c2ad723bd048d9f4d0e
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Tue Jul 21 19:35:10 2020 +0700
+
+    bo sung ma don vao feedback
+
+commit 2f60d3b8c58b396fa48195d9e8113ea45d4cbea0
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Tue Jul 21 19:25:22 2020 +0700
+
+    them thong bao cho tat ca cac trang nguoi dung
+
+commit 94a542d16b09e6f4eb37cf95318941ae70a447cd
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Mon Jul 20 00:13:39 2020 +0700
+
+    realtime hien thi xac nhan cho nhan vien
+
+commit 72f73861fb0fbcf3adb0a6293388fdee29ff28e7
+Merge: 287eb4f 9b5941a
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Sun Jul 19 21:28:58 2020 +0700
+
+    Merge branch 'master' of github.com:bhnhox/ttcnpm192
+
+commit 287eb4ffb34f9708dd3bfdbdef38840c48fb9308
+Merge: 0b6a9ff 203fec8
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Sun Jul 19 21:28:52 2020 +0700
+
+    conflict trang giohang
+
+commit 9b5941aa3caba607de765c8736dbe3042c4f183d
+Author: abcd <babcd>
+Date:   Sun Jul 19 21:25:30 2020 +0700
+
+     update db
+
+commit fa44ed9423bbf3d4ed759580220833e39d39b89e
+Author: abcd <babcd>
+Date:   Sun Jul 19 21:19:46 2020 +0700
+
+    fix trang nap tien
+
+commit 0b6a9ffbac556a5f6e0fbfb9b8ba867fb4029f36
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Sun Jul 19 20:37:44 2020 +0700
+
+    conflict
+
+commit 203fec81c9e5a8960bd002bab17363fd20f507ef
+Author: abcd <babcd>
+Date:   Sun Jul 19 17:42:09 2020 +0700
+
+     add danhgia
+
+commit 06c8ff4d3f70c270621718e5a0ce70177dab6fa0
+Author: abcd <babcd>
+Date:   Sun Jul 19 12:26:17 2020 +0700
+
+    add danhgia table. rm column usexacnhan in xacnhan table
+
+commit d220943f63f664790250493c2398ef0d0b13b7a9
+Merge: 91d72a2 325b46f
+Author: abcd <babcd>
+Date:   Sun Jul 19 11:08:02 2020 +0700
+
+     ..
+
+commit 91d72a23f9bcc958b2d25e6d58cfdec63c8056d9
+Author: abcd <babcd>
+Date:   Sun Jul 19 11:07:00 2020 +0700
+
+      them danh gia
+
+commit 325b46f5c1dca44813e75b223da8f906bdd40a7d
+Merge: 3ad3726 eeebfaa
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Sun Jul 19 11:05:31 2020 +0700
+
+    conflict
+
+commit 3ad37264d934a22d9c55fc058f61c990871099ed
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Sun Jul 19 11:03:24 2020 +0700
+
+    fix noti dang nhap
+
+commit eeebfaa16490152cfff719ba0f64ec91e87a1429
+Merge: 1efa8a6 66f2b69
+Author: abcd <babcd>
+Date:   Sat Jul 18 21:44:16 2020 +0700
+
+    update
+
+commit 1efa8a612b0232c7e2d139fe0c4aa690cee99221
+Author: abcd <babcd>
+Date:   Sat Jul 18 21:42:29 2020 +0700
+
+     add quan ly user cua admin
+
+commit 66f2b69ccb0b6e13340049383c41d52c43a2d042
+Merge: 7414d1e e378ae8
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Sat Jul 18 21:38:56 2020 +0700
+
+    hien thi thong bao
+
+commit 7414d1e5cf4607aa613a5c1f797253dcc6e6b5a6
+Merge: 2e635f5 c6401ab
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Sat Jul 18 13:33:21 2020 +0700
+
+    conflict thanh toan
+
+commit e378ae8d1540e0734619e13822557cbf8f6898ca
+Author: abcd <babcd>
+Date:   Sat Jul 18 13:03:16 2020 +0700
+
+     update thanh toan don hang
+
+commit 2e635f5e62c9ce86bf3860da75222c92aa8c116f
+Merge: 8bbb52a 86b6c07
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Sat Jul 18 09:50:06 2020 +0700
+
+    realtime nhan don
+
+commit c6401abb44b29b060bc10e194f0d018dc6896e07
+Author: abcd <babcd>
+Date:   Sat Jul 18 09:49:07 2020 +0700
+
+    add table Hoantien, col vendorname in table Xacnhan
+
+commit 742cc5037dd4dd32b800bd2f6c49500668c41e6a
+Author: abcd <babcd>
+Date:   Sat Jul 18 02:08:32 2020 +0700
+
+    update chức năng chỉnh sửa xóa sp trong giỏ hàng
+
+commit 8bbb52a86cb24d99551992e9a2faa9e9867f9146
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Fri Jul 17 21:11:42 2020 +0700
+
+    noti vendor
+
+commit 86b6c07b3be31703689f4423f0d70baa163404d2
+Author: abcd <babcd>
+Date:   Fri Jul 17 19:29:29 2020 +0700
+
+    Update DB
+
+commit 53f0abf437cb50cd66671e18412e9ab6364a1a33
+Author: abcd <babcd>
+Date:   Fri Jul 17 19:27:19 2020 +0700
+
+     Thêm chức năng kiểm tra balance và số lượng món ăn khi thanh tóan
+
+commit d2cbc944bba84da35daec44c1a9a5ecbeb463cd4
+Author: abcd <babcd>
+Date:   Fri Jul 17 14:02:01 2020 +0700
+
+    Thêm checkrole
+
+commit 307d3da312cbef15faf36db092c8976915de817d
+Author: abcd <babcd>
+Date:   Wed Jul 15 01:31:26 2020 +0700
+
+    update db
+
+commit d59cc184b2287e139acf109c1fe4d809dd274d3b
+Author: abcd <babcd>
+Date:   Wed Jul 15 01:29:19 2020 +0700
+
+     add xac nhan cua nguoi dung
+
+commit c3acedc58e4a83507420654a40a093d77780c1b3
+Author: abcd <babcd>
+Date:   Wed Jul 15 01:09:52 2020 +0700
+
+    thêm xác nhận đơn hàng cho nhân viên
+
+commit 66f4ae1794116099973966958995fc2c67158173
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Tue Jul 14 23:10:11 2020 +0700
+
+    load foods of my vendor
+
+commit 357484473b495f3fd8fa707bdfecd7a96ba22b3e
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Tue Jul 14 22:56:49 2020 +0700
+
+    db.js
+
+commit 8cb0d1d0d9c60ae20a1c9363610bc5833fcbdaa0
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Tue Jul 14 22:44:44 2020 +0700
+
+    them food vendorowner
+
+commit 516f7ecc0b2362f3c0983d0d61938d4005573a0f
+Author: abcd <babcd>
+Date:   Tue Jul 14 21:02:08 2020 +0700
+
+    update db
+
+commit fcb01c27b399c5df879966d704addd96da82ab24
+Author: abcd <babcd>
+Date:   Tue Jul 14 20:55:59 2020 +0700
+
+    update db
+
+commit 22aa8d2987562116b7b94e5c1d25a8e9006d246c
+Author: abcd <babcd>
+Date:   Tue Jul 14 20:27:45 2020 +0700
+
+    fix order cua dau bep
+
+commit e3507fa6807ec4250e9cfdcfd94186bd60a11417
+Author: abcd <babcd>
+Date:   Tue Jul 14 18:09:32 2020 +0700
+
+     fix role add daubep o user
+
+commit a028c0a4fab9e8193f93ad8c218b85eb82531cc0
+Merge: 7887136 9eb33eb
+Author: abcd <babcd>
+Date:   Tue Jul 14 17:48:17 2020 +0700
+
+    merge conflict
+
+commit 788713600380f0ace74bdffd6d8c6b7105a2ecdb
+Merge: 052e381 5c17eee
+Author: abcd <babcd>
+Date:   Tue Jul 14 17:16:34 2020 +0700
+
+     add daubep vao cms
+
+commit 052e38115a82f14769b9e5684d03f12e6c01c274
+Author: abcd <babcd>
+Date:   Tue Jul 14 16:57:00 2020 +0700
+
+     them xac nhan cua thu ngan dau bep nguoi dung
+
+commit a56d7d3f3e06a6b3c062be57fc06d5ab15ff4919
+Author: abcd <babcd>
+Date:   Tue Jul 14 16:52:12 2020 +0700
+
+     them xac nhan cua thu ngan dau bep nguoi dung
+
+commit 5c17eee5799477ce1a7e1d21da3a812f4d0444f8
+Merge: 8e8bedc df48975
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Tue Jul 14 16:48:07 2020 +0700
+
+    all
+
+commit df489752f0bcaad98d55a440c2477d4d4f8ced3e
+Merge: 3b51584 c3b2c57
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Tue Jul 14 16:36:10 2020 +0700
+
+    Merge branch 'master' of github.com:bhnhox/ttcnpm192
+
+commit c3b2c5732613ae2401a0f55082ccf1fc26de17b5
+Author: abcd <babcd>
+Date:   Tue Jul 14 16:34:24 2020 +0700
+
+    update DB, procedure
+
+commit c1a1746d29bd876dde069cb87b9c36977189160f
+Author: abcd <babcd>
+Date:   Tue Jul 14 16:31:24 2020 +0700
+
+    update DB, procedure
+
+commit eec8668891a073282bcc0d80def0cc9014f89561
+Author: abcd <babcd>
+Date:   Tue Jul 14 16:28:56 2020 +0700
+
+    update DB, procedure
+
+commit b867d07df067921d8da1730a4eab11cb5df8ab8a
+Author: abcd <babcd>
+Date:   Tue Jul 14 16:26:35 2020 +0700
+
+    update DB, procedure
+
+commit 8e8bedc3632eca77beaeb0396b41f3330b6bfd46
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Tue Jul 14 16:17:03 2020 +0700
+
+    fix node_module
+
+commit 3f8b66bfe3d43323e96dd9ccaa856bf1cb8e6185
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Tue Jul 14 16:15:57 2020 +0700
+
+    fix loi db
+
+commit accae64ebb8106eeac64be1ce7178225e4eacd28
+Merge: df013cd 3b51584
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Mon Jul 13 15:18:16 2020 +0700
+
+    merge master
+
+commit 3b51584aeadac73793b21bc3993ad3ef03711c1f
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Sun Jul 12 20:32:45 2020 +0700
+
+    controller/db.js
+
+commit 7562356ae5d27107f21ab437c694ddf9d6b4d333
+Author: abcd <babcd>
+Date:   Sun Jul 12 16:21:21 2020 +0700
+
+     fix xác thực sai username or password
+
+commit df013cd282d71a3b5457bdfb14a3fe7148e85dd3
+Merge: b05bd3c ce7edd3
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Sun Jul 12 09:29:48 2020 +0700
+
+    merge tao tai khoan
+
+commit b05bd3c59bb6ffcc6750e0b4d3b83fe6797eafaa
+Merge: 34bb2b3 25f84fc
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Sun Jul 12 09:26:09 2020 +0700
+
+    merge tao tai khoan
+
+commit ce7edd3bbf8cc0e12f399bd2e024b775ef3aa276
+Author: abcd <babcd>
+Date:   Sat Jul 11 06:32:20 2020 +0700
+
+    them dau bep nhan vien
+
+commit b72ff1fbde4a3072743ff0b411a7c8d0394e32e8
+Author: abcd <babcd>
+Date:   Sat Jul 11 05:52:12 2020 +0700
+
+    add database thu ngan vendor  nhan vien, dau bep
+
+commit 738619c8dc654271e90c0ecc3749bdeaf7307306
+Author: abcd <babcd>
+Date:   Sat Jul 11 05:49:46 2020 +0700
+
+    update nhan vien, dau bep
+
+commit c9b910b9be78126ea2ae864109014f510c6ce011
+Author: abcd <babcd>
+Date:   Sat Jul 11 03:39:42 2020 +0700
+
+    them thu ngan
+
+commit 9e9926447c03c9a5bfc9661bb1470367104c614b
+Author: abcd <babcd>
+Date:   Fri Jul 10 02:15:32 2020 +0700
+
+    Thêm, sửa vendor
+
+commit 85cd02bc2b61c56a8f646da56fbda790ddb81bd5
+Author: abcd <babcd>
+Date:   Tue Jul 7 01:45:34 2020 +0700
+
+    fix loi gio hang, update ajax them gio hang
+
+commit 5de9df40e1b83555ec72c34a253dc179acdda7f9
+Merge: d288149 25f84fc
+Author: abcd <babcd>
+Date:   Mon Jul 6 17:03:35 2020 +0700
+
+     .
+
+commit d288149f81a41abecd46b29a3d89f20d5b80c177
+Author: abcd <babcd>
+Date:   Mon Jul 6 16:39:18 2020 +0700
+
+     .
+
+commit 9eb33ebdbea90ad4844d30f2a1a937bf39dec829
+Merge: 34bb2b3 25f84fc
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Tue Jun 30 08:14:47 2020 +0700
+
+    conflict user + cms
+
+commit 34bb2b30a9a6b3bc1a983c143bfe1d7265dc718e
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Tue Jun 30 07:58:35 2020 +0700
+
+    comment sidebar
+
+commit f4c87aa05316acf0ecefb95127885b3ef7e3e3b6
+Author: Ngoctrong102 <trong.vo102@hcmut.edu.vn>
+Date:   Tue Jun 30 07:53:25 2020 +0700
+
+    dau bep xac nhan
+
+commit 25f84fc7ba060d0a73d65df9227286062baaa166
+Author: abcd <babcd>
+Date:   Tue Jun 30 07:52:20 2020 +0700
+
+    update frontend dang ki, dang nhap
+
+commit aab7ef894be035c23a3a270301784a51aec80e52
+Author: abcd <babcd>
+Date:   Tue Jun 30 00:26:30 2020 +0700
+
+    add frontend
+
+commit 1063bc803bb43bd8db59bc549232d0a71f0d2da8
+Author: abcd <babcd>
+Date:   Mon Jun 29 21:32:39 2020 +0700
+
+    fix db
+
+commit f2555c140103e928aacb44315885861c79342337
+Author: abcd <babcd>
+Date:   Mon Jun 29 21:02:10 2020 +0700
+
+    add git ignore
+
+commit c6a45626bedd4183a6e5c67789e063969854b038
+Author: abcd <babcd>
+Date:   Mon Jun 29 20:47:12 2020 +0700
+
+    insert them vao table xac nhan
+
+commit 8ee2d2bc2866b36fdcbe52d42180525987f6e90c
+Author: abcd <babcd>
+Date:   Mon Jun 29 20:26:26 2020 +0700
+
+    update dat hang, them gio hang
+
+commit 6d2f28f7882bf0725b41413fa94c7ef4f3cf2c2f
+Author: abcd <babcd>
+Date:   Mon Jun 29 20:24:23 2020 +0700
+
+    them chuc nang dat hang, gio hang
+
+commit 4a9ecf38a2d9e8807f2605c219d5cd0efe698df0
+Author: abcd <babcd>
+Date:   Mon Jun 29 10:25:30 2020 +0700
+
+    them route view amount
+
+commit 1d0ec8ace49a91fe397da8a9e4d4b4f993918e6a
+Author: abcd <babcd>
+Date:   Mon Jun 29 10:25:08 2020 +0700
+
+     them route bao tri
+
+commit 98f376724202ee32242b5e10f3dbfbd757f1ff5c
+Author: abcd <babcd>
+Date:   Mon Jun 29 10:24:45 2020 +0700
+
+    fix amount
+
+commit d101ee4574d7baa87c7acf045dfa5aabb86ec202
+Author: abcd <babcd>
+Date:   Mon Jun 29 10:24:22 2020 +0700
+
+    them chuc nang quan ly bao tri
+
+commit 24afd10bc55a7afc60452448c95587040d53f923
+Author: abcd <babcd>
+Date:   Mon Jun 29 10:23:50 2020 +0700
+
+    add check role
+
+commit df31932938e7ab7d4de7d4ef84d9d77372f45d56
+Author: abcd <babcd>
+Date:   Mon Jun 29 10:20:13 2020 +0700
+
+    update them so du, db, ...
+
+commit b30d69188d01b12f00c8fdf3c6638df0eb6ebb00
+Author: abcd <babcd>
+Date:   Sun Jun 28 22:16:26 2020 +0700
+
+    update phase 1
+
+commit 142326f0ba56416b2bd27859913c13f5ada97342
+Author: abcd <babcd>
+Date:   Mon Jun 22 23:02:31 2020 +0700
+
+    update bao tri he thong
+
+commit 09464e9dd41f504093bb1f13f1ce1dac16430a35
+Author: abcd <babcd>
+Date:   Sun Jun 21 23:50:01 2020 +0700
+
+    dang ki -  dang nhap -  dang xuat -  nap tien -  kiem tra dang nhap
+
+commit af929950f61b1f6359061f1a601a4a7ec96ed752
+Author: abcd <babcd>
+Date:   Sun Jun 21 23:39:59 2020 +0700
+
+    dang ki -  dang nhap -  dang xuat -  nap tien -  kiem tra dang nhap
+
+commit 132d83983a07c18e491a89cd1e6cb8ee96023429
+Author: abcd <babcd>
+Date:   Sun Jun 21 23:07:05 2020 +0700
+
+    hoan chinh dang ki dang nhap nap tien xac thuc
+
+commit f33c3807c2ed6226a356ad3d2cd9e090cf840aef
+Author: abcd <babcd>
+Date:   Sun Jun 21 14:40:16 2020 +0700
+
+    update remove nodemodule
+
+commit 2bd077c8828b4df4a3b23f038681eac655a6f6aa
+Author: abcd <babcd>
+Date:   Sun Jun 21 14:39:04 2020 +0700
+
+    update rm node_module
+
+commit 280b62d5888e08a4e354d98ec7d699e73f36007b
+Author: abcd <babcd>
+Date:   Sun Jun 21 11:37:10 2020 +0700
+
+    update db
+
+commit 4e85b1f80a02b3ec941dc376204cb1d62060317b
+Author: abcd <babcd>
+Date:   Sun Jun 21 11:30:54 2020 +0700
+
+    update db
+
+commit 9d98ff5f34e1464dee9d069c37e50bd89537e6ec
+Author: abcd <babcd>
+Date:   Sun Jun 21 11:27:02 2020 +0700
+
+    connect db, them chuc nang dangki dang nhap
+
+commit 1f19a81f66c3401945124ca1896b449002785eb5
+Author: abcd <babcd>
+Date:   Tue Jun 16 10:42:02 2020 +0700
+
+    setup
