@@ -47,9 +47,16 @@
           <div class="container">
             <div class="row align-items-center justify-content-center">
               <div class="col-md-12 col-lg-8 section-heading">
-                <h2 class="heading mb-5"><%= status %> </h2>
+                <h3 style="text-align: center; color: red;" class="heading mb-5"><%= status %> </h3>
+                <button class="btn btn-primary" onclick="naptienvnpay()" id="btnvnpay">Nạp tiền bằng VnPay</button>
+                <button class="btn btn-success" onclick="naptienbangthe()" style="display: none;" id="btnthe">Nạp tiền bằng thẻ</button>
 
-                <form method="" action="">
+                <form style="display: none;" action="naptienvnpay" method="post" id="naptienvnpay">
+                  <label for="">Nạp tiền bằng VNPay</label>
+                  <input class="form-control" type="number" name="amount" placeholder="Nhập số tiền" id="">
+                  <button class="btn btn-success" type="submit">Xác nhận</button>
+                </form>
+                <form method="" action="" id="formnaptien">
                   <div class="form-group">
                     <label for="">Số tiền</label>
                     <input type="number" name="amount" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter pass">
@@ -74,14 +81,29 @@
           </div>
         </div> <!-- .section -->
       </div> <!-- .section -->
+      <script>
+        function naptienvnpay(){
+          $('#formnaptien').hide(500);
+          $('#naptienvnpay').show(500);
+          $('#btnvnpay').hide(500);
+          $('#btnthe').show(500);
+          
+        }
+        function naptienbangthe(){
+          $('#formnaptien').show(500);
+          $('#naptienvnpay').hide(500);
+          $('#btnvnpay').show(500);
+          $('#btnthe').hide(500);
 
+        }
+      </script>
 
     <div class="map-wrap" id="map" data-aos="fade" style="background-color: white;"></div>
 
 
     <%- include("function/footer.ejs") %>
       <script>
-        $('form').submit(function name(params) {
+        $('#formnaptien').submit(function name(params) {
           var that = $(this);
           $.ajax({
             url:'/postnaptien', type:'post', data: that.serialize(), success: function name(result) {

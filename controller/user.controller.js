@@ -537,7 +537,47 @@ module.exports.postthemthe = function (req, res) {
     })
 
 }
+//Get lich su nap tien
+module.exports.lichsunaptien = function (req, res) {
 
+    var name = req.cookies.info.username;
+    var role = req.cookies.info.role;
+
+   
+
+    res.render('lichsunaptien', { title: 'Lịch sử nạp tiền qua thẻ', status: '', name: name, role: role });
+
+}
+//Get lich su nap tien qua the
+module.exports.lichsunaptienquathe = function (req, res) {
+
+    var name = req.cookies.info.username;
+    var role = req.cookies.info.role;
+
+    var sql = `Select * from deposit where username = '${name}'`;
+    con.query(sql, function (err, result, kq) {
+        if (err) { console.log(err); } else {
+
+            res.render('lichsunaptienthe', { title: 'Lịch sử nạp tiền qua thẻ', status: '', name: name, role: role, card: result });
+
+        }
+    })
+}
+//Get lich su nap tien qua the
+module.exports.lichsunaptienquavnpay = function (req, res) {
+
+    var name = req.cookies.info.username;
+    var role = req.cookies.info.role;
+
+    var sql = `Select * from vnpay where username = '${name}'`;
+    con.query(sql, function (err, result, kq) {
+        if (err) { console.log(err); } else {
+
+            res.render('lichsunaptienvnpay', { title: 'Lịch sử nạp tiền qua thẻ', status: '', name: name, role: role, card: result });
+
+        }
+    })
+}
 //Get nap tien
 module.exports.naptien = function (req, res) {
 
@@ -548,7 +588,37 @@ module.exports.naptien = function (req, res) {
     con.query(sql, function (err, result, kq) {
         if (err) { console.log(err); } else {
 
-            res.render('naptien', { title: 'Nạp tiền vào tài khoản', status: 'Nạp tiền vào tài khoản', name: name, role: role, card: result });
+            res.render('naptien', { title: 'Nạp tiền vào tài khoản', status: '', name: name, role: role, card: result });
+
+        }
+    })
+}
+//Get nap tien vnpay thanh cong
+module.exports.naptienthanhcong = function (req, res) {
+
+    var name = req.cookies.info.username;
+    var role = req.cookies.info.role;
+
+    var sql = `Select * from card where usernameowner = '${name}'`;
+    con.query(sql, function (err, result, kq) {
+        if (err) { console.log(err); } else {
+
+            res.render('naptien', { title: 'Nạp tiền vào tài khoản', status: 'Nạp tiền thành công', name: name, role: role, card: result });
+
+        }
+    })
+}
+//Get nap tien vnpay thất bại
+module.exports.naptienthatbai = function (req, res) {
+
+    var name = req.cookies.info.username;
+    var role = req.cookies.info.role;
+
+    var sql = `Select * from card where usernameowner = '${name}'`;
+    con.query(sql, function (err, result, kq) {
+        if (err) { console.log(err); } else {
+
+            res.render('naptien', { title: 'Nạp tiền vào tài khoản', status: 'Nạp tiền thất bại', name: name, role: role, card: result });
 
         }
     })
