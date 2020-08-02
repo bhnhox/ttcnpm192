@@ -488,6 +488,33 @@ INSERT INTO `vendor` VALUES (1,'testvendor2','tesst2','2020-07-09 22:14:12',NULL
 UNLOCK TABLES;
 
 --
+-- Table structure for table `vnpay`
+--
+
+DROP TABLE IF EXISTS `vnpay`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vnpay` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(45) DEFAULT NULL,
+  `time` datetime DEFAULT NULL,
+  `amount` int DEFAULT NULL,
+  `transNo` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vnpay`
+--
+
+LOCK TABLES `vnpay` WRITE;
+/*!40000 ALTER TABLE `vnpay` DISABLE KEYS */;
+INSERT INTO `vnpay` VALUES (5,'admin3','2020-08-02 22:35:48',10000,'13348813');
+/*!40000 ALTER TABLE `vnpay` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `xacnhan`
 --
 
@@ -586,4 +613,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-19 21:25:11
+-- Dump completed on 2020-08-02 23:26:57
