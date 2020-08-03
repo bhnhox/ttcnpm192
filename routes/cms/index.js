@@ -6,6 +6,7 @@ var MenuRouter = require('./menu');
 var OrderRouter = require('./order');
 
 var FeedbackRouter = require('./feedback')
+var BillRouter = require('./bill')
 
 var LoginController = require('../../controller/cms/login.controller')
 //Thiện
@@ -94,5 +95,5 @@ router.use('/baotri', Auth.checkRole, adminCheckRole,BaotriRouter);
 //Quản lý người dùng của admin
 router.use('/cmsquanlyuser', Auth.authen, Auth.checkRole, vendorAdminCheckRole, Controller.adminquanlynguoidunguser);
 
-
+router.use('/bill', BillRouter)
 module.exports = router;

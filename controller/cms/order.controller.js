@@ -5,7 +5,7 @@ module.exports = {
     index: async (req, res) => {
         var donhangs = await new Promise((resolve, reject) => {
             DB.query(` SELECT xacnhan.id , xacnhan.idgiohang, donhang.id as iddonhang FROM xacnhan inner join donhang on daubepxacnhan is  null AND vendorname = '${req.cookies.info.vendor}' and quayhangxacnhan is null  and donhang.idgiohang = xacnhan.idgiohang;      `,
-                     function (err, results, fields) {
+                function (err, results, fields) {
                     if (err) throw err;
                     resolve(results);
                 })
@@ -26,8 +26,8 @@ module.exports = {
     },
     xacnhan: async (req, res) => {
         var name = req.cookies.info.username;
-        var idgiohang = await new Promise((res, rej)=>{
-            DB.query(`SELECT idgiohang FROM xacnhan WHERE id=${req.body.id}`, (err, results, fields)=>{
+        var idgiohang = await new Promise((res, rej) => {
+            DB.query(`SELECT idgiohang FROM xacnhan WHERE id=${req.body.id}`, (err, results, fields) => {
                 if (err) throw err;
                 if (results) res(results[0].idgiohang);
             })
@@ -35,14 +35,14 @@ module.exports = {
         DB.query(`UPDATE xacnhan SET daubepxacnhan='${name}' , timedaubepxacnhan= now() WHERE id=${req.body.id}`,
             async function (err, results, fields) {
                 if (err) throw err;
-                var foods = await new Promise((res, rej)=>{
+                var foods = await new Promise((res, rej) => {
                     DB.query(`SELECT * from chonhang inner join  foods on foods.id = chonhang.idmon AND idgiohang = ${idgiohang} AND foods.vendorowner = '${req.cookies.info.vendor}'`,
-                    (err, results, fields)=>{
-                        if (err) throw err;
-                        if (results){
-                            res(results);
-                        }
-                    })
+                        (err, results, fields) => {
+                            if (err) throw err;
+                            if (results) {
+                                res(results);
+                            }
+                        })
                 })
                 noti.notiFoodReadyNV({
                     vendor: req.cookies.info.vendor,
