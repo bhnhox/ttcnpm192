@@ -12,22 +12,29 @@ var con = require('./db')
 //Get date
 var d = new Date();
 //Index
-module.exports.index = function (req, res, next) {
+module.exports.index = async function (req, res, next) {
     var name = "";
     var role = "";
     if (req.cookies.info) {
         name = req.cookies.info.username;
         role = req.cookies.info.role;
-
     }
-    var sql = `SELECT *, menu_foods.id AS id from menu_foods INNER JOIN foods ON menu_foods.foodID = foods.id AND menu_foods.trash = 0 AND  menu_foods.menuID= (select max(id) from menu);`
+    var quayhang = await new Promise((res, rej)=>{
+        con.query(`select * from vendor`,(err, results, fields)=>{
+            if (err) throw err;
+            if (results) res(results)
+        })
+    })
+    var sql = `SELECT *, menu_foods.id AS id from menu_foods INNER JOIN foods ON menu_foods.foodID = foods.id AND menu_foods.trash = 0 AND  menu_foods.menuID = (select max(id) from menu)`
+    var vendor = req.query.vendor;
+    if (vendor) sql += `AND foods.vendorowner = '${vendor}'`;
     con.query(sql, function (err, result) {
         if (err) {
             console.log(err);
 
         } else {
             console.log(result);
-            res.render('index', { title: 'Express', name: name, role: role, data: result });
+            res.render('index', { title: 'Express', name: name, role: role, data: result, quayhang: quayhang });
 
         }
     })

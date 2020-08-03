@@ -28,34 +28,34 @@
   <link rel="stylesheet" href="css/style.css">
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
-<script>
-  $(document).ready(function(){
-    $('#test').submit(function(){
-      document.getElementById('#amount').value = '';
-    })
-  $('form').submit(function() { 
-    
-    var that = $(this);
-    
-    $.ajax({
-                 type: 'post',
-                  url: '/',
-                  data: that.serialize(),
-                  success: function (result) {
-                   $("#status").html(result);
-                   document.getElementsByName('amount').value = '';
-                   myVar = setTimeout(function name(params) {
-                     
-                    $("#status").html("");
+  <script>
+    $(document).ready(function () {
+      $('#test').submit(function () {
+        document.getElementById('#amount').value = '';
+      })
+      $('.mount_form').submit(function () {
 
-                   }, 3000);
+        var that = $(this);
 
-                  }
-          });
-    return false;
-});
-});
-</script>
+        $.ajax({
+          type: 'post',
+          url: '/',
+          data: that.serialize(),
+          success: function (result) {
+            $("#status").html(result);
+            document.getElementsByName('amount').value = '';
+            myVar = setTimeout(function name(params) {
+
+              $("#status").html("");
+
+            }, 3000);
+
+          }
+        });
+        return false;
+      });
+    });
+  </script>
 </head>
 
 <body class="bg-light">
@@ -63,8 +63,8 @@
   <body data-spy="scroll" data-target="#ftco-navbar-spy" data-offset="0">
 
     <div class="site-wrap">
-<!-- nav bar -->
-<%- include("function/navbar.ejs") %>
+      <!-- nav bar -->
+      <%- include("function/navbar.ejs") %>
 
 
       <div class="main-wrap " id="section-danhsachdoanchuanbixong">
@@ -76,12 +76,12 @@
                 <div class="col-md-10" data-aos="fade-up">
                   <h2 class="heading mb-5">Welcome to BK
                     Food Court</h2>
-                        <br>
-                        <br>
-                      
+                  <br>
+                  <br>
+
 
                   <p><a href="#section-menu" class="smoothscroll btn btn-outline-white px-5 py-3">Thực đơn hôm
-                    nay</a></p>
+                      nay</a></p>
                 </div>
               </div>
             </div>
@@ -89,18 +89,18 @@
         </div>
 
 
-    <!-- menu foods start -->
-    <div class="section bg-light"  data-aos="fade-up">
-        <div class="container">
-          <div class="row section-heading justify-content-center mb-5">
-            <div class="col-md-8 text-center">
-              <h2 class="heading mb-3" id="section-menu">Thực đơn ngày hôm nay</h2>
+        <!-- menu foods start -->
+        <div class="section bg-light" data-aos="fade-up">
+          <div class="container">
+            <div class="row section-heading justify-content-center mb-5">
+              <div class="col-md-8 text-center">
+                <h2 class="heading mb-3" id="section-menu">Thực đơn ngày hôm nay</h2>
 
+              </div>
             </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="col-md-8">
-              <ul class="nav site-tab-nav" id="pills-tab" role="tablist">
+            <div class="row justify-content-center">
+              <div class="col-md-8">
+                <!-- <ul class="nav site-tab-nav" id="pills-tab" role="tablist">
                 <li class="nav-item">
                   <a class="nav-link active" id="pills-breakfast-tab" data-toggle="pill" href="#pills-breakfast"
                     role="tab" aria-controls="pills-breakfast" aria-selected="true">Breakfast</a>
@@ -113,63 +113,77 @@
                   <a class="nav-link" id="pills-dinner-tab" data-toggle="pill" href="#pills-dinner" role="tab"
                     aria-controls="pills-dinner" aria-selected="false">Dinner</a>
                 </li>
-              </ul>
-              <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-breakfast" role="tabpanel"
-                  aria-labelledby="pills-breakfast-tab">
-                  
-                  <% data.forEach(element => { %>
-                    <div class="row">
-                        <div class="card border-left-primary shadow h-100 py-2 d-flex flex-row">
-                            <img src="/uploads/foods/<%= element.image %>"
-                                style="width: 25%; height: 140px; border-radius: 5px; margin-left: 8px;" alt="food-img">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1 row">
-                                          <div class="col-7">
-                                          <p class=""> <%= element.title %> </p>
-                                        </div>
-                                        <div class="col-4" style="color: black; display: inline-flex;">
-                                          Stock: 
-                                          <p style="color: red; padding-left: 2%;" > <%= element.amount %> </p>
-                                        </div>
+              </ul> -->
+                <form action="/" method="get" id="selectvd">
+                  <select name="vendor" id="select_vendor" style="margin: 0% 50% 20px; transform: translateX(-50%); color: #ff7a5c!important; outline: none;">
+                    <option value="">Tất cả</option>
+                    <% quayhang.forEach(qh=>{%>
+                    <option value="<%= qh.username %> "><%= qh.tenquay %> </option>
+                    <%}) %>
+                  </select>
+                </form>
+                <div class="tab-content" id="pills-tabContent">
+                  <div class="tab-pane fade show active" id="pills-breakfast" role="tabpanel"
+                    aria-labelledby="pills-breakfast-tab">
 
-                                          </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%= element.description %> </div>
-                                    </div>
-                                   
+                    <% data.forEach(element => { %>
+                    <div class="row">
+                      <div class="card border-left-primary shadow h-100 py-2 d-flex flex-row">
+                        <img src="/uploads/foods/<%= element.image %>"
+                          style="width: 25%; height: 140px; border-radius: 5px; margin-left: 8px;" alt="food-img">
+                        <div class="card-body">
+                          <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                              <div class="text-md font-weight-bold text-primary text-uppercase mb-1 row">
+                                <div class="col-7">
+                                  <p class=""> <%= element.title %> </p>
                                 </div>
-                                <div class="row d-flex align-items-end justify-content-end mt-2 ">
-                                  <form >
-                                    
-                                    <label>
-                                        <%= element.price %> vnđ
-                                    </label>
-                                    <input class="amount"  type="number" class="form-control" name='amount'
-                                        style="width: 100px;"  min='1' max='<%= element.amount %>' >
-                                        <input type="hidden" name="idfood" value="<%= element.foodID %> ">
-                                        <input type="submit" class="btn-primary btn" value="Thêm vào giỏ hàng" >
-                                      </form>
+                                <div class="col-4" style="color: black; display: inline-flex;">
+                                  Stock:
+                                  <p style="color: red; padding-left: 2%;"> <%= element.amount %> </p>
                                 </div>
+
+                              </div>
+                              <div class="h5 mb-0 font-weight-bold text-gray-800"><%= element.description %> </div>
                             </div>
+
+                          </div>
+                          <div class="row d-flex align-items-end justify-content-end mt-2 ">
+                            <form class="mount_form">
+
+                              <label>
+                                <%= element.price %> vnđ
+                              </label>
+                              <input class="amount" type="number" class="form-control" name='amount'
+                                style="width: 100px;" min='1' max='<%= element.amount %>'>
+                              <input type="hidden" name="idfood" value="<%= element.foodID %> ">
+                              <input type="submit" class="btn-primary btn" value="Thêm vào giỏ hàng">
+                            </form>
+                          </div>
                         </div>
+                      </div>
                     </div>
                     <br>
                     <% }) %>
-             
+
+
+                  </div>
+                </div>
 
               </div>
             </div>
-  
-          </div>
-        </div>
-      </div> <!-- .section -->
+          </div> <!-- .section -->
 
 
-      <%- include("function/footer.ejs") %>
-<%- include("notification/noti") %> 
-<%- include('function/js/noti') %>
-</body>
+          <%- include("function/footer.ejs") %>
+          <%- include("notification/noti") %>
+          <%- include('function/js/noti') %>
+          <script>
+            $('#select_vendor').change(function (e) { 
+              e.preventDefault();
+              $('#selectvd').submit();
+            });
+          </script>
+  </body>
 
 </html>
