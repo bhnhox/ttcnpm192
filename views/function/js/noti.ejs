@@ -18,7 +18,7 @@
 </style>
 <template id="template_noti">
     <div id="wrap_noti">
-        <a href="/xacnhanorder">
+        <a href="/donhang">
             <div class="card_noti">
                 <div class="noti-head" style="padding: 4px; border-radius: 6px; background: gray;">
                     <h5 style="text-align: center;">Thông báo</h5>
@@ -38,7 +38,6 @@
     socket.on('food ready', (data) => {
         var template = document.getElementById('template_noti');
         var noti = template.content.cloneNode(true);
-        $(noti.querySelector('a')).attr('href', "/xacnhanorder?idgiohang="+data.idgiohang);
         $(noti.querySelector('.noti-body')).text(data.noti_content);
         document.body.appendChild(noti);
         var timeout = setTimeout(() => {

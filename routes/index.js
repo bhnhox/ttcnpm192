@@ -325,3 +325,5 @@ router.post('/searchusercms', auth.authen, auth.checkMaintainmode, controller.se
 router.use('/danhgia', auth.authen, auth.checkMaintainmode, controller.danhgia);
 //Post giá
 router.use('/postreview', auth.authen, auth.checkMaintainmode, controller.postreview);
+// xem đơn hàng
+router.use('/donhang', controller.donhang)
