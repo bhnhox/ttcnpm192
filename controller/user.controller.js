@@ -1194,6 +1194,35 @@ module.exports.xacnhan = async (req, res) => {
 
 
 }
+module.exports.donhang = async (req, res) => {
+
+    var name = req.cookies.info.username;
+    var role = req.cookies.info.role;
+    if (role == "user") {
+        var donhangs = await new Promise((resolve, reject) => {
+            con.query(`SELECT xacnhan.id , xacnhan.idgiohang as idgiohang, donhang.id as iddonhang FROM (( xacnhan inner join donhang on daubepxacnhan is not null AND quayhangxacnhan is null  and donhang.idgiohang = xacnhan.idgiohang) inner join giohang on xacnhan.idgiohang = giohang.idgiohang AND username = '${name}')`,
+                function (err, results, fields) {
+                    if (err) throw err;
+                    resolve(results);
+                })
+        });
+        for (let i = 0; i < donhangs.length; i++) {
+            donhangs[i].foods = await new Promise((resolve, reject) => {
+                con.query(`SELECT * from chonhang inner join  foods on foods.id = chonhang.idmon AND idgiohang = ${donhangs[i].idgiohang}`,
+                    function (err, results, fields) {
+                        if (err) throw err;
+                        resolve(results);
+                    })
+            })
+        }
+        
+        res.render('Xacnhan/xacnhancuanhanvien', { title: 'Express', name: name, role: role, data: donhangs, status: "" })
+    } else {
+        res.redirect('/')
+    }
+
+
+}
 module.exports.danhgia = async (req, res) => {
     name = req.cookies.info.username;
     role = req.cookies.info.role;
@@ -1269,6 +1298,7 @@ var sql = `UPDATE xacnhan SET quayhangxacnhan='${name}' ,timequayhangxacnhan= no
         res.redirect('/');
     }
 }
+
 
 module.exports.userdanhgia = function (req, res) {
 
