@@ -115,7 +115,7 @@
                 </li>
               </ul> -->
                 <form action="/" method="get" id="selectvd">
-                  <select name="vendor" id="select_vendor" style="margin: 0% 50% 20px; transform: translateX(-50%); color: #ff7a5c!important; outline: none;">
+                  <select class="form-control" name="vendor" id="select_vendor" style="margin: 0% 50% 20px; transform: translateX(-50%); color: #ff7a5c!important; outline: none;">
                     <option value="">Tất cả</option>
                     <% quayhang.forEach(qh=>{%>
                     <option value="<%= qh.username %> "><%= qh.tenquay %> </option>
@@ -152,7 +152,7 @@
                             <form class="mount_form">
 
                               <label>
-                                <%= element.price %> vnđ
+                                <%= element.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") %> vnđ
                               </label>
                               <input class="amount" type="number" class="form-control" name='amount'
                                 style="width: 100px;" min='1' max='<%= element.amount %>'>
