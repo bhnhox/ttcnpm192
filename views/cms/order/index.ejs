@@ -1,16 +1,16 @@
 <div class="container-fluid" id="ct">
     <% data.forEach(element => { %>
-    <div class="container-fluid d-flex justify-content-center" donhang_item="<%= element.id %>">
+    <div class="container-fluid d-flex justify-content-center" donhang_item="<%= element.iddonhang %>">
 
 
         <div class="card shadow mb-2" style="width: 60%; min-width: 600px;">
             <!-- Card Header - Accordion -->
-            <a href="#collapse<%= element.id %>" class="d-block card-header py-3 collapsed" data-toggle="collapse"
-                role="button" aria-expanded="false" aria-controls="collapse<%= element.id %>">
-                <h6 class="m-0 font-weight-bold text-primary">Đơn hàng #<%= element.id %> </h6>
+            <a href="#collapse<%= element.iddonhang %>" class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                role="button" aria-expanded="false" aria-controls="collapse<%= element.iddonhang %>">
+                <h6 class="m-0 font-weight-bold text-primary">Đơn hàng #<%= element.iddonhang %> </h6>
             </a>
             <!-- Card Content - Collapse -->
-            <div class="collapse" id="collapse<%= element.id %>">
+            <div class="collapse" id="collapse<%= element.iddonhang %>">
                 <div class="card-body">
                     <% element.foods.forEach(food => { %>
                     <div class="mb-2">
@@ -41,7 +41,7 @@
                         <a href="#" class="btn btn-danger btn-circle">
                             <i class="fas fa-times"></i>
                         </a>
-                        <a href="#" class="btn btn-success btn-circle btn-xacnhan" xacnhan_id="<%= element.id %>">
+                        <a href="#" class="btn btn-success btn-circle btn-xacnhan" xacnhan_id="<%= element.iddonhang %>">
                             <i class="fas fa-check"></i>
                         </a>
                     </div>
