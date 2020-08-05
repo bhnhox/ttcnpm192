@@ -19,8 +19,8 @@ module.exports.index = async function (req, res, next) {
         name = req.cookies.info.username;
         role = req.cookies.info.role;
     }
-    var quayhang = await new Promise((res, rej)=>{
-        con.query(`select * from vendor`,(err, results, fields)=>{
+    var quayhang = await new Promise((res, rej) => {
+        con.query(`select * from vendor`, (err, results, fields) => {
             if (err) throw err;
             if (results) res(results)
         })
@@ -235,7 +235,7 @@ module.exports.xoasanphamtronggiohang = function (req, res, next) {
     })
 }
 //Thanh toán giỏ hàng
-module.exports.thanhtoangiohang = function (req, res, next) {
+module.exports.thanhtoangiohang = async function (req, res, next) {
     var name = "";
     var role = "";
     if (req.cookies.info) {
@@ -244,6 +244,7 @@ module.exports.thanhtoangiohang = function (req, res, next) {
         id = req.body.id;
 
     }
+
 
     var sql = `select max(idgiohang) as id from giohang where username = '${name}'`;
 
@@ -316,7 +317,7 @@ module.exports.thanhtoangiohang = function (req, res, next) {
                     //Thêm vào bảng đơn hàng
 
 
-                    var addxacnhan = await new Promise((resolve, reject) => {  //Thêm vào bảng xác nhận
+                    var addxacnhan = await new Promise((resolve, reject) => {  //Thêm vào đơn hàng
                         var sql = `insert into donhang(idgiohang) values(${idgiohang});`;
                         con.query(sql, function (err, result) {
                             if (err) {
@@ -390,20 +391,61 @@ module.exports.thanhtoangiohang = function (req, res, next) {
 
 
                     })
-                    var sql = `call thanhtoangiohang ('${name}', ${tongtien})`;
-                    con.query(sql, function (err, result) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            vendors.forEach((ven) => {
-                                noti.notiBookFood(ven);
+                    // Trừ số lượng khi thanh toán thành công
+                    var idgiohangcanlay = await new Promise((resolve, reject) => {  //Lấy id idgiohang
+                        var sql = `select max(idgiohang) as id from giohang where username = '${name}'`;
+                        con.query(sql, function (err, result) {
+                            if (err) {
+                                console.log(err);
+
+                            } else {
+                                return resolve(result);
+                            }
+                        })
+                    });
+                 
+                    idgiohangcanlay = idgiohangcanlay[0].id
+                    var monAnVaSoLuong = await new Promise((resolve, reject) => {
+                        var sql = `SELECT * FROM food_court.chonhang where idgiohang = ${idgiohangcanlay};`;
+                        con.query(sql, function (err, result) {
+                            if (err) {
+                                console.log(err);
+
+                            } else {
+                                return resolve(result);
+                            }
+                        })
+                    });
+
+                    for (var i = 0; i < monAnVaSoLuong.length; i++) {
+                        var trusomon = await new Promise((resolve, reject) => {
+                            var sql = `update menu_foods set amount = amount - ${monAnVaSoLuong[i].soluong} where foodid = ${monAnVaSoLuong[i].idmon};`;
+                            con.query(sql, function (err, result) {
+                                if (err) {
+                                    console.log(err);
+
+                                } else {
+                                    return resolve(result);
+                                }
                             })
-                            //Thêm mới vào bảng Xacnhan. procedure sẽ không có bảng xác nhận nữa.
-
-
-                            res.send('success');
-                        }
+                        });
+                    }
+                    var thanhtoan = await new Promise((resolve, reject) => { 
+                        var sql = `call thanhtoangiohang ('${name}', ${tongtien})`;
+                        con.query(sql, function (err, result) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                vendors.forEach((ven) => {
+                                    noti.notiBookFood(ven);
+                                })
+                                //Thêm mới vào bảng Xacnhan. procedure sẽ không có bảng xác nhận nữa.
+    
+                                res.send('success');
+                            }
+                        })
                     })
+                   
 
                 }
 
@@ -550,7 +592,7 @@ module.exports.lichsunaptien = function (req, res) {
     var name = req.cookies.info.username;
     var role = req.cookies.info.role;
 
-   
+
 
     res.render('lichsunaptien', { title: 'Lịch sử nạp tiền qua thẻ', status: '', name: name, role: role });
 
@@ -1186,7 +1228,7 @@ module.exports.xacnhan = async (req, res) => {
                     })
             })
         }
-        
+
         res.render('Xacnhan/xacnhancuanhanvien', { title: 'Express', name: name, role: role, data: donhangs, status: "" })
     } else {
         res.redirect('/')
@@ -1215,7 +1257,7 @@ module.exports.donhang = async (req, res) => {
                     })
             })
         }
-        
+
         res.render('Xacnhan/xacnhancuanhanvien', { title: 'Express', name: name, role: role, data: donhangs, status: "" })
     } else {
         res.redirect('/')
@@ -1226,37 +1268,37 @@ module.exports.donhang = async (req, res) => {
 module.exports.danhgia = async (req, res) => {
     name = req.cookies.info.username;
     role = req.cookies.info.role;
-    
-        var donhangs = await new Promise((resolve, reject) => {
-            con.query(`select  * from danhgia inner join donhang inner join giohang on danhgia.donhang = donhang.id and donhang.idgiohang = giohang.idgiohang and danhgia.username is null and giohang.username = '${name}';`,
+
+    var donhangs = await new Promise((resolve, reject) => {
+        con.query(`select  * from danhgia inner join donhang inner join giohang on danhgia.donhang = donhang.id and donhang.idgiohang = giohang.idgiohang and danhgia.username is null and giohang.username = '${name}';`,
+            function (err, results, fields) {
+                if (err) throw err;
+                resolve(results);
+            })
+    });
+    console.log(donhangs);
+    var iddonhang = [];
+    for (let i = 0; i < donhangs.length; i++) {
+        if (!iddonhang.includes(donhangs[i].donhang)) {
+            iddonhang.push(donhangs[i].donhang)
+        }
+
+        donhangs[i].foods = await new Promise((resolve, reject) => {
+            con.query(` SELECT * from chonhang inner join  foods inner join vendor on foods.id = chonhang.idmon AND idgiohang = ${donhangs[i].idgiohang} and vendor.username = foods.vendorowner and vendor.tenquay = '${donhangs[i].vendorname}';
+                `,
+
                 function (err, results, fields) {
                     if (err) throw err;
                     resolve(results);
                 })
-        });
-        console.log(donhangs);
-        var iddonhang = [];
-        for (let i = 0; i < donhangs.length; i++) {
-            if(!iddonhang.includes(donhangs[i].donhang)){
-                iddonhang.push(donhangs[i].donhang)
-            }
+        })
 
-            donhangs[i].foods = await new Promise((resolve, reject) => {
-                con.query(` SELECT * from chonhang inner join  foods inner join vendor on foods.id = chonhang.idmon AND idgiohang = ${donhangs[i].idgiohang} and vendor.username = foods.vendorowner and vendor.tenquay = '${donhangs[i].vendorname}';
-                `,
+    }
+    // res.send(donhangs);
+    res.render('danhgia', { title: 'Express', name: name, role: role, data: donhangs, status: "", iddonhang: iddonhang })
 
-                    function (err, results, fields) {
-                        if (err) throw err;
-                        resolve(results);
-                    })
-            })
 
-        }
-        // res.send(donhangs);
-        res.render('danhgia', { title: 'Express', name: name, role: role, data: donhangs, status: "" , iddonhang:iddonhang})
-    
-     
-    
+
 
 
 
@@ -1269,31 +1311,31 @@ module.exports.quayhangxacnhan = function (req, res) {
     role = req.cookies.info.role;
     var name = req.cookies.info.username;
     if (role == 'nhanvien') {
-var sql = `UPDATE xacnhan SET quayhangxacnhan='${name}' ,timequayhangxacnhan= now() WHERE id=${req.body.id}`;
+        var sql = `UPDATE xacnhan SET quayhangxacnhan='${name}' ,timequayhangxacnhan= now() WHERE id=${req.body.id}`;
         con.query(sql,
             function (err, results, fields) {
                 if (err) throw err; else {
 
-                  console.log(sql);        
+                    console.log(sql);
 
 
 
 
                     con.query(`SELECT donhang.id as iddonhang, xacnhan.vendorname  FROM food_court.xacnhan inner join donhang on xacnhan.idgiohang = donhang.idgiohang and xacnhan.id =${req.body.id}   ;`,
-                    function (err, results, fields) {
-                        if (err) throw err; else { 
-                            con.query(`insert into danhgia(vendorname, donhang) values ('${results[0].vendorname}','${results[0].iddonhang}');`,
-                            function (err, results, fields) {
-                                if (err) throw err; else { 
-                                    res.send({ status: "success", id: req.body.id });
+                        function (err, results, fields) {
+                            if (err) throw err; else {
+                                con.query(`insert into danhgia(vendorname, donhang) values ('${results[0].vendorname}','${results[0].iddonhang}');`,
+                                    function (err, results, fields) {
+                                        if (err) throw err; else {
+                                            res.send({ status: "success", id: req.body.id });
 
-                                }
-                            })
+                                        }
+                                    })
 
-                        }
-                    })
+                            }
+                        })
                 }
-            } )
+            })
     } else {
         res.redirect('/');
     }

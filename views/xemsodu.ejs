@@ -50,7 +50,7 @@
 
               
                 
-                  <button type="submit" class="btn btn-primary">Số dư hiện tại là <%= sodu %></button>
+                  <button type="submit" class="btn btn-primary">Số dư hiện tại là <%= sodu.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") %> đ</button>
                 
              
             </div>

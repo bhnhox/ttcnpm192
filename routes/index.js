@@ -241,8 +241,14 @@ router.get('/vnpay_return', function (req, res, next) {
         var sql = `insert into vnpay(username, time, amount, transNo) values ('${name}', now(), ${amount},${transNo})`;
         con.query(sql, function (err, result, kq) {
             if (err) { console.log(err); } else {
-                res.redirect('naptienthanhcong')
-            }
+
+                var sql = `update user set  balance = balance + ${amount} where username = '${name}'`;
+                con.query(sql, function (err, result, kq) {
+                    if (err) { console.log(err); } else {
+                        res.redirect('naptienthanhcong')
+                    }
+                })
+                           }
         })
        
 
