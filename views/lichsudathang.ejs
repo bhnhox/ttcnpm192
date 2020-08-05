@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Meal &mdash; Website Template by Colorlib</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:300,400,700,800|Open+Sans:300,400,700"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/animate.css">
+  <link rel="stylesheet" href="css/owl.carousel.min.css">
+
+  <link rel="stylesheet" href="css/magnific-popup.css">
+  <link rel="stylesheet" href="css/aos.css">
+
+  <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+  <link rel="stylesheet" href="css/jquery.timepicker.css">
+
+  <link rel="stylesheet" href="fonts/ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="fonts/fontawesome/css/font-awesome.min.css">
+
+  <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
+  <style>
+    /* Rating Star Widgets Style */
+    .rating-stars ul {
+      list-style-type: none;
+      padding: 0;
+
+      -moz-user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .rating-stars ul>li.star {
+      display: inline-block;
+
+    }
+
+    /* Idle State of the stars */
+    .rating-stars ul>li.star>i.fa {
+      font-size: 2.5em;
+      /* Change the size of the stars */
+      color: #ccc;
+      /* Color on idle state */
+    }
+
+    /* Hover state of the stars */
+    .rating-stars ul>li.star.hover>i.fa {
+      color: #FFCC36;
+    }
+
+    /* Selected state of the stars */
+    .rating-stars ul>li.star.selected>i.fa {
+      color: #FF912C;
+    }
+  </style>
+  <!-- Theme Style -->
+  <link rel="stylesheet" href="css/style.css">
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+  <script>
+
+  </script>
+</head>
+
+<body class="bg-light">
+
+  <body data-spy="scroll" data-target="#ftco-navbar-spy" data-offset="0">
+
+    <div class="site-wrap">
+      <!-- nav bar -->
+      <%- include("function/navbar.ejs") %>
+
+
+
+      <div class="section pb-3 bg-white" id="section-naptien" data-aos="fade-up">
+        <div class="container">
+          <div class="row align-items-center justify-content-center">
+            <div class="col-md-12 col-lg-8 section-heading">
+
+              <p style="font-weight: bold; color: orange;" id="status"><%- status %></p>
+
+              <!-- menu foods start -->
+
+              <div class="section bg-light" id="section-menu" style="background-color: white !important;"
+                data-aos="fade-up">
+                <div class="container">
+
+                </div>
+                <div class="row justify-content-center">
+                  <div class="col-md-8">
+
+                    <div class="tab-content" id="pills-tabContent">
+                      <div class="tab-pane fade show active" id="pills-breakfast" role="tabpanel"
+                        aria-labelledby="pills-breakfast-tab">
+                        <!-- //noi dung -->
+
+                        <div class="container-fluid">
+
+                          <% iddonhang.forEach(elementdonhang => { %>
+                          <div class="card shadow mb-2" style="width: 60%; min-width: 600px;">
+                            <!-- Card Header - Accordion -->
+                            <a href="#collapse<%= elementdonhang %>" class="d-block card-header py-3 collapsed"
+                              data-toggle="collapse" role="button" aria-expanded="false"
+                              aria-controls="collapse<%= elementdonhang %>">
+                              <h6 class="m-0 font-weight-bold text-primary">Đơn hàng #<%= elementdonhang %> </h6>
+                            </a>
+                            <!-- Card Content - Collapse -->
+                            <div class="collapse" id="collapse<%= elementdonhang %>">
+                              <div class="card-body">
+
+                                <% data.forEach(element => { if(elementdonhang == element.donhang)  { %>
+                                <div class="container-fluid d-flex justify-content-center"
+                                  id="divrating<%= element.vendorname + element.donhang %>"
+                                  donhang_item="<%= element.id%>">
+
+
+                                  <div class="card shadow mb-2" style="width: 60%; min-width: 600px;">
+                                    <!-- Card Header - Accordion -->
+                                    <a href="#collapse<%= element.id+element.vendorname %>"
+                                      class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button"
+                                      aria-expanded="false" aria-controls="collapse<%= element.id %>">
+                                      <h6 style="text-align: center;" class="m-0 font-weight-bold text-primary">
+                                        Quầy <%= element.vendorname %> </h6>
+                                    </a>
+                                    <!-- Card Content - Collapse -->
+                                    <div class="collapse" id="collapse<%= element.id+element.vendorname %>">
+                                      <div class="card-body">
+                                        <% element.foods.forEach(food => { %>
+                                        <div class="mb-2">
+                                          <div class="card border-left-primary shadow h-100 py-2 d-flex flex-row">
+                                            <img src="/uploads/foods/<%= food.image %>"
+                                              style="width: 25%; height: 140px; border-radius: 5px; margin-left: 8px;"
+                                              alt="">
+                                            <div class="card-body">
+                                              <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                  <div
+                                                    class="text-md font-weight-bold text-primary text-uppercase mb-1">
+                                                    <%= food.title %> </div>
+                                                  <div class="h5 mb-0 font-weight-bold text-gray-800">$<%= food.price %>
+                                                  </div>
+                                                </div>
+                                                <div class="col-auto">
+                                                  <i class="fa fa-calendar fa-2x text-gray-300"></i>
+                                                </div>
+                                              </div>
+                                              <div class="row d-flex align-items-end justify-content-end mt-4 pr-3">
+                                                <p class="mb-0"><strong>Số lượng: </strong><%= food.soluong %></p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <% }) %>
+
+
+                                     
+
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <% }}) %>
+                              </div>
+                            </div>
+                          </div>
+
+                          <% }) %>
+                        </div>
+                      </div>
+                    </div>
+
+                    <script src="vendor/jquery/jquery.min.js"></script>
+                    <script>
+                      $(document).ready(function () {
+                        $(".btn-xacnhan").click(function (e) {
+                          e.preventDefault();
+                          var data = {
+                            id: $(e.currentTarget).attr("xacnhan_id")
+                          }
+                          $.ajax({
+                            type: "post",
+                            url: "/posdanhgia",
+                            data: data,
+                            success: function (response) {
+                              if (response.status == "success") {
+                                $(`div[donhang_item=${response.id}]`).remove();
+                                $("#status").html("Xác nhận thành công");
+                                document.getElementsByName('amount').value = '';
+                                myVar = setTimeout(function name(params) {
+
+                                  $("#status").html("");
+
+                                }, 3000);
+                              };
+
+
+                            }
+                          });
+                        });
+                      });
+                    </script>
+                    <!-- Noi dung end -->
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div> <!-- .section -->
+
+
+    </div>
+
+
+
+    <%- include("function/footer.ejs") %>
+    <script>
+      $(document).ready(function () {
+
+        /* 1. Visualizing things on Hover - See next part for action on click */
+        $('#stars li').on('mouseover', function () {
+          var onStar = parseInt($(this).data('value'), 10); // The star currently mouse on
+
+          // Now highlight all the stars that's not after the current hovered star
+          $(this).parent().children('li.star').each(function (e) {
+            if (e < onStar) {
+              $(this).addClass('hover');
+            }
+            else {
+              $(this).removeClass('hover');
+            }
+          });
+
+        }).on('mouseout', function () {
+          $(this).parent().children('li.star').each(function (e) {
+            $(this).removeClass('hover');
+          });
+        });
+
+
+        /* 2. Action to perform on click */
+        $('#stars li').on('click', function () {
+          var onStar = parseInt($(this).data('value'), 10); // The star currently selected
+          var stars = $(this).parent().children('li.star');
+          var parentid = this.parentNode.parentNode.id;
+          for (i = 0; i < stars.length; i++) {
+            $(stars[i]).removeClass('selected');
+          }
+
+          for (i = 0; i < onStar; i++) {
+            $(stars[i]).addClass('selected');
+          }
+
+          // JUST RESPONSE (Not needed)
+          var ratingValue = parseInt($('#stars li.selected').last().data('value'), 10);
+          var msg = "";
+          if (onStar > 1) {
+            msg = " Thanks! You rated this " + onStar + " stars.";
+          }
+          else {
+            msg = "We will improve ourselves. You rated this " + onStar + " stars.";
+          }
+          responseMessage(msg, parentid, onStar);
+
+          ratingValue = null;
+        });
+
+
+      });
+
+
+      function responseMessage(msg, parentid, ratingValue) {
+        $('.success-box').fadeIn(200);
+        $(`.success-box #mess${parentid}`).html("<span>" + msg + "</span>");
+        $(`.review #num${parentid}`).val(ratingValue);
+
+      }
+
+
+      // Gửi form
+      $('form').submit(function name(params) {
+        id = this.id;
+        var that = $(this);
+        $.ajax({
+          url: '/postreview',
+          type: 'post',
+          data: that.serialize(),
+          success: function name(result) {
+            console.log(`#divrating${id}`);
+            var parentnode = document.getElementById(`divrating${id}`).parentNode;
+          
+            $(`#divrating${id}`).remove();
+            if (parentnode.childElementCount < 1) {
+              parentnode.parentNode.parentNode.remove();
+              $("#status").html('Cám ơn bạn đã đánh giá đơn hàng');
+            document.getElementsByName('amount').value = '';
+            myVar = setTimeout(function name(params) {
+
+              $("#status").html("");
+
+            }, 3000);
+              // do something
+            } else {
+              $("#status").html('Gửi đánh giá thành công');
+            document.getElementsByName('amount').value = '';
+            myVar = setTimeout(function name(params) {
+
+              $("#status").html("");
+
+            }, 3000);
+            }
+           
+
+          }
+        })
+        return false;
+      })
+    </script>
+    <%- include('function/js/noti') %>
+  </body>
+
+</html>

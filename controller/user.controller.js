@@ -1298,15 +1298,41 @@ module.exports.danhgia = async (req, res) => {
     }
     // res.send(donhangs);
     res.render('danhgia', { title: 'Express', name: name, role: role, data: donhangs, status: "", iddonhang: iddonhang })
-
-
-
-
-
-
 }
 
+// Xem lịch sử đặt hàng
+module.exports.lichsudathang = async (req, res) => {
+    name = req.cookies.info.username;
+    role = req.cookies.info.role;
 
+    var donhangs = await new Promise((resolve, reject) => {
+        con.query(`select  * from danhgia inner join donhang inner join giohang on danhgia.donhang = donhang.id and donhang.idgiohang = giohang.idgiohang and giohang.username =  '${name}';`,
+            function (err, results, fields) {
+                if (err) throw err;
+                resolve(results);
+            })
+    });
+    console.log(donhangs);
+    var iddonhang = [];
+    for (let i = 0; i < donhangs.length; i++) {
+        if (!iddonhang.includes(donhangs[i].id)) {
+            iddonhang.push(donhangs[i].id)
+        }
+        console.log(iddonhang);
+        donhangs[i].foods = await new Promise((resolve, reject) => {
+            con.query(` SELECT * from chonhang inner join  foods inner join vendor on foods.id = chonhang.idmon AND idgiohang = ${donhangs[i].idgiohang} and vendor.username = foods.vendorowner and vendor.tenquay = '${donhangs[i].vendorname}';
+                `,
+
+                function (err, results, fields) {
+                    if (err) throw err;
+                    resolve(results);
+                })
+        })
+
+    }
+    // res.send(donhangs);
+    res.render('lichsudathang', { title: 'Express', name: name, role: role, data: donhangs, status: "", iddonhang: iddonhang })
+}
 
 module.exports.quayhangxacnhan = function (req, res) {
     console.log(req.body);
@@ -1516,7 +1542,7 @@ module.exports.postreview = function (req, res) {
     console.log(req.body);
 
 
-    var sql = `update danhgia set username = '${name}', rate = '${rating}', nhanxet = '${review}', created_date=NOW() where donhang =  '${donhang}' and vendorname = '${vendorname}' `;
+    var sql = `update danhgia set username = '${name}', rate = '${rating}', nhanxet = '${review}' where donhang =  '${donhang}' and vendorname = '${vendorname}' `;
 
     con.query(sql, function (err, result, kq) {
         if (err) {
