@@ -46,8 +46,9 @@ module.exports = {
                 })
                 noti.notiFoodReadyNV({
                     vendor: req.cookies.info.vendor,
-                    donhang: req.body.id,
-                    foods: foods
+                    id_xacnhan: req.body.id,
+                    foods: foods,
+                    donhang: req.body.iddonhang
                 })
                 res.send({ status: "success", id: req.body.id });
             })

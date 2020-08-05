@@ -1,14 +1,14 @@
 <div class="container-fluid" id="ct">
     <% data.forEach(element => { %>
-    <div class="container-fluid d-flex justify-content-center" donhang_item="<%= element.iddonhang %>">
+    <div class="container-fluid d-flex justify-content-center" id_item="<%= element.id %>">
 
 
         <div class="card shadow mb-2" style="width: 60%; min-width: 600px;">
             <!-- Card Header - Accordion -->
-            <!-- <a href="#collapse<%= element.iddonhang %>" class="d-block card-header py-3 collapsed" data-toggle="collapse"
-                role="button" aria-expanded="false" aria-controls="collapse<%= element.iddonhang %>"> -->
-            <a href="#collapse<%= element.id %>" class="d-block card-header py-3 collapsed" data-toggle="collapse"
-                role="button" aria-expanded="false" aria-controls="collapse<%= element.id %>">
+            <a href="#collapse<%= element.iddonhang %>" class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                role="button" aria-expanded="false" aria-controls="collapse<%= element.iddonhang %>">
+            <!-- <a href="#collapse<%= element.id %>" class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                role="button" aria-expanded="false" aria-controls="collapse<%= element.id %>"> -->
                 <h6 class="m-0 font-weight-bold text-primary">Đơn hàng #<%= element.iddonhang %> </h6>
             </a>
             <!-- Card Content - Collapse -->
@@ -43,7 +43,7 @@
                         <a href="#" class="btn btn-danger btn-circle">
                             <i class="fas fa-times"></i>
                         </a>
-                        <a href="#" class="btn btn-success btn-circle btn-xacnhan" xacnhan_id="<%= element.iddonhang %>">
+                        <a href="#" class="btn btn-success btn-circle btn-xacnhan" xacnhan_id="<%= element.id %>" iddonhang="<%= element.iddonhang %>">
                             <i class="fas fa-check"></i>
                         </a>
                     </div>
@@ -55,7 +55,7 @@
     <% }) %>
 </div>
 <template id="order">
-    <div class="container-fluid d-flex justify-content-center" donhang_item="_dataid">
+    <div class="container-fluid d-flex justify-content-center" id_item="_dataid">
 
 
         <div class="card shadow mb-2" style="width: 60%; min-width: 600px;">
@@ -71,7 +71,7 @@
 
 
                     <div class="action" style="float:right; padding:20px 0px 10px 10px;">
-                        <a href="#" class="btn btn-success btn-circle btn-xacnhan" xacnhan_id="_dataid">
+                        <a href="#" class="btn btn-success btn-circle btn-xacnhan" xacnhan_id="_dataid" iddonhang="_iddonhang">
                             <i class="fas fa-check"></i>
                         </a>
                         <!-- <a href="#" class="btn btn-danger btn-circle">
@@ -113,7 +113,8 @@
         $(".btn-xacnhan").click(function (e) {
             e.preventDefault();
             var data = {
-                id: $(e.currentTarget).attr("xacnhan_id")
+                id: $(e.currentTarget).attr("xacnhan_id"),
+                iddonhang: $(e.currentTarget).attr("iddonhang")
             }
             $.ajax({
                 type: "post",
@@ -121,7 +122,7 @@
                 data: data,
                 success: function (response) {
                     if (response.status == "success") {
-                        $(`div[donhang_item=${response.id}]`).remove();
+                        $(`div[id_item=${response.id}]`).remove();
                     }
                 }
             });
@@ -131,12 +132,13 @@
         var foodtmp = document.getElementById('food');
         socket.on('book food', (data) => {
             var content = order.content.cloneNode(true);
-            $(content.querySelector('div[donhang_item="_dataid"]')).attr('donhang_item', data.id);
-            $(content.querySelector('a[href="#collapse_dataid"]')).attr('href', '#collapse' + data.id);
-            $(content.querySelector('a[aria-controls="collapse_dataid"]')).attr('aria-controls', 'collapse' + data.id);
-            $(content.querySelector('h6')).text('Đơn hàng #' + data.id);
-            $(content.getElementById('collapse_dataid')).attr('id', 'collapse' + data.id);
+            $(content.querySelector('div[id_item="_dataid"]')).attr('id_item', data.id);
+            $(content.querySelector('a[href="#collapse_dataid"]')).attr('href', '#collapse' + data.iddonhang);
+            $(content.querySelector('a[aria-controls="collapse_dataid"]')).attr('aria-controls', 'collapse' + data.iddonhang);
+            $(content.querySelector('h6')).text('Đơn hàng #' + data.iddonhang);
+            $(content.getElementById('collapse_dataid')).attr('id', 'collapse' + data.iddonhang);
             $(content.querySelector('a[xacnhan_id="_dataid"]')).attr('xacnhan_id', data.id);
+            $(content.querySelector('a[iddonhang="_iddonhang"]')).attr('iddonhang', data.iddonhang);
             var bodyCard = content.querySelector('.card-body');
             data.foods.forEach(element => {
                 var food = foodtmp.content.cloneNode(true);
@@ -153,7 +155,8 @@
             $(".btn-xacnhan").click(function (e) {
                 e.preventDefault();
                 var data = {
-                    id: $(e.currentTarget).attr("xacnhan_id")
+                    id: $(e.currentTarget).attr("xacnhan_id"),
+                    iddonhang: $(e.currentTarget).attr("iddonhang")
                 }
                 $.ajax({
                     type: "post",
@@ -161,7 +164,7 @@
                     data: data,
                     success: function (response) {
                         if (response.status == "success") {
-                            $(`div[donhang_item=${response.id}]`).remove();
+                            $(`div[id_item=${response.id}]`).remove();
                         }
                     }
                 });
