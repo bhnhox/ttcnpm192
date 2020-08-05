@@ -264,6 +264,7 @@ module.exports.thanhtoangiohang = async function (req, res, next) {
                 })
             });
             var vendors = [];
+            var iddonhang = 0;
             dulieu.forEach(element => {
                 var vendor = vendors.find((ven) => { return ven.vendor == element.vendorowner });
                 if (vendor) {
@@ -324,6 +325,7 @@ module.exports.thanhtoangiohang = async function (req, res, next) {
                                 console.log(err);
 
                             } else {
+                                iddonhang = result.insertId;
                                 return resolve(result);
                             }
                         })
