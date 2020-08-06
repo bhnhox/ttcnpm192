@@ -439,6 +439,7 @@ module.exports.thanhtoangiohang = async function (req, res, next) {
                                 console.log(err);
                             } else {
                                 vendors.forEach((ven) => {
+                                    ven.iddonhang = iddonhang;
                                     noti.notiBookFood(ven);
                                 })
                                 //Thêm mới vào bảng Xacnhan. procedure sẽ không có bảng xác nhận nữa.
