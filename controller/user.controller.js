@@ -34,7 +34,7 @@ module.exports.index = async function (req, res, next) {
 
         } else {
             console.log(result);
-            res.render('index', { title: 'Express', name: name, role: role, data: result, quayhang: quayhang });
+            res.render('index', { title: 'Express', name: name, role: role, data: result, quayhang: quayhang, vdSelected: req.query.vendor });
 
         }
     })

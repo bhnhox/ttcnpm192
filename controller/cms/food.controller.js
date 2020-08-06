@@ -97,7 +97,7 @@ module.exports = {
                     image = req.file.filename;
                 } else image = results[0].image;
                 DB.query(`UPDATE foods SET trash=1 WHERE id=${req.params.id}`);
-                await DB.query(`INSERT INTO foods (title, image, price, description, in_menu, created_date) VALUES ('${req.body.title}','${image}',${req.body.price},'${req.body.description}',${req.body.in_menu == 'on' ? 1 : 0},NOW())`,
+                await DB.query(`INSERT INTO foods (title, image, price, description, in_menu, created_date, vendorowner) VALUES ('${req.body.title}','${image}',${req.body.price},'${req.body.description}',${req.body.in_menu == 'on' ? 1 : 0},NOW(),'${req.cookies.info.vendor}')`,
                     async function(err, results, fields) {
                         var amount = await new Promise((resolve, reject) => {
                             DB.query(`SELECT * FROM menu_foods WHERE foodID = ${req.params.id} ORDER BY id DESC`,
