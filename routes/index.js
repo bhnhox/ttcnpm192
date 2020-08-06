@@ -81,6 +81,8 @@ router.get('/naptien', auth.authen, auth.checkMaintainmode, controller.naptien);
 router.get('/naptienthanhcong', auth.authen, auth.checkMaintainmode, controller.naptienthanhcong);
 //Nạp tiền thất bại
 router.get('/naptienthatbai', auth.authen, auth.checkMaintainmode, controller.naptienthatbai);
+//Lich su dang hang
+router.get('/lichsudathang', auth.authen, auth.checkMaintainmode, controller.lichsudathang);
 //Post nap tien
 router.post('/postnaptien', auth.authen, auth.checkMaintainmode, controller.postnaptien)
 
